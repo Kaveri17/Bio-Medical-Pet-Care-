@@ -20,9 +20,6 @@ export const signup = async (req, res) => {
     username,
     firstname,
     lastname,
-    phone,
-    role,
-    address,
   } = req.body;
 
   try {
@@ -31,10 +28,7 @@ export const signup = async (req, res) => {
       !password ||
       !username ||
       !firstname ||
-      !lastname ||
-      !phone ||
-      !role ||
-      !address
+      !lastname
     ) {
       throw new Error("All the fields are required");
     }
@@ -57,10 +51,8 @@ export const signup = async (req, res) => {
       username,
       firstname,
       lastname,
-      phone,
       verificationToken,
       verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
-      role,
     });
     await user.save(); // saved in database
 
