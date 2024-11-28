@@ -1,0 +1,318 @@
+[
+    {
+        "illness_id" : "1",
+        "illness_name": "Pasteurellosis",
+        "affected_animals": "cow",
+        "symptoms": ["high fever","respiratory distress","nasal discharge","septicemia"],
+        "serverity": "high",
+        "treatment": "Antibiotics, anti-inflammatory drugs, supportive care",
+        "prevention": "Vaccination and stress management"
+       
+    },
+    {
+        
+        "illness_id" : "2",
+        "illness_name": "Anthrax",
+        "affected_animals": ["cow","buffalo"],
+        "symptoms": ["sudden death","bleeding from orifices","fever","swollen neck"],
+        "serverity": "critical",
+        "treatment": "Antibiotics if detected early, disposal of carcass per regulations",
+        "prevention": "Annual Vaccination and proper disposal of infected animals"
+       
+    },
+   
+    {
+        "illness_id" : "3",
+        "animal_type": "buffalo",
+        "illness_name": "Black Quarter (BQ)",
+        "symptoms": ["swelling in limbs", "fever", "lameness"],
+        "severity": "high",
+        "treatment": "Antibiotics and wound care",
+        "prevention": "Vaccination and improved sanitation"
+      },
+      {
+        "illness_id" : "4",
+        "illness_name": "Mastitis",
+        "symptoms": ["swollen udder", "abnormal milk appearance", "fever"],
+        "severity": "medium",
+        "treatment": "Antibiotics and anti-inflammatory drugs",
+        "prevention": "Proper milking hygiene and regular udder inspections",
+        "affected_animals": ["cow", "buffalo", "goat"]
+      },
+      {
+        "illness_id": "5",
+        "illness_name": "Foot and Mouth Disease (FMD)",
+        "symptoms": ["blisters on tongue and hooves", "drooling", "reduced milk production", "lameness"],
+        "severity": "high",
+        "treatment": "Symptomatic treatment, wound care, and hydration",
+        "prevention": "Regular vaccination and strict biosecurity measures",
+        "affected_animals": ["cow", "buffalo", "sheep", "goat", "pig"]
+      },
+      {
+        "illness_id": "6",
+        "illness_name": "Brucellosis",
+        "symptoms": ["abortions", "retained placenta", "reduced fertility"],
+        "severity": "high",
+        "treatment": "No direct cure, antibiotics for control",
+        "prevention": "Vaccination and regular herd testing",
+        "affected_animals": ["cow", "buffalo", "goat"]
+        
+      },
+      {
+        "illness_id": "7",
+        "illness_name": "Brucellosis",
+        "affected_animals": "goat",
+        "symptoms": ["abortions", "weak offspring", "swollen joints"],
+        "severity": "high",
+        "treatment": "No definitive treatment, culling infected animals",
+        "prevention": "Vaccination, hygiene, and testing of new animals"
+    },
+    {
+        "illness_id": "8",
+        "illness_name": "Parvovirus",
+        "affected_animals": "dog",
+        "symptoms": ["bloody diarrhea", "vomiting", "severe dehydration", "fever"],
+        "severity": "critical",
+        "treatment": "Intensive supportive care, fluid therapy, antibiotics",
+        "prevention": "Vaccination at an early age and booster shots"
+    },
+    {
+        "illness_id": "9",
+        "illness_name": "Hookworms",
+        "affected_animals": "dog",
+        "symptoms": ["bloody stool", "weight loss", "lethargy", "anemia"],
+        "severity": "medium",
+        "treatment": "Deworming medication",
+        "prevention": "Regular deworming and sanitation"
+    },
+    {
+        "illness_id": "10",
+        "illness_name": "Hip Dysplasia",
+        "affected_animals": "dog",
+        "symptoms": ["limping", "difficulty rising", "loss of mobility", "pain in the hip area"],
+        "severity": "high",
+        "treatment": "Pain management, anti-inflammatory drugs, joint supplements, surgery (in severe cases)",
+        "prevention": "Maintaining a healthy weight, avoiding excessive jumping in puppies, and selective breeding"
+      },
+      {
+        "illness_id": "11",
+        "illness_name": "Cataracts",
+        "affected_animals": "dog",
+        "symptoms": ["cloudy eyes", "difficulty seeing in low light", "frequent eye infections"],
+        "severity": "medium",
+        "treatment": "Surgical removal of cataracts (if severe)",
+        "prevention": "Not preventable, but early detection can delay progression"
+      },
+      {
+        "illness_id": "12",
+        "illness_name": "Salmonellosis",
+        "affected_animals": "chicken",
+        "symptoms": ["diarrhea", "reduced growth", "weakness"],
+        "severity": "high",
+        "treatment": "Antibiotics and supportive care",
+        "prevention": "Vaccination and strict hygiene practices"
+    },
+    {
+        "illness_id": "13",
+        "illness_name": "Avian Influenza",
+        "affected_animals": "chicken",
+        "symptoms": ["swelling of comb", "respiratory distress", "drop in egg production"],
+        "severity": "critical",
+        "treatment": "No specific cure, supportive care",
+        "prevention": "Vaccination and culling infected birds"
+      },
+      {
+        "illness_id": "14",
+        "illness_name": "Swollen Head Syndrome",
+        "affected_animals": "chicken",
+        "symptoms": ["swelling around eyes", "nasal discharge", "reduced egg production"],
+        "severity": "medium",
+        "treatment": "Antibiotics and improved ventilation",
+        "prevention": "Biosecurity and proper ventilation in poultry housing"
+    },
+    {
+        "illness_id": "15",
+        "illness_name": "Sheep Pox",
+        "affected_animals": "sheep",
+        "symptoms": ["fever", "skin lesions", "loss of wool", "swelling of lymph nodes"],
+        "severity": "medium",
+        "treatment": "Symptomatic treatment and antiviral drugs",
+        "prevention": "Vaccination and isolation of affected sheep"
+      },
+      {
+        "illness_id": "16",
+        "illness_name": "Contagious Ecthyma (Orf)",
+        "affected_animals": "sheep",
+        "symptoms": ["scabby lesions on lips, mouth, and udder", "fever", "decreased appetite"],
+        "severity": "medium",
+        "treatment": "Topical antiseptic creams and supportive care",
+        "prevention": "Vaccination and isolation of affected animals"
+      },
+      {
+        "illness_id": "17",
+        "illness_name": "Worm Infestation (Gastrointestinal Nematodiasis)",
+        "affected_animals": "sheep",
+        "symptoms": ["diarrhea", "weight loss", "lethargy", "poor wool growth"],
+        "severity": "medium",
+        "treatment": "Deworming with appropriate anthelmintic drugs",
+        "prevention": "Rotation of pastures and regular deworming"
+      },
+      {
+        "illness_id": "18",
+        "illness_name": "Columnaris Disease",
+        "affected_animals": "fish",
+        "symptoms": ["reddened gills", "skin ulcers", "frayed fins", "rapid breathing"],
+        "severity": "high",
+        "treatment": "Antibiotics and salt baths",
+        "prevention": "Maintain water quality, avoid overcrowding, and quarantine new fish"
+      },
+      {
+        "illness_id": "19",
+        "illness_name": "Dropsy (Edema)",
+        "affected_animals": "fish",
+        "symptoms": ["swelling of abdomen", "raised scales", "lethargy", "poor appetite"],
+        "severity": "medium",
+        "treatment": "Antibiotics and salt baths, improve water quality",
+        "prevention": "Proper filtration, quarantine new fish, avoid overcrowding"
+      },
+      {
+        "illness_id": "20",
+        "illness_name": "Enteric Septicemia of Catfish (ESC)",
+        "affected_animals": "fish",
+        "symptoms": ["bloody lesions on body", "weakness", "loss of appetite"],
+        "severity": "high",
+        "treatment": "Antibiotics in water, improve water quality",
+        "prevention": "Good management practices and regular water quality checks"
+      },
+      {
+        "illness_id": "21",
+        "illness_name": "Swine Influenza",
+        "affected_animals": "pig",
+        "symptoms": ["fever", "coughing", "nasal discharge", "loss of appetite", "lethargy"],
+        "severity": "medium",
+        "treatment": "Antiviral drugs, antibiotics for secondary bacterial infections, hydration therapy",
+        "prevention": "Vaccination, maintaining good hygiene, isolating infected animals"
+      },
+      {
+        "illness_id": "22",
+        "illness_name": "Transmissible Gastroenteritis (TGE)",
+        "affected_animals": "pig",
+        "symptoms": ["profuse diarrhea", "vomiting", "dehydration", "high mortality in piglets"],
+        "severity": "high",
+        "treatment": "Supportive care, fluid replacement, and electrolytes",
+        "prevention": "Vaccination of sows, maintaining biosecurity, and minimizing stress"
+      },
+      {
+        "illness_id": "23",
+        "illness_name": "Porcine Epidemic Diarrhea Virus (PEDv)",
+        "affected_animals": "pig",
+        "symptoms": ["severe diarrhea", "vomiting", "dehydration", "rapid weight loss"],
+        "severity": "high",
+        "treatment": "Supportive care, fluid therapy, electrolytes, and antibiotics for secondary infections",
+        "prevention": "Vaccination, strict quarantine and biosecurity practices, sanitation of facilities"
+      },
+      {
+        "illness_id": "24",
+        "illness_name": "Myiasis (Fly Strike)",
+        "affected_animals": "sheep",
+        "symptoms": ["wounds with maggots", "irritation", "loss of appetite"],
+        "severity": "medium",
+        "treatment": "Wound cleaning, topical insecticides",
+        "prevention": "Good hygiene and fly control measures"
+    },
+    {
+        "illness_id": "25",
+        "illness_name": "Scrapie",
+        "affected_animals": "sheep",
+        "symptoms": ["itching", "loss of coordination", "behavior changes"],
+        "severity": "high",
+        "treatment": "No treatment available, culling required",
+        "prevention": "Genetic selection for resistance and strict biosecurity"
+    },
+    {
+        "illness_id": "26",
+        "illness_name": "Myxomatosis",
+        "affected_animals": "rabbit",
+        "symptoms": ["swollen eyelids", "conjunctivitis", "difficulty breathing", "fever"],
+        "severity": "high",
+        "treatment": "Supportive care (fluids, temperature regulation), no direct antiviral treatment",
+        "prevention": "Vaccination and vector control (mosquitoes, fleas)"
+      },
+      {
+        "illness_id": "27",
+        "illness_name": "Rabbit Hemorrhagic Disease (RHD)",
+        "affected_animals": "rabbit",
+        "symptoms": ["sudden death", "bloody discharge", "fever"],
+        "severity": "critical",
+        "treatment": "No cure, symptomatic care to reduce suffering",
+        "prevention": "Vaccination and quarantine of new rabbits"
+      },
+      {
+        "illness_id": "28",
+        "illness_name": "Rabbitrpox",
+        "affected_animals": "rabbit",
+        "symptoms": ["skin lesions", "fever", "nasal discharge"],
+        "severity": "high",
+        "treatment": "Supportive care, antibiotics for secondary infections",
+        "prevention": "Vaccination and hygiene measures"
+    },
+    {
+        "illness_id": "29",
+        "illness_name": "Feline Leukemia Virus (FeLV)",
+        "affected_animals": "cat",
+        "symptoms": ["weight loss", "fever", "lethargy", "anemia"],
+        "severity": "high",
+        "treatment": "Antiviral medications, supportive care, blood transfusions",
+        "prevention": "Vaccination and preventing exposure to infected cats"
+      },
+      {
+        "illness_id": "30",
+        "illness_name": "Dermatophytosis (Ringworm)",
+        "affected_animals": "cat",
+        "symptoms": ["scaly patches", "hair loss", "itching"],
+        "severity": "low",
+        "treatment": "Antifungal medications, topical or oral",
+        "prevention": "Good hygiene and prompt treatment of infected animals"
+    },
+    {
+        "illness_id": "31",
+        "illness_name": "Caseous Lymphadenitis (CL)",
+        "affected_animals": "sheep",
+        "symptoms": ["abscesses under skin", "swollen lymph nodes", "weight loss", "poor wool quality"],
+        "severity": "medium",
+        "treatment": "Drainage of abscesses and antibiotics",
+        "prevention": "Regular health checks, isolating infected sheep, and culling"
+      },
+      {
+        "illness_id": "32",
+        "illness_name": "Feline Hyperthyroidism",
+        "affected_animals": "cat",
+        "symptoms": ["weight loss", "increased appetite", "vomiting", "excessive thirst", "rapid heart rate"],
+        "severity": "medium",
+        "treatment": "Antithyroid drugs, radioactive iodine therapy, or surgery",
+        "prevention": "No specific prevention, regular health monitoring"
+      }
+      
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+]
