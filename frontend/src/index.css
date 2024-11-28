@@ -13,7 +13,7 @@
   }
 
   .ram {
-    background-image:  radial-gradient( circle farthest-corner at 24.8% 93.8%, rgba(215,153,238,0.5) 44%, rgba(254, 254, 108,0.5) 90% ),url('/g-4.png');
+    background-image:  radial-gradient( circle farthest-corner at 24.8% 93.8%, rgba(215,153,238,0.5) 44%, rgba(254, 254, 108,0.5) 90% );
     background-position: center;
     background-size: cover;
     height: 37vh;
