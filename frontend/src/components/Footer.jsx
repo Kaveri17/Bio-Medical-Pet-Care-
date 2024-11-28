@@ -6,8 +6,8 @@ const Footer = () => {
       <div className='container mx-auto flex flex-col md:flex-row justify-between items-start px-6'>
         {/* Logo Section */}
         <div className='flex items-center mb-6 md:mb-0'>
-          <img src="logo.png" alt="Beetrix Logo" className='w-16 h-16 mr-2' />
-          <h1 className='text-2xl font-bold text-red-400'>Beetrix</h1>
+          <img src="logo.png"  className='w-16 h-16 mr-2' />
+          <h1 className='text-2xl font-bold text-red-400'>Vet Vitals</h1>
         </div>
 
         {/* Quick Links */}
