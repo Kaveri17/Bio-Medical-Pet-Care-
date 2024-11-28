@@ -18,7 +18,11 @@ const Navbar = () => {
           </button>
         </div> */}
 <div className="flex justify-center">
-  <ul className="hidden lg:flex space-x-6 text-bold text-xl">
+  <ul className="hidden lg:flex space-x-6 text-bold text-xl items-center">
+    {/* Logo */}
+    <li>
+      <img src="logo.png" alt="Logo" className="w-16 h-auto" />
+    </li>
     <li><Link to="/" className="text-black hover:text-blue-400">Home</Link></li>
     <li><Link to="/about" className="text-black hover:text-blue-400">About</Link></li>
     <li><Link to="/animals" className="text-black hover:text-blue-400">Animals</Link></li>
@@ -27,6 +31,7 @@ const Navbar = () => {
     <li><Link to="/register" className="text-black hover:text-blue-400">Register</Link></li>
   </ul>
 </div>
+
 
       </div>
     </div>
