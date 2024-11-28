@@ -5,15 +5,15 @@ const Contact = () => {
   return (
     <>
       <div className="w-full h-64 relative">
-        <img src="1stimg.jpg" alt="" className="w-full h-full object-cover" />
-        <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center z-10 text-white">
+        <div className="w-full h-full object-cover bg-blue-200" />
+        <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center z-10 text-black">
           <h2 className="text-3xl font-bold">CONTACT</h2>
           <div className='flex-wrap flex flex-row justify-center'>
-            <h1 className='text-white text-center font-semibold text-xl'>
+            <h1 className='text-black text-center font-semibold text-xl'>
               <Link to='/'>Home</Link> 
-              <span className='ps-2'> <i className="fa-solid fa-greater-than text-white"></i> </span>
+              <span className='ps-2'> <i className="fa-solid fa-greater-than text-black"></i> </span>
             </h1>
-            <h1 className='text-white text-center font-semibold text-xl ps-2'>
+            <h1 className='text-black text-center font-semibold text-xl ps-2'>
               <Link to='/contact'>Contact</Link>
             </h1>
           </div>
@@ -132,31 +132,26 @@ const Contact = () => {
       </div>
 
       {/* Images Section */}
-      <div className="mt-12">
-        
-        
-        <div className="flex justify-center mb-6">
-          <img src="g-3.jpg" alt="Image 1" className="w-1/3 rounded-lg mx-2" />
-          <img src="g-4.jpg" alt="Image 2" className="w-1/3 rounded-lg mx-2" />
-          <img src="g-5.jpg" alt="Image 3" className="w-1/3 rounded-lg mx-2" />
-        </div>
-        <div className="bg-gray-100 py-16 px-4">
-  <h2 className="text-5xl font-bold text-gray-900 text-center mb-8">
+      <div className="mt-12 px-4 md:px-16">
+  <h2 className="text-4xl font-semibold text-gray-800 text-center mb-6">
     Have Questions?
   </h2>
-  <p className="text-lg text-gray-700 text-center max-w-2xl mx-auto mb-8">
-    Roin eleifend in mi eu efficitur. Sed interdum lectus at consequat interdum. 
-    Sed sed sem neque. Integer ac volutpat est, non mollis dolor. Lorem ipsum dolor sit amet, 
-    consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper malesuada.
+  <p className="text-gray-600 text-center mb-8">
+    Proin eleifend in mi eu efficitur. Sed interdum lectus at consequat interdum. Sed sed sem neque. Integer ac volutpat est, non mollis dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper m.
   </p>
+  
+  <div className="flex flex-wrap justify-center mb-6">
+    <img src="g-3.jpg" alt="Image 1" className="w-full md:w-1/3 rounded-lg mx-2 mb-4 md:mb-0" />
+    <img src="g-4.jpg" alt="Image 2" className="w-full md:w-1/3 rounded-lg mx-2 mb-4 md:mb-0" />
+    <img src="g-5.jpg" alt="Image 3" className="w-full md:w-1/3 rounded-lg mx-2 mb-4 md:mb-0 mt:7" />
+  </div>
+  
   <div className="text-center">
-    <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 px-8 rounded-full shadow-xl transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+    <button className="bg-blue-500 text-white py-3 px-6 rounded-lg shadow-lg transition duration-200 hover:bg-blue-600 mb-14">
       Send A Message
     </button>
   </div>
 </div>
-
-      </div>
     </>
   );
 };
