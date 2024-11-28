@@ -84,7 +84,7 @@ const Home = () => {
       {/* Quality Care Section */}
       <div className="bg-white py-16 px-6 md:px-16">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold mb-8 text-gray-700">
+          <h2 className="text-4xl font-bold mb-8 text-gray-500">
             Quality Pet Care and Those Funny Neck Cones
           </h2>
           <p className="text-lg text-gray-600 leading-relaxed">
@@ -102,6 +102,7 @@ const Home = () => {
         <div className="flex flex-col md:flex-row justify-center items-stretch gap-12">
           {/* Testimonial 1 */}
           <div className="bg-blue-100 p-8 rounded-2xl shadow-lg max-w-lg">
+          <i class="fa-solid fa-star text-yellow-500"></i><i class="fa-solid fa-star text-yellow-500"></i><i class="fa-solid fa-star text-yellow-500"></i><i class="fa-solid fa-star text-yellow-500"></i><i class="fa-solid fa-star text-yellow-500"></i>
             <p className="text-gray-600 italic mb-6">
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed enim neque. Integer ac volutpat erat."
             </p>
@@ -110,6 +111,7 @@ const Home = () => {
           </div>
           {/* Testimonial 2 */}
           <div className="bg-blue-100 p-8 rounded-2xl shadow-lg max-w-lg">
+          <i class="fa-solid fa-star text-yellow-500"></i><i class="fa-solid fa-star text-yellow-500"></i><i class="fa-solid fa-star text-yellow-500"></i><i class="fa-solid fa-star text-yellow-500"></i><i class="fa-solid fa-star text-yellow-500"></i>
             <p className="text-gray-600 italic mb-6">
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed enim neque. Integer ac volutpat erat."
             </p>
