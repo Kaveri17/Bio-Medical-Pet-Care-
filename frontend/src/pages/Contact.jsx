@@ -133,21 +133,34 @@ const Contact = () => {
 
       {/* Images Section */}
       <div className="mt-12 px-4 md:px-16">
-  <h2 className="text-4xl font-semibold text-gray-800 text-center mb-6">
+  
+      <div className="flex flex-wrap justify-center mb-6">
+  <div className="flex-none w-full md:w-1/3 px-2 -mb-16">
+ 
+    <img src="g-3.jpg" alt="Image 1" className="w-full rounded-lg h-full -mb-10" />
+  </div>
+  <div className="flex-none w-full md:w-1/3 px-2  -mb-16">
+    <img src="hen.jpg" alt="Image 2" className="w-full rounded-lg h-full -mb-10" />
+  </div>
+  <div className="flex-none w-full md:w-1/3 px-2  -mb-16">
+    <img src="images.jpeg" alt="Image 3" className="w-full rounded-lg h-full " />
+  </div>
+
+</div>
+
+<div className="bg-blue-200 p-8">
+  <h2 className="text-4xl font-semibold text-gray-800 text-center mb-6 mt-6">
     Have Questions?
   </h2>
   <p className="text-gray-600 text-center mb-8">
     Proin eleifend in mi eu efficitur. Sed interdum lectus at consequat interdum. Sed sed sem neque. Integer ac volutpat est, non mollis dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper m.
   </p>
+</div>
+
   
-  <div className="flex flex-wrap justify-center mb-6">
-    <img src="g-3.jpg" alt="Image 1" className="w-full md:w-1/3 rounded-lg mx-2 mb-4 md:mb-0" />
-    <img src="g-4.jpg" alt="Image 2" className="w-full md:w-1/3 rounded-lg mx-2 mb-4 md:mb-0" />
-    <img src="g-5.jpg" alt="Image 3" className="w-full md:w-1/3 rounded-lg mx-2 mb-4 md:mb-0 mt:7" />
-  </div>
   
   <div className="text-center">
-    <button className="bg-blue-500 text-white py-3 px-6 rounded-lg shadow-lg transition duration-200 hover:bg-blue-600 mb-14">
+    <button className="bg-blue-500 text-white py-3 px-6 rounded-lg shadow-lg transition duration-200 hover:bg-blue-600 mb-14 mt-10">
       Send A Message
     </button>
   </div>

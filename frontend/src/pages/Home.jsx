@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 const Home = () => {
   return (
@@ -37,7 +39,7 @@ const Home = () => {
           {/* Feature 1 */}
           <div className="flex flex-col items-center p-8 bg-white rounded-2xl shadow-lg max-w-md">
             <img
-              src="dog.jpeg"
+              src="hen.jpg"
               alt="Experience Icon"
               className="w-24 h-24 mb-6 rounded-full shadow-md"
             />
@@ -51,7 +53,7 @@ const Home = () => {
           {/* Feature 2 */}
           <div className="flex flex-col items-center p-8 bg-white rounded-2xl shadow-lg max-w-md">
             <img
-              src="dog.jpeg"
+              src="images.jpeg"
               alt="Animal Lover Icon"
               className="w-24 h-24 mb-6 rounded-full shadow-md"
             />
@@ -131,9 +133,10 @@ const Home = () => {
             <p className="text-lg text-gray-600 leading-relaxed mt-4">
               Jonathan Doe
             </p>
+            <Link to="/about">
             <button className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200">
               Read More
-            </button>
+            </button></Link>
           </div>
 
           {/* Image Section */}
