@@ -18,6 +18,26 @@
     background-size: cover;
     height: 37vh;
   }
+  .img1:hover {
+    transform: scale(1.05);
+    transition: 0.4s;
+}
+
+.img2:hover {
+    transform: scale(1.05);
+    transition: 0.4s;
+}
+
+.img3:hover {
+    transform: scale(1.05);
+    transition: 0.4s;
+}
+
+.img4:hover {
+    transform: scale(1.05);
+    transition: 0.4s;
+}
+
   
   
 
