@@ -3,6 +3,7 @@ import { BrowserRouter, createBrowserRouter, Route, RouterProvider, Routes } fro
 
 import Home from './pages/Home'
 import React from 'react'
+import About from './pages/About'
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path='/about' element={<About/>}/>
           </Routes>
         </BrowserRouter>
       </div>
