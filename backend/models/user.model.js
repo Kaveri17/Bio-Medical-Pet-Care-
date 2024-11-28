@@ -24,14 +24,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    phone: {
-      type: String,
-      require: true,
-    },
-    address: {
-      type: String,
-      require: true,
-    },
     lastLogin: {
       type: Date,
       default: Date.now,
@@ -39,11 +31,6 @@ const userSchema = new mongoose.Schema(
     isVerified: {
       type: Boolean,
       default: false,
-    },
-    role: {
-      type: String,
-      require: true,
-      enum: ["admin", "user", "organizer"], // Only these roles are allowed to enter
     },
     resetPasswordToken: String,
     resetPasswordExpiresAt: Date,
