@@ -7,7 +7,7 @@ const Footer = () => {
         {/* Logo Section */}
         <div className='flex items-center mb-6 md:mb-0'>
           <img src="logo.png"  className='w-16 h-16 mr-2' />
-          <h1 className='text-2xl font-bold text-red-400'>Vet Vitals</h1>
+          <h1 className='text-2xl font-bold text-blue-500'>Vet Vitals</h1>
         </div>
 
         {/* Quick Links */}
