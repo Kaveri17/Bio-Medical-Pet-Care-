@@ -41,18 +41,18 @@ export const forgotpassword = (email) => {
     .catch((error) => console.log(error));
 }
 //reset password
-
-export const resetpassword = (token,password) => {
+export const resetPassword = (token, password) => {
     return fetch(`${API}/user/reset-password/${token}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({password})
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ password }),
     })
-    .then((response) => response.json())
-    .catch((error) => console.log(error));
-}
+      .then((response) => response.json())
+      .catch((error) => console.log(error));
+  };
+
 //verify email
 
 export const verifyEmail = (code) => {

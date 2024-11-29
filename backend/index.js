@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser"
 
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/user.route.js";
+import contactRouter from "./routes/contactroute.js"
+
 //app config
 dotenv.config();
 
@@ -26,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRouter);
+app.use("/api/contact",contactRouter)
 
 app.listen(PORT, ()=>{
    connectDB(); //db connection

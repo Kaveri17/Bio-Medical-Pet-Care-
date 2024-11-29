@@ -95,7 +95,7 @@ export const verifyEmail = async (req, res) => {
     await user.save();
 
     await sendWelcomeEmail(user.email, user.name);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Email Verified Succesfully",
       user: {
@@ -114,7 +114,7 @@ export const login = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      res
+      return res
         .status(400)
         .json({ success: false, message: "User Not Found. Please register" });
     }
@@ -152,7 +152,7 @@ export const forgotPassword = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      res
+      return res
         .status(400)
         .json({ success: false, message: "User not found. Please register" });
     }
@@ -194,7 +194,7 @@ export const resetPassword = async (req, res) => {
     });
 
     if (!user) {
-      res
+      return res
         .status(400)
         .json({ success: fail, message: "Invalid or expired token" });
     }
@@ -214,7 +214,7 @@ export const resetPassword = async (req, res) => {
       .json({ success: true, message: "Password Reset Successfull" });
   } catch (error) {
     console.log("Error in Resetpassword", error);
-    res.status(500).json({ success: false, message: error.message });
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
