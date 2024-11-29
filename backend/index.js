@@ -7,6 +7,7 @@ import { connectDB } from "./config/db.js";
 import userRouter from "./routes/user.route.js";
 import contactRouter from "./routes/contactroute.js"
 import animalRouter from "./routes/animalroute.js"
+import vaccineRouter from "./routes/vaccineroute.js"
 import userAnimalRouter from "./routes/userAnimal.route.js"
 import breedRouter from "./routes/breedroute.js"
 import dailyrecordRouter from "./routes/dailyrecord.route.js"
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRouter);
 app.use("/api/contact",contactRouter)
 app.use("/api/animal",animalRouter)
+app.use("/api/vaccine", vaccineRouter)
 app.use("/api/breed",breedRouter)
 app.use("/api/useranimal",userAnimalRouter)
 app.use("/api/daily",dailyrecordRouter)

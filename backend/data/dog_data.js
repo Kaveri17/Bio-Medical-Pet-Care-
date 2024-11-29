@@ -1,5 +1,4 @@
-{
-    "dog":[
+[
     {
       "breed": "Nepali Sheepdog",
       "size": "Medium",
@@ -186,5 +185,5 @@
         ]
       }
       
-  ]}
+  ]
   
