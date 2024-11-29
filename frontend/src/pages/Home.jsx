@@ -4,21 +4,21 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <>
-     
       <div className="h-screen w-full flex flex-col md:flex-row pt-24 pb-12 items-center bg-gradient-to-r from-blue-300 via-blue-200 to-white px-6 md:px-10">
         {/* Text Content */}
-        <div className="flex flex-col items-start w-full md:w-1/2 px-4 md:px-20 space-y-6">
-          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-extrabold leading-snug">
+        <div className="flex flex-col items-start w-full md:w-1/2 px-4 md:px-12 space-y-6">
+          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
             Time for You <br /> and Your Animal
           </h1>
           <p className="text-blue-600 text-lg md:text-xl lg:text-2xl leading-relaxed">
             The Caring <br /> Professional Team
           </p>
-          <button className="px-6 py-2 md:px-8 md:py-3 bg-blue-500 text-white font-semibold rounded-full text-lg hover:bg-blue-600 transition-shadow shadow-lg">
+          <Link to="/about">
+          <button className="px-6 py-2 md:px-8 md:py-3 bg-blue-500 text-white font-semibold rounded-full text-lg hover:bg-blue-600 transition-shadow shadow-lg transform hover:scale-105">
             Discover More
           </button>
+          </Link>
         </div>
-
 
         <div className="w-full md:w-1/2 mt-6 md:mt-0 px-4 md:px-10">
           <img
@@ -29,12 +29,11 @@ const Home = () => {
         </div>
       </div>
 
-    
       <div className="bg-blue-50 py-12 md:py-16 px-6 md:px-16">
         <h2 className="text-center text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-blue-600">
           Why Choose Us
         </h2>
-        <div className="flex flex-col md:flex-row justify-center items-stretch gap-6 md:gap-12">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12">
           {/* Feature 1 */}
           <div className="flex flex-col items-center p-6 md:p-8 bg-white rounded-2xl shadow-lg max-w-sm md:max-w-md">
             <img
@@ -46,10 +45,10 @@ const Home = () => {
               Experienced Veterinarians
             </h3>
             <p className="text-center text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper.
+              With years of hands-on expertise across a wide range of medical fields, including preventive care, diagnostics.
             </p>
           </div>
-       
+
           <div className="flex flex-col items-center p-6 md:p-8 bg-white rounded-2xl shadow-lg max-w-sm md:max-w-md">
             <img
               src="images.jpeg"
@@ -60,10 +59,10 @@ const Home = () => {
               Animal Lover
             </h3>
             <p className="text-center text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper.
+              Our team of passionate animal lovers is the driving force behind our website, dedicated to celebrating and caring for animals of all kinds.
             </p>
           </div>
-    
+
           <div className="flex flex-col items-center p-6 md:p-8 bg-white rounded-2xl shadow-lg max-w-sm md:max-w-md">
             <img
               src="dog.jpeg"
@@ -71,25 +70,22 @@ const Home = () => {
               className="w-20 h-20 md:w-24 md:h-24 mb-4 md:mb-6 rounded-full shadow-md"
             />
             <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-3 text-gray-800">
-              Certified Doctor
+            Better Health Management
             </h3>
             <p className="text-center text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper.
+            Pet owners can monitor their pet's health trends over time, which is helpful for chronic conditions
             </p>
           </div>
         </div>
       </div>
 
-     
       <div className="bg-white py-12 md:py-16 px-6 md:px-16">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-gray-500">
-            Quality Pet Care and Those Funny Neck Cones
+           !! Quality Vet Care !!
           </h2>
           <p className="text-lg text-gray-600 leading-relaxed">
-            Socius consetetur nateque ineptos. Leo cursus massa morbi vehicula. Hendrerit ornare liora tincidunt 
-            ridiculus mauris eget. Interdum dictum velit accumsan.
-          </p>
+          Notifications and reminders encourage responsible pet ownership and timely health checks, improving overall animal health.</p>
         </div>
       </div>
 
@@ -97,8 +93,7 @@ const Home = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-gray-700">
           What Our Customers Say
         </h2>
-        <div className="flex flex-col md:flex-row justify-center items-stretch gap-6 md:gap-12">
-       
+        <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12">
           <div className="bg-blue-100 p-6 md:p-8 rounded-2xl shadow-lg max-w-sm md:max-w-lg">
             <div className="flex space-x-1">
               <i className="fa-solid fa-star text-yellow-500"></i>
@@ -108,12 +103,12 @@ const Home = () => {
               <i className="fa-solid fa-star text-yellow-500"></i>
             </div>
             <p className="text-gray-600 italic mb-4 md:mb-6">
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed enim neque. Integer ac volutpat erat."
+              "Our customers consistently express their appreciation for the Vet Health Care website as an essential tool for managing their pets' health. Pet owners love the convenience of having all their pet’s medical records in one secure place and the ease of scheduling appointments online. Many have shared how the timely reminders and personalized health tips have helped them stay on top of vaccinations and treatments, ultimately leading to healthier pets."
             </p>
-            <h4 className="font-semibold text-xl md:text-2xl text-gray-800">Dave Doe</h4>
-            <p className="text-gray-500">Animal Lover</p>
+            <h4 className="font-semibold text-xl md:text-2xl text-gray-800">Ram Nepal</h4>
+            <p className="text-gray-500">Cowherd</p>
           </div>
-         
+
           <div className="bg-blue-100 p-6 md:p-8 rounded-2xl shadow-lg max-w-sm md:max-w-lg">
             <div className="flex space-x-1">
               <i className="fa-solid fa-star text-yellow-500"></i>
@@ -123,15 +118,14 @@ const Home = () => {
               <i className="fa-solid fa-star text-yellow-500"></i>
             </div>
             <p className="text-gray-600 italic mb-4 md:mb-6">
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed enim neque. Integer ac volutpat erat."
+              "The automated reminders and tailored health insights have proven invaluable in preventing health issues and maintaining regular care. Veterinarians have noted how the platform helps reduce paperwork and improve communication, allowing them to dedicate more time to patient care. The educational resources and interactive community features have also been a hit, empowering pet owners with knowledge and creating a supportive network. "
             </p>
-            <h4 className="font-semibold text-xl md:text-2xl text-gray-800">Jennifer Doe</h4>
-            <p className="text-gray-500">Pet Lover</p>
+            <h4 className="font-semibold text-xl md:text-2xl text-gray-800">Sita Sharma</h4>
+            <p className="text-gray-500">Farmer</p>
           </div>
         </div>
       </div>
 
-    
       <div className="bg-white py-12 md:py-16 px-6 md:px-16">
         <div className="flex flex-col md:flex-row items-center md:items-start max-w-5xl mx-auto gap-6 md:gap-8">
           {/* Text Section */}
@@ -140,24 +134,23 @@ const Home = () => {
               About Us
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-              The Finest Four Legged Care. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          It was created with the goal of simplifying the way animal health care is managed. Our platform offers tools to access comprehensive health records, receive timely reminders for vaccinations and treatments, and connect directly with qualified veterinarians. We also provide educational content to help pet owners stay informed and proactive about their animal's well-being.
             </p>
             <p className="text-lg text-gray-600 leading-relaxed mt-4">
-              Jonathan Doe
+             Rita Gautam
             </p>
             <Link to="/about">
-              <button className="mt-4 md:mt-6 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200">
-                Read More
+              <button className="mt-4 md:mt-6 px-6 py-2 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-shadow shadow-lg transform hover:scale-105">
+                Learn More
               </button>
             </Link>
           </div>
-
-        
-          <div className="md:w-1/2 mt-6 md:mt-0">
-            <img 
-              src="images.jpeg" 
-              alt="About Us" 
-              className="rounded-xl shadow-lg w-full h-auto object-cover"
+          {/* Image Section */}
+          <div className="md:w-1/2">
+            <img
+              src="images.jpeg"
+              alt="About Us"
+              className="w-full rounded-2xl shadow-lg object-cover"
             />
           </div>
         </div>

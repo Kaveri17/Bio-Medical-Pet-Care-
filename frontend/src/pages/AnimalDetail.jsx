@@ -9,16 +9,19 @@ const AnimalDetailForm = () => {
   });
 
   const handleChange = (e) => {
-    
     const { name, value } = e.target;
+
+ 
+    if (name === 'age' && (value < 1 || isNaN(value))) {
+      return;
+    }
+
     setFormData({ ...formData, [name]: value });
   };
 
   const handleRadioChange = (e) => {
     setFormData({ ...formData, type: e.target.value });
   };
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -114,9 +117,10 @@ const AnimalDetailForm = () => {
               name="age"
               value={formData.age}
               onChange={handleChange}
-              placeholder="Enter age in  years"
+              placeholder="Enter age in years"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500"
               required
+              min="1"
             />
           </div>
 
