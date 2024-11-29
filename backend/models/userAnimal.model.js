@@ -7,10 +7,15 @@ const userAnimalSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    animal_category: {
+    animal_type: {
       type: ObjectId,
       ref: "AnimalCategory",
       required: true,
+    },
+    breed:{
+      type:ObjectId,
+      ref:"Breed",
+      required:true
     },
     age: {
       type: Number,

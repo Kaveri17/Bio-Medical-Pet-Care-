@@ -1,4 +1,5 @@
-[
+{
+  "cow": [
     {
       "breed": "Lulu",
       "size": "Medium",
@@ -210,47 +211,46 @@
       ]
     },
     {
-        "breed": "Pahadi",
-        "size": "Medium",
-        "weight": {
-          "average": "125–150 kg"
+      "breed": "Pahadi",
+      "size": "Medium",
+      "weight": {
+        "average": "125–150 kg"
+      },
+      "height_at_wither": "120 cm",
+      "lifespan": "12–18 years",
+      "average_temperature": "38.5°C",
+      "age_data": [
+        {
+          "age_range": { "min": 1, "max": 2 },
+          "weight_range": { "min": 40, "max": 60 },
+          "milk_per_day": "0.5–1.0 liters/day"
         },
-        "height_at_wither": "120 cm",
-        "lifespan": "12–18 years",
-        "average_temperature": "38.5°C",
-        "age_data": [
-          {
-            "age_range": { "min": 1, "max": 2 },
-            "weight_range": { "min": 40, "max": 60 },
-            "milk_per_day": "0.5–1.0 liters/day"
-          },
-          {
-            "age_range": { "min": 2, "max": 4 },
-            "weight_range": { "min": 60, "max": 85 },
-            "milk_per_day": "1.0–1.5 liters/day"
-          },
-          {
-            "age_range": { "min": 4, "max": 6 },
-            "weight_range": { "min": 85, "max": 110 },
-            "milk_per_day": "1.5–2.5 liters/day"
-          },
-          {
-            "age_range": { "min": 6, "max": 8 },
-            "weight_range": { "min": 110, "max": 140 },
-            "milk_per_day": "2.5–3.5 liters/day"
-          },
-          {
-            "age_range": { "min": 8, "max": 12 },
-            "weight_range": { "min": 140, "max": 160 },
-            "milk_per_day": "3.5–4.5 liters/day"
-          },
-          {
-            "age_range": { "min": 12, "max": 18 },
-            "weight_range": { "min": 160, "max": 180 },
-            "milk_per_day": "3.5–4.5 liters/day"
-          }
-        ]
-      }
-      
+        {
+          "age_range": { "min": 2, "max": 4 },
+          "weight_range": { "min": 60, "max": 85 },
+          "milk_per_day": "1.0–1.5 liters/day"
+        },
+        {
+          "age_range": { "min": 4, "max": 6 },
+          "weight_range": { "min": 85, "max": 110 },
+          "milk_per_day": "1.5–2.5 liters/day"
+        },
+        {
+          "age_range": { "min": 6, "max": 8 },
+          "weight_range": { "min": 110, "max": 140 },
+          "milk_per_day": "2.5–3.5 liters/day"
+        },
+        {
+          "age_range": { "min": 8, "max": 12 },
+          "weight_range": { "min": 140, "max": 160 },
+          "milk_per_day": "3.5–4.5 liters/day"
+        },
+        {
+          "age_range": { "min": 12, "max": 18 },
+          "weight_range": { "min": 160, "max": 180 },
+          "milk_per_day": "3.5–4.5 liters/day"
+        }
+      ]
+    }
   ]
-  
+}

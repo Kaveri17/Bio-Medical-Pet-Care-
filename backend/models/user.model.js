@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
     },
     animals: [{
       type: ObjectId,
-      ref: "Animal",
+      ref: "UserAnimal",
   }],
     resetPasswordToken: String,
     resetPasswordExpiresAt: Date,

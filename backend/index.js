@@ -8,6 +8,8 @@ import userRouter from "./routes/user.route.js";
 import contactRouter from "./routes/contactroute.js"
 import animalRouter from "./routes/animalroute.js"
 import vaccineRouter from "./routes/animalroute.js"
+import userAnimalRouter from "./routes/userAnimal.route.js"
+import breedRouter from "./routes/breedroute.js"
 
 //app config
 dotenv.config();
@@ -33,6 +35,8 @@ app.use("/api/user", userRouter);
 app.use("/api/contact",contactRouter)
 app.use("/api/animal",animalRouter)
 app.use("/api/vaccine", vaccineRouter)
+app.use("/api/breed",breedRouter)
+app.use("/api/useranimal",userAnimalRouter)
 
 
 app.use('/public/upload',express.static('public/upload'))

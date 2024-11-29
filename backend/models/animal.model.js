@@ -1,11 +1,15 @@
 import mongoose from "mongoose";
+const { ObjectId } = mongoose.Schema;
 
 const animalCategorySchema = new mongoose.Schema({
-  breed: { type: [String], required: true },
   animal_type: {
     type: String,
     required: true,
   },
+  breeds: [{ 
+    type: ObjectId, 
+    ref: 'Breed' 
+  }],
 });
 
 export const AnimalCategory = mongoose.model("AnimalCategory", animalCategorySchema);
