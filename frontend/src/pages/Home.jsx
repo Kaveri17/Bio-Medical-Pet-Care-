@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <>
-      {/* Hero Section */}
+     
       <div className="h-screen w-full flex flex-col md:flex-row pt-24 pb-12 items-center bg-gradient-to-r from-blue-300 via-blue-200 to-white px-6 md:px-10">
         {/* Text Content */}
         <div className="flex flex-col items-start w-full md:w-1/2 px-4 md:px-20 space-y-6">
@@ -19,7 +19,7 @@ const Home = () => {
           </button>
         </div>
 
-        {/* Hero Image */}
+
         <div className="w-full md:w-1/2 mt-6 md:mt-0 px-4 md:px-10">
           <img
             src="dog.jpeg"
@@ -29,7 +29,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Features Section */}
+    
       <div className="bg-blue-50 py-12 md:py-16 px-6 md:px-16">
         <h2 className="text-center text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-blue-600">
           Why Choose Us
@@ -49,7 +49,7 @@ const Home = () => {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper.
             </p>
           </div>
-          {/* Feature 2 */}
+       
           <div className="flex flex-col items-center p-6 md:p-8 bg-white rounded-2xl shadow-lg max-w-sm md:max-w-md">
             <img
               src="images.jpeg"
@@ -63,7 +63,7 @@ const Home = () => {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper.
             </p>
           </div>
-          {/* Feature 3 */}
+    
           <div className="flex flex-col items-center p-6 md:p-8 bg-white rounded-2xl shadow-lg max-w-sm md:max-w-md">
             <img
               src="dog.jpeg"
@@ -80,7 +80,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Quality Care Section */}
+     
       <div className="bg-white py-12 md:py-16 px-6 md:px-16">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-gray-500">
@@ -93,13 +93,12 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Testimonials Section */}
       <div className="bg-gray-50 py-12 md:py-16 px-6 md:px-16">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-gray-700">
           What Our Customers Say
         </h2>
         <div className="flex flex-col md:flex-row justify-center items-stretch gap-6 md:gap-12">
-          {/* Testimonial 1 */}
+       
           <div className="bg-blue-100 p-6 md:p-8 rounded-2xl shadow-lg max-w-sm md:max-w-lg">
             <div className="flex space-x-1">
               <i className="fa-solid fa-star text-yellow-500"></i>
@@ -114,7 +113,7 @@ const Home = () => {
             <h4 className="font-semibold text-xl md:text-2xl text-gray-800">Dave Doe</h4>
             <p className="text-gray-500">Animal Lover</p>
           </div>
-          {/* Testimonial 2 */}
+         
           <div className="bg-blue-100 p-6 md:p-8 rounded-2xl shadow-lg max-w-sm md:max-w-lg">
             <div className="flex space-x-1">
               <i className="fa-solid fa-star text-yellow-500"></i>
@@ -132,7 +131,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* About Us Section */}
+    
       <div className="bg-white py-12 md:py-16 px-6 md:px-16">
         <div className="flex flex-col md:flex-row items-center md:items-start max-w-5xl mx-auto gap-6 md:gap-8">
           {/* Text Section */}
@@ -153,7 +152,7 @@ const Home = () => {
             </Link>
           </div>
 
-          {/* Image Section */}
+        
           <div className="md:w-1/2 mt-6 md:mt-0">
             <img 
               src="images.jpeg" 
