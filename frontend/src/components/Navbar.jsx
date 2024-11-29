@@ -1,30 +1,116 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
+import { IoClose, IoMenu } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [navbar, setNavbar] = useState(false);
+  const sidebarRef = useRef(null);
+
+  useEffect(() => {
+    console.log('Navbar state:', navbar); // Debugging line
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [navbar]);
+
+  const handleClickOutside = (e) => {
+    console.log('Clicked outside'); // Debugging line
+    if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
+      setNavbar(false);
+    }
+  };
+
+  const handleNavbar = () => {
+    setNavbar(!navbar);
+  };
+
   return (
-    <div className=" py-10 p-4">
-      <div className="flex justify-between items-center">
+    <nav className="bg-white text-base py-4 sticky top-0 shadow-md">
+      <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 w-full">
+        {/* Logo and Title */}
+        <div className="w-2/3 md:w-1/3 flex items-center">
+          <div className="logo w-[20%] sm:w-[22%] md:w-[20%] lg:w-[12%]">
+            <img
+              src="/logo.png"
+              alt="Vite Vitals"
+              className="rounded-full w-full"
+            />
+          </div>
+          <Link to="/">
+            <span className="heading text-2xl sm:text-3xl text-blue-900 ps-2 font-bold">
+              Vite Vitals
+            </span>
+          </Link>
+        </div>
 
-      <div className="flex justify-center">
-  <ul className="hidden lg:flex space-x-10 text-bold text-xl items-center">
-    {/* Logo */}
-    <li>
-      <img src="logo.png" alt="Logo" className="w-16 h-auto" />
-    </li>
-    <li><Link to="/" className="text-black hover:text-blue-400">Home</Link></li>
-    <li><Link to="/about" className="text-black hover:text-blue-400">About</Link></li>
-    <li><Link to="/animals" className="text-black hover:text-blue-400">Animals</Link></li>
-    <li><Link to="/contact" className="text-black hover:text-blue-400">Contact</Link></li>
-    <li><Link to="/login" className="text-black hover:text-blue-400">Login</Link></li>
-    <li><Link to="/register" className="text-black hover:text-blue-400">Register</Link></li>
-    <i className="fa-regular fa-bell text-yellow-500 text-2xl"></i>
-  </ul>
-</div>
+        {/* Desktop Navbar */}
+        <div className="nav-content w-1/3 md:w-2/3 hidden md:flex justify-between items-center list-none text-lg font-medium">
+          <Link to="/">
+            <li className="text-black hover:text-blue-500">Home</li>
+          </Link>
+          <Link to="/about">
+            <li className="text-black hover:text-blue-500">About Us</li>
+          </Link>
+          <Link to="/animals">
+            <li className="text-black hover:text-blue-500">Animals</li>
+          </Link>
+          <Link to="/contact">
+            <li className="text-black hover:text-blue-500">Contact Us</li>
+          </Link>
+          <Link to="/login">
+            <li className="text-black hover:text-blue-500">Login</li>
+          </Link>
+          <Link to="/register">
+            <li className="text-black hover:text-blue-500">Register</li>
+          </Link>
+        </div>
 
-
+        {/* Mobile Menu Toggle */}
+        <div onClick={handleNavbar} className="md:hidden cursor-pointer">
+          <IoMenu className="text-black text-3xl" />
+        </div>
       </div>
-    </div>
+
+      {/* Mobile Navbar */}
+      <div
+        className={
+          navbar
+            ? "fixed right-0 top-0 w-[65%] md:hidden h-screen bg-white p-10 ease-in duration-100 z-50"
+            : "fixed left-[-100%] top-0 p-10 ease-in duration-100"
+        }
+        ref={sidebarRef}
+      >
+        {/* Close Button */}
+        <div className="flex justify-end cursor-pointer" onClick={handleNavbar}>
+          <IoClose className="text-black text-3xl" />
+        </div>
+        
+        {/* Mobile Links */}
+        <div className="list-none pt-16 text-lg sm:text-xl">
+          <Link to="/">
+            <li className="py-4 text-black hover:text-blue-500">Home</li>
+          </Link>
+          <Link to="/about">
+            <li className="py-4 text-black hover:text-blue-500">About Us</li>
+          </Link>
+
+          <Link to="/animals">
+            <li className="py-4 text-black hover:text-blue-500">Animals</li>
+          </Link>
+
+          <Link to="/contact">
+            <li className="py-4 text-black hover:text-blue-500">Contact Us</li>
+          </Link>
+          <Link to="/register">
+            <li className="py-4 text-black hover:text-blue-500">Register</li>
+          </Link>
+          <Link to="/login">
+            <li className="py-4 text-black hover:text-blue-500">Login</li>
+          </Link>
+        </div>
+      </div>
+    </nav>
   );
 };
 
