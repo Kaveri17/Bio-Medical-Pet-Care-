@@ -1,21 +1,48 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../api/Userapp';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const data = await login(email,password);
+      if(!data.success) {
+        setError(data.message || "Login Failed. Please try again") ;
+        setSuccess(false)
+      } else{
+        setSuccess(false)
+        setError("")
+        navigate("/")
+      }
+      
+    } catch (error) {
+      console.log(error)
+      setError(error.message);
 
-    console.log('Email submitted:', email);
-    console.log('Password submitted:', password);
+      
+    }
   };
+  const showError = () => {
+    if (error) {
+      return (
+        <div className='text-red-600 text-xl font-bold text-center'>{error}</div>
+      )
+    }
+  }
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-blue-200 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Login</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
               Email
@@ -26,7 +53,7 @@ const Login = () => {
               name="email"
               placeholder="Enter your email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(event) => setEmail(event.target.value)}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-200"
               required
             />
@@ -41,7 +68,7 @@ const Login = () => {
               name="password"
               placeholder="Enter your password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(event) => setPassword(event.target.value)}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-200"
               required
             />

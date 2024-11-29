@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-
     <div className=" py-10 p-4">
       <div className="flex justify-between items-center">
 
@@ -13,7 +12,6 @@ const Navbar = () => {
     <li>
       <img src="logo.png" alt="Logo" className="w-16 h-auto" />
     </li>
-
     <li><Link to="/" className="text-black hover:text-blue-400">Home</Link></li>
     <li><Link to="/about" className="text-black hover:text-blue-400">About</Link></li>
     <li><Link to="/animals" className="text-black hover:text-blue-400">Animals</Link></li>

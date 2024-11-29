@@ -10,28 +10,28 @@ const HealthTrack = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex flex-col items-center">
-      <h2 className="text-2xl font-semibold mb-4 text-gray-800">Cow previous data track</h2>
-      <div className="bg-blue-200 p-6 rounded-lg shadow-lg w-full max-w-2xl">
+    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col justify-center items-center p-4">
+      <h2 className="text-3xl font-bold mb-6 text-blue-900">Cow Previous Data Track</h2>
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl border border-blue-300">
         <table className="w-full border-collapse">
           <thead>
             <tr>
-              <th className="border border-gray-300 text-left px-4 py-2 bg-blue-400">Metric</th>
-              <th className="border border-gray-300 text-left px-4 py-2 bg-blue-400">Value</th>
+              <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">Metric</th>
+              <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">Value</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td className="border border-gray-300 px-4 py-2">Weight</td>
-              <td className="border border-gray-300 px-4 py-2">{cowData.weight}</td>
+              <td className="border border-gray-300 px-4 py-2 text-gray-700">Weight</td>
+              <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{cowData.weight}</td>
             </tr>
             <tr>
-              <td className="border border-gray-300 px-4 py-2">Milk Production</td>
-              <td className="border border-gray-300 px-4 py-2">{cowData.milk}</td>
+              <td className="border border-gray-300 px-4 py-2 text-gray-700">Milk Production</td>
+              <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{cowData.milk}</td>
             </tr>
             <tr>
-              <td className="border border-gray-300 px-4 py-2">Temperature</td>
-              <td className="border border-gray-300 px-4 py-2">{cowData.temperature}</td>
+              <td className="border border-gray-300 px-4 py-2 text-gray-700">Temperature</td>
+              <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{cowData.temperature}</td>
             </tr>
           </tbody>
         </table>
@@ -39,9 +39,9 @@ const HealthTrack = () => {
 
       {/* Daily Report Tracking button */}
       <Link to="/reporttrack">
-      <button className="bg-blue-500 text-white px-6 py-2 rounded mt-4 hover:bg-blue-600 transition duration-200">
-       Add Daily Report Tracking
-      </button>
+        <button className="bg-blue-600 text-white px-6 py-2 rounded mt-6 hover:bg-blue-700 transition duration-200 shadow-md">
+          Add Daily Report Tracking
+        </button>
       </Link>
     </div>
   );
