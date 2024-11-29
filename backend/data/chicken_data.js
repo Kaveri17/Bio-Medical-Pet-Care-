@@ -1,5 +1,4 @@
-{
-  "chicken": [
+ [
     {
       "breed": "Sakini",
       "size": "Medium",
@@ -142,4 +141,3 @@
       ]
     }
   ]
-}

@@ -13,7 +13,7 @@ const vaccineSchema = new mongoose.Schema(
             ref: "Breed",
             required:true
         },
-        breed: {
+        breeds: {
             type: ObjectId,
             ref: "Breed",
             required:true
@@ -26,7 +26,7 @@ const vaccineSchema = new mongoose.Schema(
             type: Number,
             required:true
         },
-        age: {
+        age_range: {
             type: Number,
             required: true
         }
