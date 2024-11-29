@@ -9,7 +9,8 @@ export const register = (user) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
-    })
+        credentials:"include",
+      })
     .then((response) => response.json())
     .catch((error) => console.log(error))
 }
@@ -21,7 +22,8 @@ export const login = (email, password) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({email,password})
+        body: JSON.stringify({email,password}),
+        credentials:"include",
     })
     .then((response) => response.json())
     .catch((error)=> console.log(error))

@@ -22,9 +22,16 @@ app.use(express.json());
 
 // allows us to parse the incoming cookies
 app.use(cookieParser())
-app.use(cors({ origin: 'http://localhost:5173' ,
-    credentials: true
-}));
+
+const corsOptions = {
+  origin: 'http://localhost:5173', // Replace with your frontend URL
+  // methods: 'GET,POST,PUT,DELETE', // Specify allowed methods
+  // allowedHeaders: 'Content-Type, Authorization', // Specify allowed headers
+  credentials: true, // Allow credentials (cookies, authorization headers)
+};
+
+app.use(cors(corsOptions));
+
 
 //api endpoints
 app.get("/", (req, res) => {
