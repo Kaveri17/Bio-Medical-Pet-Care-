@@ -1,17 +1,29 @@
 import { AnimalCategory } from "../models/animal.model.js";
-
+import { Breed } from "../models/breed.model.js";
 //create a new animal
 export const addanimal = async (req, res) => {
-  let animal = await AnimalCategory.findOne({
-    animal_type: req.body.animal_type,
-  });
+  const { animal_type, breed_ids } = req.body;
+
+  let animal = await AnimalCategory.findOne({ animal_type });
   if (animal) {
     return res.status(400).json({ error: "Animal already exists" });
   }
 
-  animal = await AnimalCategorycreate({
-    animal_type: req.body.animal_type,
-    breed: req.body.breed,
+  if (breed_ids) {
+    const validBreeds = await Promise.all(
+      breed_ids.map(async (breedId) => {
+        let breed = await Breed.findById(breedId);
+        if (!breed) {
+          breed = await Breed.createBreed({ breed_name: breedId });
+        }
+        return breed;
+      })
+    );
+  }
+
+  animal = await AnimalCategory.create({
+    animal_type,
+    breeds: breed_ids,
   });
   if (!animal) {
     return res.status(400).json({ error: "Something went wrong" });
@@ -22,7 +34,7 @@ export const addanimal = async (req, res) => {
 //get all animals
 export const getAllAnimals = async (req, res) => {
   try {
-    const animals = await AnimalCategory.find();
+    const animals = await AnimalCategory.find().populate("breeds");
     res.status(200).json({ success: true, data: animals });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -32,7 +44,7 @@ export const getAllAnimals = async (req, res) => {
 export const getAnimalById = async (req, res) => {
   try {
     const { id } = req.params;
-    const animal = await AnimalCategory.findById(id);
+    const animal = await AnimalCategory.findById(id).populate("breeds");
     if (!animal) {
       return res
         .status(404)

@@ -7,6 +7,8 @@ import { connectDB } from "./config/db.js";
 import userRouter from "./routes/user.route.js";
 import contactRouter from "./routes/contactroute.js"
 import animalRouter from "./routes/animalroute.js"
+import userAnimalRouter from "./routes/userAnimal.route.js"
+import breedRouter from "./routes/breedroute.js"
 
 //app config
 dotenv.config();
@@ -31,6 +33,8 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRouter);
 app.use("/api/contact",contactRouter)
 app.use("/api/animal",animalRouter)
+app.use("/api/breed",breedRouter)
+app.use("/api/useranimal",userAnimalRouter)
 
 
 app.use('/public/upload',express.static('public/upload'))
