@@ -16,7 +16,7 @@ export const submitMessage = (send) => {
 export const getallmessage = () => {
     return fetch(`${API}/contact/getallmessage`)
     .then(res => res.json())
-    .catch(error => comsole.log(error))
+    .catch(error => console.log(error))
 }
 //get message by id
 export const getmessage = (id) => {

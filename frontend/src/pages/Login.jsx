@@ -20,6 +20,7 @@ const Login = () => {
         setSuccess(false)
         setError("")
         navigate("/")
+        
       }
       
     } catch (error) {
@@ -29,6 +30,13 @@ const Login = () => {
       
     }
   };
+  const showSuccess = () => {
+    if (success) {
+      return (
+        <div className='text-green-600 text-xl font-bold text-center'>Sucessfully Login</div>
+      )
+    }
+  }
   const showError = () => {
     if (error) {
       return (
@@ -42,6 +50,8 @@ const Login = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-blue-200 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Login</h2>
+        {showSuccess()}
+        {showError()}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-medium mb-2">

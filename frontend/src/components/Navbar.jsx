@@ -45,7 +45,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Navbar */}
-        <div className="nav-content w-1/3 md:w-2/3 hidden md:flex justify-between items-center list-none text-lg font-medium">
+        <div className="nav-content w-1/3 md:w-2/3 hidden md:flex justify-between items-center list-none text-lg font-medium ">
           <Link to="/">
             <li className="text-black hover:text-blue-500">Home</li>
           </Link>
@@ -62,9 +62,16 @@ const Navbar = () => {
             <li className="text-black hover:text-blue-500">Login</li>
           </Link>
           <Link to="/register">
-            <li className="text-black hover:text-blue-500">Register</li>
+            <li className="text-black hover:text-blue-500 ">Register</li>
           </Link>
         </div>
+
+        <div className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4">
+  <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />
+</div>
+
+      
+
 
         {/* Mobile Menu Toggle */}
         <div onClick={handleNavbar} className="md:hidden cursor-pointer">

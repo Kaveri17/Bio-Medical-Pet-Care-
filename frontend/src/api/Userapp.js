@@ -1,6 +1,5 @@
 // import { API } from "../../config";
 
-
 let API = "http://localhost:5000/api";
 export const register = (user) => {
     return fetch(`${API}/user/signup`, {
@@ -9,6 +8,7 @@ export const register = (user) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
+        credentials: 'include', 
     })
     .then((response) => response.json())
     .catch((error) => console.log(error))
@@ -16,15 +16,17 @@ export const register = (user) => {
 //login
 
 export const login = (email, password) => {
-    return fetch(`${API}/user/login`, {
-        method:"POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({email,password})
-    })
+  //   console.log(API);
+  return fetch(`${API}/user/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include',// This ensures cookies are sent with the request
+    body: JSON.stringify({ email, password }),
+  })
     .then((response) => response.json())
-    .catch((error)=> console.log(error))
+    .catch((error) => console.log(error));
 };
 
 //forgot password
@@ -35,7 +37,8 @@ export const forgotpassword = (email) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(email)
+        body: JSON.stringify(email),
+        credentials: 'include',
     })
     .then((response) => response.json())
     .catch((error) => console.log(error));
@@ -48,6 +51,7 @@ export const resetPassword = (token, password) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ password }),
+      credentials: 'include',
     })
       .then((response) => response.json())
       .catch((error) => console.log(error));
@@ -62,6 +66,7 @@ export const verifyEmail = (code) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ code }),
+      credentials: 'include',
     })
       .then((response) => response.json())
       .catch((error) => console.log(error));
