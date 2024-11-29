@@ -1,7 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { submitMessage } from "../api/Submitsend";
 
+
+
+  
 const Contact = () => {
+
+  const [contact_name, setContactName] = useState("")
+  const [contact_email, setContactEmail] = useState('')
+  const [contact_message, setContactMessage] = useState('')
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState(false)
+
+  const handleSend = (event) => {
+    event.preventDefault();
+
+    //validation
+    if(!contact_name) {
+      setError("Please fill your name")
+    }
+    else if(contact_name.length <2){
+      setError("Name should be more than 2 characters")
+    }
+    else if(!contact_email) {
+      setError("Please fill your email")
+    }
+    else if(!contact_email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)){
+      setError("Invalid Email")
+    }
+    else if(!contact_message){
+      setError("Please fill your message")
+    }
+    else if(contact_message.length < 10){
+      setError("Message should be more than 10 characters")
+    }
+    else {
+      submitMessage({ contact_name, contact_email, contact_message })
+
+      .then(data => {
+        if(data.error) {
+          setError(data.error)
+          setSuccess(false)
+        }
+        else{
+          setError("")
+          setSuccess(true)
+
+          setContactName('')
+          setContactEmail('')
+          setContactMessage('')
+        }
+      })
+      .catch(error => console.log(error))
+    }
+  }
+  const showError = () => {
+    if(error){
+      return <div className='font-bold text-red-300 text-lg text-center'>{error}</div>
+    }
+  }
+  const showSuccess = () => {
+    if(success){
+        return <div className='text-green-500 text-xl font-bold text-center py-5'>"Message Sent Successfully"</div>
+    }
+}
   return (
     <>
       <div className="w-full h-64 relative">
@@ -75,7 +138,10 @@ const Contact = () => {
             Get In Touch
             <div className="border-b-2 border-blue-200 w-16 pt-2"></div>
           </h2>
-          <form className="w-full bg-white p-6 rounded-lg shadow-md">
+          {showError()}
+          {showSuccess()}
+          <form className="w-full bg-white p-6 rounded-lg shadow-md" onSubmit={handleSend}>
+
             <div className="mb-4">
               <label
                 className="block text-gray-700 mb-2 text-xl"
@@ -90,6 +156,8 @@ const Contact = () => {
                   id="name"
                   className="w-full p-4 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   placeholder="Your Name"
+                  value={contact_name}
+                  onChange={event =>setContactName(event.target.value)}
                 />
               </div>
             </div>
@@ -107,6 +175,8 @@ const Contact = () => {
                   id="email"
                   className="w-full p-4 focus:outline-none focus:ring-2 focus:ring-blue-200"
                   placeholder="Your Email"
+                  value={contact_email}
+                  onChange={event =>setContactEmail(event.target.value)}
                 />
               </div>
             </div>
@@ -122,6 +192,8 @@ const Contact = () => {
                 className="w-full border border-gray-300 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200"
                 rows="4"
                 placeholder="Your Message"
+                value={contact_message}
+                onChange={event =>setContactMessage(event.target.value)}
               ></textarea>
             </div>
             <button className="w-2/5 text-blue-300 py-2 border border-blue-300 transition duration-200 hover:bg-blue-200 hover:text-white">
