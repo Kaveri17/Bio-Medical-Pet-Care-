@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const HealthTrack = () => {
-  // Sample data for cow health metrics
+  
   const cowData = {
     weight: '450 kg',
     milk: '5 liters/day',
@@ -11,7 +11,7 @@ const HealthTrack = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col justify-center items-center p-4">
-      <h2 className="text-3xl font-bold mb-6 text-blue-900">Cow Previous Data Track</h2>
+      <h2 className="text-3xl font-bold mb-6 text-blue-900">Cow's Previous Data Track</h2>
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl border border-blue-300">
         <table className="w-full border-collapse">
           <thead>
@@ -37,7 +37,7 @@ const HealthTrack = () => {
         </table>
       </div>
 
-      {/* Daily Report Tracking button */}
+ 
       <Link to="/reporttrack">
         <button className="bg-blue-600 text-white px-6 py-2 rounded mt-6 hover:bg-blue-700 transition duration-200 shadow-md">
           Add Daily Report Tracking
