@@ -5,12 +5,20 @@ const AnimalDetailForm = () => {
     type: '',
     breed: '',
     gender: '',
+    age: ''
   });
 
   const handleChange = (e) => {
+    
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const handleRadioChange = (e) => {
+    setFormData({ ...formData, type: e.target.value });
+  };
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,19 +32,42 @@ const AnimalDetailForm = () => {
         <form onSubmit={handleSubmit}>
 
           <div className="mb-4">
-            <label htmlFor="type" className="block text-gray-700 font-medium mb-2">
-              Animal Type
-            </label>
-            <input
-              type="text"
-              id="type"
-              name="type"
-              value={formData.type}
-              onChange={handleChange}
-              placeholder="Enter animal type"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500"
-              required
-            />
+            <label className="block text-gray-700 font-medium mb-2">Animal Type</label>
+            <div className="flex gap-4">
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="type"
+                  value="Dog"
+                  checked={formData.type === 'Dog'}
+                  onChange={handleRadioChange}
+                  className="mr-2"
+                />
+                Dog
+              </label>
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="type"
+                  value="Cow"
+                  checked={formData.type === 'Cow'}
+                  onChange={handleRadioChange}
+                  className="mr-2"
+                />
+                Cow
+              </label>
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="type"
+                  value="Hen"
+                  checked={formData.type === 'Hen'}
+                  onChange={handleRadioChange}
+                  className="mr-2"
+                />
+                Hen
+              </label>
+            </div>
           </div>
 
           <div className="mb-4">
@@ -67,12 +98,26 @@ const AnimalDetailForm = () => {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500"
               required
             >
-              <option value="" disabled>
-                Select gender
-              </option>
+              <option value="" disabled>Select gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="age" className="block text-gray-700 font-medium mb-2">
+              Age 
+            </label>
+            <input
+              type="number"
+              id="age"
+              name="age"
+              value={formData.age}
+              onChange={handleChange}
+              placeholder="Enter age in  years"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500"
+              required
+            />
           </div>
 
           <button
