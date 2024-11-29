@@ -4,7 +4,7 @@ const dailyRecordSchema = mongoose.Schema ({
     useranimal: {
         type:ObjectId,
         ref:"UserAnimal",
-        required: true
+        required: false
     },
     weight: {
         type: Number,

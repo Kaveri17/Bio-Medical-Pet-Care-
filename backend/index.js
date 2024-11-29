@@ -14,16 +14,19 @@ import dailyrecordRouter from "./routes/dailyrecord.route.js"
 dotenv.config();
 
 const app = express();
-app.use(cors());
 const PORT = process.env.PORT || 5000;
 //middleware
 app.use(express.json());
 
 // allows us to parse the incoming cookies
 app.use(cookieParser())
-app.use(cors({ origin: 'http://localhost:5173' ,
-    credentials: true
-}));
+
+const corsOptions = {
+  origin: 'http://localhost:5173',  // Allow only this frontend URL
+  credentials: true,  // Allow cookies and credentials to be sent
+};
+
+app.use(cors(corsOptions));
 
 //api endpoints
 app.get("/", (req, res) => {
@@ -38,7 +41,7 @@ app.use("/api/useranimal",userAnimalRouter)
 app.use("/api/daily",dailyrecordRouter)
 
 
-app.use('/public/upload',express.static('public/upload'))
+// app.use('/public/upload',express.static('public/upload'))
 
 app.listen(PORT, ()=>{
    connectDB(); //db connection
