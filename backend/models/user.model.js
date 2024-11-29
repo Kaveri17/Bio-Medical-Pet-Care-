@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { ObjectId } = mongoose.Schema
 
 const userSchema = new mongoose.Schema(
   {
@@ -32,6 +33,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    animals: [{
+      type: ObjectId,
+      ref: "Animal",
+  }],
     resetPasswordToken: String,
     resetPasswordExpiresAt: Date,
     verificationToken: String,
