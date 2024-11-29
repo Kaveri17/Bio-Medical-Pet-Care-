@@ -69,14 +69,14 @@ const Contact = () => {
     <>
       <div className="w-full h-64 relative">
         <div className="w-full h-full object-cover bg-gradient-to-r from-blue-300 via-blue-200 to-blue-100 p-10" />
-        <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center z-10 text-black">
+        <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center z-10 text-white">
           <h2 className="text-3xl font-bold">CONTACT</h2>
           <div className='flex-wrap flex flex-row justify-center'>
-            <h1 className='text-black text-center font-semibold text-xl'>
+            <h1 className='text-white text-center font-semibold text-xl'>
               <Link to='/'>Home</Link> 
-              <span className='ps-2'> <i className="fa-solid fa-greater-than text-black"></i> </span>
+              <span className='ps-2'> <i className="fa-solid fa-greater-than text-white"></i> </span>
             </h1>
-            <h1 className='text-black text-center font-semibold text-xl ps-2'>
+            <h1 className='text-white text-center font-semibold text-xl ps-2'>
               <Link to='/contact'>Contact</Link>
             </h1>
           </div>

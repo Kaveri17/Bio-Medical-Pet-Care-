@@ -8,14 +8,14 @@ const About = () => {
     <div>
     <div className="w-full h-64 relative">
         <div className="w-full h-full object-cover bg-gradient-to-r from-blue-300 via-blue-200 to-blue-100 p-10" />
-        <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center z-10 text-black">
+        <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center text-white">
           <h2 className="text-3xl font-bold">ABOUT</h2>
           <div className='flex-wrap flex flex-row justify-center'>
-            <h1 className='text-black text-center font-semibold text-xl'>
+            <h1 className='text-white text-center font-semibold text-xl'>
               <Link to='/'>Home</Link> 
-              <span className='ps-2'> <i className="fa-solid fa-greater-than text-black"></i> </span>
+              <span className='ps-2'> <i className="fa-solid fa-greater-than text-white"></i> </span>
             </h1>
-            <h1 className='text-black text-center font-semibold text-xl ps-2'>
+            <h1 className='text-white text-center font-semibold text-xl ps-2'>
               <Link to='/contact'>About</Link>
             </h1>
           </div>
@@ -40,10 +40,7 @@ const About = () => {
    
     <div className="w-full sm:w-2/3 md:w-2/3 bg-blue-50 border border-solid px-4 py-4 sm:py-6 rounded-t-lg rounded-b-lg">
       <p className="text-base sm:text-xl font-normal leading-relaxed p-6 ">
-        Proin eleifend in mi eu efficitur. Sed interdum lectus at consequat
-        interdum. Sed sed sem neque. Integer ac volutpat est, non mollis dolor.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus,
-        luctus nec ullamcorper mattis, pulvinar dapibus leo.
+     It was created with the goal of simplifying the way animal health care is managed. Our platform offers tools to access comprehensive health records, receive timely reminders for vaccinations and treatments, and connect directly with qualified veterinarians. We also provide educational content to help pet owners stay informed and proactive about their animal's well-being.
       </p>
     </div>
   </div>
@@ -81,10 +78,9 @@ const About = () => {
       </span>
       <div className="mt-4">
         <p className="font-bold pt-4 pb-5 text-lg sm:text-xl">
-          Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna aliqua. Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-        </p>
+          Through our intuitive platform, vet owners can receive automated reminders for upcoming vet visits, vaccination schedules, and medication refills, ensuring their pets receive timely and consistent care</p>
         <p className="text-lg sm:text-xl">
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna aliqua. Enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Our service allows users to easily access and manage their vet's medical records, track vaccinations, medications, and treatment plans, and monitor vital health trends over time. Through our intuitive platform, pet owners can receive automated reminders for upcoming vet visits, vaccination schedules, and medication refills, ensuring their pets receive timely and consistent care
         </p>
       </div>
     </div>
@@ -112,7 +108,7 @@ const About = () => {
         What Customer Says
       </span>
       <p className="pb-5 text-gray-600 text-lg">
-        Proin eleifend in mi eu efficitur. Sed interdum lectus at consequat interdum. Sed sed sem neque. Integer ac volutpat est, non mollis dolor.
+      We provide extensive health care of your animals.
       </p>
 
       {/* Testimonials Section */}
@@ -120,7 +116,7 @@ const About = () => {
         <div className="border bg-blue-50 p-4 rounded-lg shadow-md w-full sm:w-1/2 pb-12  ">
       <h1 className='pb-3 text-xl'>⭐⭐⭐⭐⭐</h1>
           <p className="text-gray-700">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore ipsam voluptatibus earum totam ut. Sequi!
+          I enjoy the peace of mind that comes from receiving timely alerts and having all our animal's health information in one place. The direct communication with veterinary professionals adds an extra layer of trust and confidence in our animal's care.
           </p>
           <div className="flex items-center mt-4 gap-6 pt-5 img1">
             <img
@@ -129,15 +125,15 @@ const About = () => {
               className="rounded-full w-20 h-19 object-cover "
             />
             <div className="ml-3">
-              <h3 className="font-bold text-blue-900">Jhon Doe</h3>
-              <span className="text-gray-500 text-sm">Pet Lover</span>
+              <h3 className="font-bold text-blue-900">Ram Nepal</h3>
+              <span className="text-gray-500 text-sm">Cowherd</span>
             </div>
           </div>
         </div>
         <div className="border bg-blue-50 p-4 rounded-lg shadow-md w-full sm:w-1/2">
         <h1 className='pb-3 text-xl '>⭐⭐⭐⭐⭐</h1>
           <p className="text-gray-700">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore ipsam voluptatibus earum totam ut. Sequi!
+          Our customers appreciate our platform for its user-friendly design and the convenience it offers in managing their pets' health. They value the timely reminders, easy access to health records, and the direct connection with trusted veterinarians. 
           </p>
           <div className="flex items-center mt-4 gap-6 pt-6 img1">
             <img
@@ -146,8 +142,8 @@ const About = () => {
               className="rounded-full w-20 h-19 object-cover"
             />
             <div className="ml-3">
-              <h3 className="font-bold text-blue-900">Jenifer Doe</h3>
-              <span className="text-gray-500 text-sm">Pet Lover</span>
+              <h3 className="font-bold text-blue-900">Sita Sharma</h3>
+              <span className="text-gray-500 text-sm">Farmer</span>
             </div>
           </div>
         </div>
