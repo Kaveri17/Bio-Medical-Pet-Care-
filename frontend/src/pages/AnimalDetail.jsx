@@ -9,9 +9,9 @@ const AnimalDetailForm = () => {
   });
 
   const handleChange = (e) => {
+    
     const { name, value } = e.target;
 
- 
     if (name === 'age' && (value < 1 || isNaN(value))) {
       return;
     }
@@ -22,6 +22,7 @@ const AnimalDetailForm = () => {
   const handleRadioChange = (e) => {
     setFormData({ ...formData, type: e.target.value });
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();

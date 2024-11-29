@@ -7,10 +7,15 @@ const Navbar = () => {
   const sidebarRef = useRef(null);
 
   useEffect(() => {
+    console.log('Navbar state:', navbar); // Debugging line
     document.addEventListener("click", handleClickOutside, true);
-  }, []);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [navbar]);
 
   const handleClickOutside = (e) => {
+    console.log('Clicked outside'); // Debugging line
     if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
       setNavbar(false);
     }
@@ -21,8 +26,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white text-base py-4 sticky">
-      <div className="flex justify-between items-center px-2 py-2 w-11/12 mx-auto">
+    <nav className="bg-white text-base py-4 sticky top-0 shadow-md">
+      <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 w-full">
         {/* Logo and Title */}
         <div className="w-2/3 md:w-1/3 flex items-center">
           <div className="logo w-[20%] sm:w-[22%] md:w-[20%] lg:w-[12%]">
@@ -33,37 +38,37 @@ const Navbar = () => {
             />
           </div>
           <Link to="/">
-            <span className="heading text-2xl sm:text-3xl text-white ps-2">
-             Vite Vitals
+            <span className="heading text-2xl sm:text-3xl text-blue-900 ps-2 font-bold">
+              Vite Vitals
             </span>
           </Link>
         </div>
 
         {/* Desktop Navbar */}
-        <div className="nav-content w-1/3 md:w-2/3 hidden md:flex justify-between list-none text-lg font-medium">
+        <div className="nav-content w-1/3 md:w-2/3 hidden md:flex justify-between items-center list-none text-lg font-medium">
           <Link to="/">
-            <li className="text-black hover:text-blue-200">Home</li>
+            <li className="text-black hover:text-blue-500">Home</li>
           </Link>
           <Link to="/about">
-            <li className="text-black hover:text-blue-200">About Us</li>
+            <li className="text-black hover:text-blue-500">About Us</li>
           </Link>
           <Link to="/animals">
-            <li className="text-black hover:text-blue-200">Animals</li>
+            <li className="text-black hover:text-blue-500">Animals</li>
           </Link>
           <Link to="/contact">
-            <li className="text-black hover:text-blue-200">Contact Us</li>
+            <li className="text-black hover:text-blue-500">Contact Us</li>
           </Link>
           <Link to="/login">
-            <li className="text-black hover:text-blue-200">Login</li>
+            <li className="text-black hover:text-blue-500">Login</li>
           </Link>
           <Link to="/register">
-            <li className="text-black hover:text-blue-200">Register</li>
+            <li className="text-black hover:text-blue-500">Register</li>
           </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
         <div onClick={handleNavbar} className="md:hidden cursor-pointer">
-          <IoMenu className="text-black cursor-pointer text-3xl" />
+          <IoMenu className="text-black text-3xl" />
         </div>
       </div>
 
@@ -78,32 +83,30 @@ const Navbar = () => {
       >
         {/* Close Button */}
         <div className="flex justify-end cursor-pointer" onClick={handleNavbar}>
-          <IoClose className="text-white cursor-pointer text-3xl" />
+          <IoClose className="text-black text-3xl" />
         </div>
         
         {/* Mobile Links */}
         <div className="list-none pt-16 text-lg sm:text-xl">
           <Link to="/">
-            <li className="py-4 text-white hover:text-blue-200">Home</li>
+            <li className="py-4 text-black hover:text-blue-500">Home</li>
           </Link>
           <Link to="/about">
-            <li className="py-4 text-white hover:text-blue-200">About Us</li>
+            <li className="py-4 text-black hover:text-blue-500">About Us</li>
           </Link>
 
           <Link to="/animals">
-            <li className="py-4 text-white hover:text-blue-200"> Animals
-            
-            </li>
+            <li className="py-4 text-black hover:text-blue-500">Animals</li>
           </Link>
 
           <Link to="/contact">
-            <li className="py-4 text-white hover:text-blue-200">Contact Us</li>
+            <li className="py-4 text-black hover:text-blue-500">Contact Us</li>
           </Link>
           <Link to="/register">
-            <li className="py-4 text-white hover:text-blue-200">Register</li>
+            <li className="py-4 text-black hover:text-blue-500">Register</li>
           </Link>
           <Link to="/login">
-            <li className="py-4 text-white hover:text-blue-200">Login</li>
+            <li className="py-4 text-black hover:text-blue-500">Login</li>
           </Link>
         </div>
       </div>

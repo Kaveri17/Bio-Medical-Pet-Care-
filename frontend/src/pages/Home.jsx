@@ -14,12 +14,13 @@ const Home = () => {
             The Caring <br /> Professional Team
           </p>
           <Link to="/about">
-          <button className="px-6 py-2 md:px-8 md:py-3 bg-blue-500 text-white font-semibold rounded-full text-lg hover:bg-blue-600 transition-shadow shadow-lg transform hover:scale-105">
-            Discover More
-          </button>
+            <button className="px-6 py-2 md:px-8 md:py-3 bg-blue-500 text-white font-semibold rounded-full text-lg hover:bg-blue-600 transition-shadow shadow-lg transform hover:scale-105">
+              Discover More
+            </button>
           </Link>
         </div>
 
+        {/* Image Section */}
         <div className="w-full md:w-1/2 mt-6 md:mt-0 px-4 md:px-10">
           <img
             src="dog.jpeg"
@@ -49,6 +50,7 @@ const Home = () => {
             </p>
           </div>
 
+          {/* Feature 2 */}
           <div className="flex flex-col items-center p-6 md:p-8 bg-white rounded-2xl shadow-lg max-w-sm md:max-w-md">
             <img
               src="images.jpeg"
@@ -63,6 +65,7 @@ const Home = () => {
             </p>
           </div>
 
+          {/* Feature 3 */}
           <div className="flex flex-col items-center p-6 md:p-8 bg-white rounded-2xl shadow-lg max-w-sm md:max-w-md">
             <img
               src="dog.jpeg"
@@ -70,10 +73,10 @@ const Home = () => {
               className="w-20 h-20 md:w-24 md:h-24 mb-4 md:mb-6 rounded-full shadow-md"
             />
             <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-3 text-gray-800">
-            Better Health Management
+              Better Health Management
             </h3>
             <p className="text-center text-gray-600">
-            Pet owners can monitor their pet's health trends over time, which is helpful for chronic conditions
+              Pet owners can monitor their pet's health trends over time, which is helpful for chronic conditions.
             </p>
           </div>
         </div>
@@ -82,10 +85,11 @@ const Home = () => {
       <div className="bg-white py-12 md:py-16 px-6 md:px-16">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-gray-500">
-           !! Quality Vet Care !!
+            !! Quality Vet Care !!
           </h2>
           <p className="text-lg text-gray-600 leading-relaxed">
-          Notifications and reminders encourage responsible pet ownership and timely health checks, improving overall animal health.</p>
+            Notifications and reminders encourage responsible pet ownership and timely health checks, improving overall animal health.
+          </p>
         </div>
       </div>
 
@@ -94,6 +98,7 @@ const Home = () => {
           What Our Customers Say
         </h2>
         <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12">
+          {/* Testimonial 1 */}
           <div className="bg-blue-100 p-6 md:p-8 rounded-2xl shadow-lg max-w-sm md:max-w-lg">
             <div className="flex space-x-1">
               <i className="fa-solid fa-star text-yellow-500"></i>
@@ -109,6 +114,7 @@ const Home = () => {
             <p className="text-gray-500">Cowherd</p>
           </div>
 
+          {/* Testimonial 2 */}
           <div className="bg-blue-100 p-6 md:p-8 rounded-2xl shadow-lg max-w-sm md:max-w-lg">
             <div className="flex space-x-1">
               <i className="fa-solid fa-star text-yellow-500"></i>
@@ -118,7 +124,7 @@ const Home = () => {
               <i className="fa-solid fa-star text-yellow-500"></i>
             </div>
             <p className="text-gray-600 italic mb-4 md:mb-6">
-              "The automated reminders and tailored health insights have proven invaluable in preventing health issues and maintaining regular care. Veterinarians have noted how the platform helps reduce paperwork and improve communication, allowing them to dedicate more time to patient care. The educational resources and interactive community features have also been a hit, empowering pet owners with knowledge and creating a supportive network. "
+              "The automated reminders and tailored health insights have proven invaluable in preventing health issues and maintaining regular care. Veterinarians have noted how the platform helps reduce paperwork and improve communication, allowing them to dedicate more time to patient care. The educational resources and interactive community features have also been a hit, empowering pet owners with knowledge and creating a supportive network."
             </p>
             <h4 className="font-semibold text-xl md:text-2xl text-gray-800">Sita Sharma</h4>
             <p className="text-gray-500">Farmer</p>
@@ -134,23 +140,24 @@ const Home = () => {
               About Us
             </h2>
             <p className="text-lg text-gray-600 leading-relaxed">
-          It was created with the goal of simplifying the way animal health care is managed. Our platform offers tools to access comprehensive health records, receive timely reminders for vaccinations and treatments, and connect directly with qualified veterinarians. We also provide educational content to help pet owners stay informed and proactive about their animal's well-being.
+              It was created with the goal of simplifying the way animal health care is managed. Our platform offers tools to access comprehensive health records, receive timely reminders for vaccinations and treatments, and connect directly with qualified veterinarians. We also provide educational content to help pet owners stay informed and proactive about their animal's well-being.
             </p>
             <p className="text-lg text-gray-600 leading-relaxed mt-4">
-             Rita Gautam
+              Rita Gautam
             </p>
-            <Link to="/about">
-              <button className="mt-4 md:mt-6 px-6 py-2 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 transition-shadow shadow-lg transform hover:scale-105">
-                Learn More
+            <Link to="/contact">
+              <button className="px-6 py-2 mt-4 md:mt-6 bg-blue-500 text-white font-semibold rounded-full text-lg hover:bg-blue-600 transition-shadow shadow-lg transform hover:scale-105">
+                Contact Us
               </button>
             </Link>
           </div>
+
           {/* Image Section */}
-          <div className="md:w-1/2">
+          <div className="md:w-1/2 mt-6 md:mt-0">
             <img
               src="images.jpeg"
-              alt="About Us"
-              className="w-full rounded-2xl shadow-lg object-cover"
+              alt="Team at work"
+              className="rounded-3xl shadow-lg w-full h-auto object-cover"
             />
           </div>
         </div>
