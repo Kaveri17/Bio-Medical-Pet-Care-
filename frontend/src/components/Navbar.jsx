@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
+// import getCookieValue from "../api/getCookieValue";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);

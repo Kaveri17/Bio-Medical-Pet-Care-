@@ -33,3 +33,15 @@ export const createBreed = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// Get all breeds
+export const getAllBreeds = async (req, res) => {
+  try {
+    const breeds = await Breed.find().populate("animal_type")
+    res.status(200).json(breeds);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+

@@ -36,6 +36,7 @@ const MyRoutes = () => {
           <Route path="/reporttrack" element={<ReportTrack />} />
           <Route path="/vaccinationreport" element={<VaccinationReport />} />
           <Route path="/animaldetail" element={<AnimalDetail />} />
+          <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
         </Route>
       </Routes>
     </Router>
