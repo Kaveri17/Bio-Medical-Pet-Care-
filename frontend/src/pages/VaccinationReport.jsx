@@ -22,47 +22,41 @@ const vaccinationData = [
 ];
 
 const VaccinationReport = () => {
-  const matchingVaccines = vaccinationData;
-
-  // Calculate summary information
-  const totalVaccines = matchingVaccines.length;
-  const stableWeightCount = matchingVaccines.filter((vaccine) => vaccine.weight === 'Stable').length;
-  const raisedTemperatureCount = matchingVaccines.filter((vaccine) => vaccine.temperature === 'Slightly Raised').length;
-  const normalProductionCount = matchingVaccines.filter((vaccine) => vaccine.production === 'Normal').length;
+  const totalVaccines = vaccinationData.length;
+  const stableWeightCount = vaccinationData.filter((vaccine) => vaccine.weight === 'Stable').length;
+  const raisedTemperatureCount = vaccinationData.filter((vaccine) => vaccine.temperature === 'Slightly Raised').length;
+  const normalProductionCount = vaccinationData.filter((vaccine) => vaccine.production === 'Normal').length;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-3xl font-semibold mb-6 text-gray-800">Vaccine Report</h2>
+    <div className="min-h-screen bg-gray-50 p-6 flex justify-center items-start">
+      <div className="w-full max-w-7xl bg-white shadow-lg rounded-lg p-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">Vaccination Report</h2>
+        
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-sm sm:text-base bg-white rounded-lg shadow-md">
+          <table className="w-full border-collapse bg-white rounded-lg shadow-md">
             <thead>
-              <tr className="bg-gray-300 text-gray-800">
-                <th className="border py-3 px-4 text-left">Animal Type</th>
-                <th className="border py-3 px-4 text-left">Breed</th>
-                <th className="border py-3 px-4 text-left">Age</th>
-                <th className="border py-3 px-4 text-left">Vaccine</th>
-                <th className="border py-3 px-4 text-left">Last Vaccinated</th>
-                <th className="border py-3 px-4 text-left">Next Vaccination</th>
-                <th className="border py-3 px-4 text-left">Frequency</th>
-                <th className="border py-3 px-4 text-left">Weight</th>
-                <th className="border py-3 px-4 text-left">Temperature</th>
-                <th className="border py-3 px-4 text-left">Production</th>
+              <tr className="bg-blue-200 text-gray-800">
+                <th className="border py-2 px-4 text-left">Animal Type</th>
+                <th className="border py-2 px-4 text-left">Vaccine</th>
+                <th className="border py-2 px-4 text-left">Last Vaccinated</th>
+                <th className="border py-2 px-4 text-left">Next Vaccination</th>
+                <th className="border py-2 px-4 text-left">Frequency</th>
+                {/* <th className="border py-2 px-4 text-left">Weight</th>
+                <th className="border py-2 px-4 text-left">Temperature</th>
+                <th className="border py-2 px-4 text-left">Production</th> */}
               </tr>
             </thead>
             <tbody>
-              {matchingVaccines.map((vaccine, index) => (
-                <tr key={index} className="hover:bg-gray-100 transition duration-200 ease-in-out">
+              {vaccinationData.map((vaccine, index) => (
+                <tr key={index} className="hover:bg-gray-50 transition duration-200 ease-in-out">
                   <td className="border py-2 px-4">Cow</td>
-                  <td className="border py-2 px-4">HTerai Cattle</td>
-                  <td className="border py-2 px-4">10 years</td>
                   <td className="border py-2 px-4">{vaccine.vaccine}</td>
                   <td className="border py-2 px-4">{vaccine.lastVaccinated}</td>
                   <td className="border py-2 px-4">{vaccine.nextVaccination}</td>
                   <td className="border py-2 px-4">{vaccine.frequency}</td>
-                  <td className="border py-2 px-4 text-center">{vaccine.weight}</td>
+                  {/* <td className="border py-2 px-4 text-center">{vaccine.weight}</td>
                   <td className="border py-2 px-4 text-center">{vaccine.temperature}</td>
-                  <td className="border py-2 px-4 text-center">{vaccine.production}</td>
+                  <td className="border py-2 px-4 text-center">{vaccine.production}</td> */}
                 </tr>
               ))}
             </tbody>
@@ -70,29 +64,29 @@ const VaccinationReport = () => {
         </div>
 
         {/* Summary Report */}
-        <div className="mt-4 p-4 bg-gray-100 rounded-lg shadow-lg">
-          <h3 className="text-2xl font-semibold mb-4 text-gray-800 text-center">Summary Report</h3>
-          <div className="flex flex-col items-start">
-            <p className="text-lg mb-2">Total Number of Vaccinations: <span className="font-bold text-gray-700">{totalVaccines}</span></p>
-            <p className="text-lg mb-2">Weight Status: <span className="font-bold text-gray-700">{stableWeightCount} animals with stable weight</span>.</p>
-            <p className="text-lg mb-2">Temperature Status: <span className="font-bold text-gray-700">{raisedTemperatureCount} animals with a slight raise in temperature</span>.</p>
-            <p className="text-lg mb-4">Production Status: <span className="font-bold text-gray-700">{normalProductionCount} animals with normal milk production</span>.</p>
+        <div className="mt-6 p-6 bg-blue-200 rounded-lg shadow-md">
+  <h3 className="text-2xl font-semibold text-gray-800 mb-4">Summary Report</h3>
+  <p className="text-lg mb-2"><strong>Total Number of Vaccinations:</strong> <span className=" text-gray-700">{totalVaccines}</span></p>
+  <p className="text-lg mb-2"><strong>Weight Status:</strong> <span className=" text-gray-700">{stableWeightCount} animals with stable weight</span></p>
+  <p className="text-lg mb-2"><strong>Temperature Status:</strong> <span className=" text-gray-700">{raisedTemperatureCount} animals with a slight raise in temperature</span></p>
+  <p className="text-lg mb-4"><strong>Production Status:</strong> <span className=" text-gray-700">{normalProductionCount} animals with normal milk production</span></p>
 
-            <h4 className="text-xl font-semibold text-gray-800">Upcoming Vaccination Details</h4>
-            <ul className="mt-2">
-              {matchingVaccines.map((vaccine, index) => (
-                <li key={index} className="mt-2">
-                  <strong className="text-gray-700">{vaccine.vaccine}</strong>: Next vaccination scheduled for <span className="font-semibold text-gray-600">{vaccine.nextVaccination}</span>.
-                </li>
-              ))}
-            </ul>
-          </div>
+  <h4 className="text-xl font-semibold text-gray-800 mb-2"><strong>Upcoming Vaccination Details</strong></h4>
+  <ul className="space-y-2">
+    {vaccinationData.map((vaccine, index) => (
+      <li key={index} className="text-gray-700">
+        <strong className="font-semibold">{vaccine.vaccine}</strong>: Next vaccination scheduled for <span className="text-gray-600">{vaccine.nextVaccination}</span>.
+      </li>
+    ))}
+  </ul>
+</div>
 
-          {/* Conclusion */}
-          <div className="mt-4 p-4 bg-white rounded-lg shadow-md text-center">
-            <p className="text-lg font-semibold text-gray-800">Conclusion: Your animals are healthy and well-maintained. Continue to monitor their health and ensure timely vaccinations.</p>
-          </div>
-        </div>
+
+        {/* Conclusion */}
+        <div className="mt-6 p-4 bg-blue-300 text-center text-white rounded-lg shadow-md">
+  <p className="text-lg font-semibold">Conclusion: Your animals are healthy and well-maintained. Continue to monitor their health and ensure timely vaccinations.</p>
+</div>
+
       </div>
     </div>
   );
