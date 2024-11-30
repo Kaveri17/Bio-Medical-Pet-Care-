@@ -1,4 +1,4 @@
- [
+ const chickenData =[
     {
       "breed": "Sakini",
       "size": "Medium",
@@ -141,3 +141,4 @@
       ]
     }
   ]
+export default chickenData

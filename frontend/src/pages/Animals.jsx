@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Animals = () => {
   const animals = [
     { type: 'Dog', breed: 'Golden Retriever', gender: 'Male', age: 5 },
-    { type: 'Cow', breed: 'HTerai Cattle', gender: 'Female', age: 10 },
+    { type: 'Cow', breed: 'Terai Cattle', gender: 'Female', age: 10 },
     { type: 'Hen', breed: 'Ghanti Khuile', gender: 'Female', age: 2 },
   ];
 

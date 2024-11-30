@@ -36,3 +36,5 @@ export const addUsersAnimal = async (req, res) => {
     res.status(500).json({ message: "Error adding user animal" });
   }
 };
+
+//get all user
