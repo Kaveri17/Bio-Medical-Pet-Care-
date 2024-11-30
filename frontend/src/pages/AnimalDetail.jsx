@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 const AnimalDetailForm = () => {
   const [formData, setFormData] = useState({
@@ -8,8 +9,9 @@ const AnimalDetailForm = () => {
     age: ''
   });
 
+  const navigate = useNavigate(); // Hook for navigation
+
   const handleChange = (e) => {
-    
     const { name, value } = e.target;
 
     if (name === 'age' && (value < 1 || isNaN(value))) {
@@ -23,10 +25,11 @@ const AnimalDetailForm = () => {
     setFormData({ ...formData, type: e.target.value });
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Animal Details Submitted:', formData);
+    // You can add logic to navigate to the AnimalDetail page after submission if needed
+    navigate('/animal-detail', { state: { animal: formData } });
   };
 
   return (
@@ -110,7 +113,7 @@ const AnimalDetailForm = () => {
 
           <div className="mb-4">
             <label htmlFor="age" className="block text-gray-700 font-medium mb-2">
-              Age 
+              Age
             </label>
             <input
               type="number"
@@ -132,6 +135,17 @@ const AnimalDetailForm = () => {
             Add Animal
           </button>
         </form>
+        
+        {/* Add a sample card for demonstration */}
+        <Link to="/animal-detail" state={{ animal: formData }}>
+          <div className="mt-4 p-4 border border-blue-300 rounded cursor-pointer hover:bg-blue-50 transition">
+            <h3 className="text-xl font-bold">Sample Animal Card</h3>
+            <p>Type: {formData.type}</p>
+            <p>Breed: {formData.breed}</p>
+            <p>Gender: {formData.gender}</p>
+            <p>Age: {formData.age} years</p>
+          </div>
+        </Link>
       </div>
     </div>
   );

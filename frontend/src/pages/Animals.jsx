@@ -24,6 +24,7 @@ const Animals = () => {
             key={index}
             className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center border border-gray-200 hover:shadow-xl transition duration-300 hover:bg-blue-300"
           >
+            
             <div className="w-24 h-24 flex justify-center items-center bg-blue-100 rounded-full mb-4">
               <i className={`fas ${animal.type === 'Dog' ? 'fa-dog' : animal.type === 'Cow' ? 'fa-cow' : 'fa-kiwi-bird'} text-4xl text-blue-500`}></i>
             </div>

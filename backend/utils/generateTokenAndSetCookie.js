@@ -13,6 +13,10 @@ export const generateTokenAndSetCookie = (res,userId) =>{
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
+    // res.json({
+    //     message: 'Token generated successfully',
+    //     token: token, // Send the token to the client
+    //   });
     // res.cookie('token',token, {expire:Date.now() + 86400})
 
 

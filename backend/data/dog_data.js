@@ -1,4 +1,4 @@
-const dogData = [
+const dogData =[
     {
       "breed": "Nepali Sheepdog",
       "size": "Medium",
@@ -187,4 +187,4 @@ const dogData = [
       
   ]
   
-  export default dogData
+export default dogData;

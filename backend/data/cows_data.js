@@ -1,4 +1,4 @@
-const  cowData = [
+const cowData =[
     {
       "breed": "Lulu",
       "size": "Medium",
@@ -253,4 +253,4 @@ const  cowData = [
     }
   ]
 
-  export default cowData
+  export default cowData;

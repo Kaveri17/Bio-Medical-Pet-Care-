@@ -1,4 +1,4 @@
- const chickenData =[
+const chickenData =[
     {
       "breed": "Sakini",
       "size": "Medium",
