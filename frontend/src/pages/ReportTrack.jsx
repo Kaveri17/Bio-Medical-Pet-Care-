@@ -49,15 +49,15 @@ const ReportTrack = () => {
       // Log full error response
       console.error("API Error:", err);
 
-      // Handle different types of error responses
+
       if (err.response) {
-        // API responded with an error (e.g., 400 or 500 status)
+       
         setError(err.response.data?.error || err.response.data?.message || "An error occurred.");
       } else if (err.request) {
-        // No response was received (e.g., network error)
+        
         setError("No response received from the server.");
       } else {
-        // Other errors (e.g., setup issues)
+      
         setError(`Error: ${err.message}`);
       }
 
@@ -114,7 +114,11 @@ const ReportTrack = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md border border-blue-300">
+      {error && <div className="error">{typeof error === 'object' ? JSON.stringify(error) : error}</div>}
+         {success && <div className="success">Report submitted successfully!</div>}
+
         <h2 className="text-3xl font-bold text-blue-900 mb-6">Daily Report</h2>
+
         <form onSubmit={handleSubmit}>
 
           <div className="mb-4">
@@ -172,9 +176,7 @@ const ReportTrack = () => {
             Add Report
                   </button>
         </form>
-        {error && <div className="error">{typeof error === 'object' ? JSON.stringify(error) : error}</div>}
-{success && <div className="success">Report submitted successfully!</div>}
-
+        
       </div>
     </div>
   );

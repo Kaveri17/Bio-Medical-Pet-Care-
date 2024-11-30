@@ -14,6 +14,7 @@ import AnimalDetail from './pages/AnimalDetail';
 import HealthTrack from './pages/HealthTrack';
 import ReportTrack from './pages/ReportTrack';
 import VaccinationReport from './pages/VaccinationReport';
+import VaccineReminderNotification from './pages/VaccineReminderNotification';
 
 const MyRoutes = () => {
   return (
@@ -34,6 +35,7 @@ const MyRoutes = () => {
           <Route path="/reporttrack" element={<ReportTrack />} />
           <Route path="/vaccinationreport" element={<VaccinationReport />} />
           <Route path="/animaldetail" element={<AnimalDetail />} />
+          <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
         </Route>
       </Routes>
     </Router>
