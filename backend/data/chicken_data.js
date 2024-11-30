@@ -141,5 +141,4 @@ const chickenData =[
       ]
     }
   ]
-
-  export default chickenData
+export default chickenData

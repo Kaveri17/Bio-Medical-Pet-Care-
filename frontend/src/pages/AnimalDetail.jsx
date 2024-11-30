@@ -215,6 +215,10 @@ const AnimalDetailForm = () => {
 
   // State to store the fetched animal types
   const [animalTypes, setAnimalTypes] = useState([]);
+  const navigate = useNavigate(); // Hook for navigation
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
   const [breeds, setBreeds] = useState([]);
 
@@ -383,10 +387,20 @@ const AnimalDetailForm = () => {
             {isSubmitting ? 'Submitting...' : 'Add Animal'}
           </button>
         </form>
+        
+        {/* Add a sample card for demonstration */}
+        <Link to="/animal-detail" state={{ animal: formData }}>
+          <div className="mt-4 p-4 border border-blue-300 rounded cursor-pointer hover:bg-blue-50 transition">
+            <h3 className="text-xl font-bold">Sample Animal Card</h3>
+            <p>Type: {formData.type}</p>
+            <p>Breed: {formData.breed}</p>
+            <p>Gender: {formData.gender}</p>
+            <p>Age: {formData.age} years</p>
+          </div>
+        </Link>
       </div>
     </div>
   );
 };
-
-export default AnimalDetailForm;
-
+}
+export default AnimalDetailForm

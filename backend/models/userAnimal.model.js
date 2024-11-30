@@ -17,6 +17,7 @@ const userAnimalSchema = new mongoose.Schema(
       ref:"Breed",
       required:true
     },
+    
     age: {
       type: Number,
       required: true,
