@@ -26,6 +26,8 @@ const VaccinationReport = () => {
 
   // Calculate summary information
   const totalVaccines = matchingVaccines.length;
+
+  // Calculate overall status for weight, temperature, and production
   const stableWeightCount = matchingVaccines.filter((vaccine) => vaccine.weight === 'Stable').length;
   const raisedTemperatureCount = matchingVaccines.filter((vaccine) => vaccine.temperature === 'Slightly Raised').length;
   const normalProductionCount = matchingVaccines.filter((vaccine) => vaccine.production === 'Normal').length;
@@ -70,27 +72,22 @@ const VaccinationReport = () => {
         </div>
 
         {/* Summary Report */}
-        <div className="mt-4 p-4 bg-gray-100 rounded-lg shadow-lg">
-          <h3 className="text-2xl font-semibold mb-4 text-gray-800 text-center">Summary Report</h3>
-          <div className="flex flex-col items-start">
-            <p className="text-lg mb-2">Total Number of Vaccinations: <span className="font-bold text-gray-700">{totalVaccines}</span></p>
-            <p className="text-lg mb-2">Weight Status: <span className="font-bold text-gray-700">{stableWeightCount} animals with stable weight</span>.</p>
-            <p className="text-lg mb-2">Temperature Status: <span className="font-bold text-gray-700">{raisedTemperatureCount} animals with a slight raise in temperature</span>.</p>
-            <p className="text-lg mb-4">Production Status: <span className="font-bold text-gray-700">{normalProductionCount} animals with normal milk production</span>.</p>
+        <div className="mt-8 p-4 bg-gray-100 rounded-lg shadow-lg text-center">
+          <h3 className="text-2xl font-semibold mb-4 text-gray-800">Summary Report</h3>
+          <p className="text-lg mb-2">Total Number of Vaccinations: <span className="font-bold text-gray-700">{totalVaccines}</span></p>
+          <p className="text-lg mb-2">Weight Status: <span className="font-bold text-gray-700">{stableWeightCount} animals with stable weight</span>.</p>
+          <p className="text-lg mb-2">Temperature Status: <span className="font-bold text-gray-700">{raisedTemperatureCount} animals with a slight raise in temperature</span>.</p>
+          <p className="text-lg mb-4">Production Status: <span className="font-bold text-gray-700">{normalProductionCount} animals with normal milk production</span>.</p>
 
+          <div className="mt-4">
             <h4 className="text-xl font-semibold text-gray-800">Upcoming Vaccination Details</h4>
-            <ul className="mt-2">
+            <ul className="text-left mt-2">
               {matchingVaccines.map((vaccine, index) => (
                 <li key={index} className="mt-2">
                   <strong className="text-gray-700">{vaccine.vaccine}</strong>: Next vaccination scheduled for <span className="font-semibold text-gray-600">{vaccine.nextVaccination}</span>.
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Conclusion */}
-          <div className="mt-4 p-4 bg-white rounded-lg shadow-md text-center">
-            <p className="text-lg font-semibold text-gray-800">Conclusion: Your animals are healthy and well-maintained. Continue to monitor their health and ensure timely vaccinations.</p>
           </div>
         </div>
       </div>
