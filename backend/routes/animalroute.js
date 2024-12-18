@@ -9,6 +9,7 @@ import {
 
 const router = express.Router();
 
+
 router.post("/addanimal", addanimal);
 router.get("/getallanimal", getAllAnimals);
 router.get("/getanimals/:id", getAnimalById);

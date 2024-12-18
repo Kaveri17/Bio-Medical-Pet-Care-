@@ -16,15 +16,34 @@ export const addUserAnimal = (animalData, token) => {
 };
 
 // Get all user's animals
+// export const getAllUserAnimals = (token) => {
+//     return fetch(`${API}/useranimal/alluseranimals`, {
+//         headers: {
+//             "Authorization": `Bearer ${token}`
+//         }
+//     })
+//     .then(response => response.json())
+//     .catch(error => console.error("Error fetching all user animals:", error));
+// };
+
 export const getAllUserAnimals = (token) => {
-    return fetch(`${API}/useranimal/getall`, {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
+    return fetch(`${API}/useranimal/alluseranimals`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass token in Authorization header
+      },
     })
-    .then(response => response.json())
-    .catch(error => console.error("Error fetching all user animals:", error));
-};
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch user animals");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Error fetching all user animals:", error);
+        return { error: error.message };
+      });
+  };
+  
 
 // Get a specific user's animal by ID
 export const getUserAnimalById = (id, token) => {

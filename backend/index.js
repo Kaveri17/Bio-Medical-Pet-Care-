@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser())
 
 const corsOptions = {
-  origin: 'http://localhost:5173',  // Allow only this frontend URL
+  origin: 'http://localhost:5177',  // Allow only this frontend URL
   credentials: true,  // Allow cookies and credentials to be sent
 };
 

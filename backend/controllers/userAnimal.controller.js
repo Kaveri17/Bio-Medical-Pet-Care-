@@ -38,3 +38,21 @@ export const addUsersAnimal = async (req, res) => {
 };
 
 //get all user
+
+//get all userAnimal 
+export const getUserAnimals = async (req, res) => {
+  try {
+    const userId = req.userId; // Retrieved from token in the middleware
+    const userAnimals = await UserAnimal.find({ user: userId })
+      .populate("breed")
+      .populate("animal_type");
+    
+    if (userAnimals.length === 0) {
+      return res.status(404).json({ success: false, message: "No animals found for this user" });
+    }
+
+    res.status(200).json({ success: true, data: userAnimals });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

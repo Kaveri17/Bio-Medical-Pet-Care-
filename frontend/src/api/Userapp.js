@@ -29,6 +29,8 @@ export const login = (email, password) => {
     .catch((error) => console.log(error));
 };
 
+
+
 //forgot password
 
 export const forgotpassword = (email) => {
@@ -71,3 +73,27 @@ export const verifyEmail = (code) => {
       .then((response) => response.json())
       .catch((error) => console.log(error));
   };
+
+  export const authenticate = (data) => {
+    return fetch(`${API}/user/protected-route`, {
+      method: 'GET', // or 'POST', depending on your route
+      credentials: 'include',  // This ensures cookies are sent with the request
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Data received:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    
+}
+// to check if logged in
+export const isAuthenticate = () => {
+    if (localStorage.getItem('jwt')) {
+        return JSON.parse(localStorage.getItem('jwt'))
+    }
+    else {
+        return false
+    }
+}

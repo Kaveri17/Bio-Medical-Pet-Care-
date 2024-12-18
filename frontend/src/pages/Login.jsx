@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../api/Userapp';
+import { authenticate, isAuthenticate, login } from '../api/Userapp';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +19,7 @@ const Login = () => {
       } else{
         setSuccess(false)
         setError("")
+        authenticate(data)
         navigate("/")
         
       }
@@ -44,6 +45,17 @@ const Login = () => {
       )
     }
   }
+  // const redirect = () => {
+  //   // role= isAuthenticate().user.role
+  //   if (success) {
+  //     if (isAuthenticate().user.role === 1) {
+  //       return navigate('/admin/dashboard')
+  //     }
+  //     else {
+  //       return navigate('/')
+  //     }
+  //   }
+  // }
 
 
   return (
