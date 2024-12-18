@@ -24,67 +24,89 @@ const vaccinationData = [
 const VaccinationReport = () => {
   const matchingVaccines = vaccinationData;
 
-  // Calculate summary information
   const totalVaccines = matchingVaccines.length;
-
-  // Calculate overall status for weight, temperature, and production
   const stableWeightCount = matchingVaccines.filter((vaccine) => vaccine.weight === 'Stable').length;
   const raisedTemperatureCount = matchingVaccines.filter((vaccine) => vaccine.temperature === 'Slightly Raised').length;
   const normalProductionCount = matchingVaccines.filter((vaccine) => vaccine.production === 'Normal').length;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-3xl font-semibold mb-6 text-gray-800">Vaccine Report</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-sm sm:text-base bg-white rounded-lg shadow-md">
-            <thead>
-              <tr className="bg-gray-300 text-gray-800">
-                <th className="border py-3 px-4 text-left">Animal Type</th>
-                <th className="border py-3 px-4 text-left">Breed</th>
-                <th className="border py-3 px-4 text-left">Age</th>
-                <th className="border py-3 px-4 text-left">Vaccine</th>
-                <th className="border py-3 px-4 text-left">Last Vaccinated</th>
-                <th className="border py-3 px-4 text-left">Next Vaccination</th>
-                <th className="border py-3 px-4 text-left">Frequency</th>
-                <th className="border py-3 px-4 text-left">Weight</th>
-                <th className="border py-3 px-4 text-left">Temperature</th>
-                <th className="border py-3 px-4 text-left">Production</th>
-              </tr>
-            </thead>
-            <tbody>
-              {matchingVaccines.map((vaccine, index) => (
-                <tr key={index} className="hover:bg-gray-100 transition duration-200 ease-in-out">
-                  <td className="border py-2 px-4">Cow</td>
-                  <td className="border py-2 px-4">HTerai Cattle</td>
-                  <td className="border py-2 px-4">10 years</td>
-                  <td className="border py-2 px-4">{vaccine.vaccine}</td>
-                  <td className="border py-2 px-4">{vaccine.lastVaccinated}</td>
-                  <td className="border py-2 px-4">{vaccine.nextVaccination}</td>
-                  <td className="border py-2 px-4">{vaccine.frequency}</td>
-                  <td className="border py-2 px-4 text-center">{vaccine.weight}</td>
-                  <td className="border py-2 px-4 text-center">{vaccine.temperature}</td>
-                  <td className="border py-2 px-4 text-center">{vaccine.production}</td>
+    <div className="min-h-screen bg-gradient-to-br from-green-100 to-blue-200 flex flex-col items-center justify-center py-10 px-6">
+      <div className="w-full max-w-5xl bg-white shadow-xl rounded-lg overflow-hidden">
+        <header className="bg-blue-600 text-white py-4 px-6">
+          <h2 className="text-2xl font-bold">Animal Vaccination Report</h2>
+        </header>
+
+        <div className="p-6">
+          {/* Vaccine Table */}
+          <div className="overflow-x-auto mb-8">
+            <table className="w-full border-collapse bg-white text-sm sm:text-base">
+              <thead className="bg-blue-100 text-gray-800">
+                <tr>
+                  <th className="border py-3 px-4 text-left">Animal Type</th>
+                  <th className="border py-3 px-4 text-left">Breed</th>
+                  <th className="border py-3 px-4 text-left">Age</th>
+                  <th className="border py-3 px-4 text-left">Vaccine</th>
+                  <th className="border py-3 px-4 text-left">Last Vaccinated</th>
+                  <th className="border py-3 px-4 text-left">Next Vaccination</th>
+                  <th className="border py-3 px-4 text-left">Frequency</th>
+                  <th className="border py-3 px-4 text-center">Weight</th>
+                  <th className="border py-3 px-4 text-center">Temperature</th>
+                  <th className="border py-3 px-4 text-center">Production</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {matchingVaccines.map((vaccine, index) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-blue-50 transition duration-200"
+                  >
+                    <td className="border py-2 px-4">Cow</td>
+                    <td className="border py-2 px-4">Terai Cattle</td>
+                    <td className="border py-2 px-4">10 years</td>
+                    <td className="border py-2 px-4">{vaccine.vaccine}</td>
+                    <td className="border py-2 px-4">{vaccine.lastVaccinated}</td>
+                    <td className="border py-2 px-4">{vaccine.nextVaccination}</td>
+                    <td className="border py-2 px-4">{vaccine.frequency}</td>
+                    <td className="border py-2 px-4 text-center">{vaccine.weight}</td>
+                    <td className="border py-2 px-4 text-center">{vaccine.temperature}</td>
+                    <td className="border py-2 px-4 text-center">{vaccine.production}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        {/* Summary Report */}
-        <div className="mt-8 p-4 bg-gray-100 rounded-lg shadow-lg text-center">
-          <h3 className="text-2xl font-semibold mb-4 text-gray-800">Summary Report</h3>
-          <p className="text-lg mb-2">Total Number of Vaccinations: <span className="font-bold text-gray-700">{totalVaccines}</span></p>
-          <p className="text-lg mb-2">Weight Status: <span className="font-bold text-gray-700">{stableWeightCount} animals with stable weight</span>.</p>
-          <p className="text-lg mb-2">Temperature Status: <span className="font-bold text-gray-700">{raisedTemperatureCount} animals with a slight raise in temperature</span>.</p>
-          <p className="text-lg mb-4">Production Status: <span className="font-bold text-gray-700">{normalProductionCount} animals with normal milk production</span>.</p>
+          {/* Summary Section */}
+          <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-4 text-gray-800">Summary Report</h3>
+            <div className="text-lg space-y-3">
+              <p>
+                <strong>Total Vaccinations:</strong>{' '}
+                <span className="text-blue-600 font-semibold">{totalVaccines}</span>
+              </p>
+              <p>
+                <strong>Weight Status:</strong>{' '}
+                <span className="text-green-600">{stableWeightCount} animals with stable weight</span>.
+              </p>
+              <p>
+                <strong>Temperature Status:</strong>{' '}
+                <span className="text-orange-600">{raisedTemperatureCount} animals with slightly raised temperature</span>.
+              </p>
+              <p>
+                <strong>Production Status:</strong>{' '}
+                <span className="text-blue-600">{normalProductionCount} animals with normal production</span>.
+              </p>
+            </div>
+          </div>
 
-          <div className="mt-4">
-            <h4 className="text-xl font-semibold text-gray-800">Upcoming Vaccination Details</h4>
-            <ul className="text-left mt-2">
+          {/* Upcoming Vaccinations */}
+          <div className="mt-8">
+            <h4 className="text-xl font-semibold text-gray-800">Upcoming Vaccinations</h4>
+            <ul className="mt-4 space-y-2">
               {matchingVaccines.map((vaccine, index) => (
-                <li key={index} className="mt-2">
-                  <strong className="text-gray-700">{vaccine.vaccine}</strong>: Next vaccination scheduled for <span className="font-semibold text-gray-600">{vaccine.nextVaccination}</span>.
+                <li key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                  <strong className="text-gray-800">{vaccine.vaccine}</strong> - Next vaccination: 
+                  <span className="text-blue-600 font-medium"> {vaccine.nextVaccination}</span>
                 </li>
               ))}
             </ul>

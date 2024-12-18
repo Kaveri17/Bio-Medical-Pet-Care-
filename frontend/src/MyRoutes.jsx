@@ -15,6 +15,7 @@ import HealthTrack from './pages/HealthTrack';
 import ReportTrack from './pages/ReportTrack';
 import VaccinationReport from './pages/VaccinationReport';
 import SummaryReport from './pages/SummaryReport';
+import VaccineReminderNotification from './pages/VaccineReminderNotification';
 
 const MyRoutes = () => {
   return (

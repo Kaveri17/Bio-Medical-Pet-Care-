@@ -11,7 +11,7 @@ const Animals = () => {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
       
-      <Link to="/animaldetail">
+      <Link to="/animal-detail">
         <button className="bg-blue-400 text-white px-4 py-2 rounded flex items-center mb-4 hover:bg-blue-500 transition duration-200">
           <i className="fas fa-plus mr-2"></i>
           Add new animal
