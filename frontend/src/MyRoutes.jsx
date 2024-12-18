@@ -19,7 +19,6 @@ import VaccineReminderNotification from './pages/VaccineReminderNotification';
 import HealthTrack1 from './pages/HealthTrack1';
 import ReportTrack1 from './pages/ReportTrack1';
 
-
 const MyRoutes = () => {
   return (
     <Router>

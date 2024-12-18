@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-let API = "http://localhost:5000/api";
+import { Link } from 'react-router-dom';
+let API = "http://localhost:5001/api";
 
 const VaccinationReport = () => {
   const [vaccinationData, setVaccinationData] = useState([]);
@@ -62,7 +63,12 @@ const VaccinationReport = () => {
                   <tr key={index} className="hover:bg-gray-100 transition duration-200 ease-in-out">
                     <td className="border py-2 px-4">{vaccine.vaccine_name}</td>
                     <td className="border py-2 px-4">{vaccine.next_vaccination_date}</td>
-                    <td className="border py-2 px-4">{vaccinationStatus}</td>
+                    <td className="border py-2 px-4">
+                      <Link to='/vaccinenoti'>
+                      
+                      {vaccinationStatus}
+                      </Link>
+                      </td>
                   </tr>
                 );
               })}
