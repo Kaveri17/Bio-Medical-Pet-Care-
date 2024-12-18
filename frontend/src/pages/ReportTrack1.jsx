@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 let API = "http://localhost:5000/api";
 
 import axios from 'axios';
-const ReportTrack = () => {
+const ReportTrack1 = () => {
    const token  = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQ4YjI1ODAyNWZmMzg2Y2M1ODU1ZGUiLCJpYXQiOjE3MzI4NzQ3MDgsImV4cCI6MTczMzQ3OTUwOH0.avq6CkMMr2PYiQ_qpI7PVV8pnxWyhzaBRE5WA9AxtmQ"
 
    const [formData, setFormData] = useState({
 
     weight: '',
     temperature: '',
-    milkProduction: '',
+    // milkProduction: '',
   });
 
   const [error, setError] = useState('');
@@ -25,7 +25,8 @@ const ReportTrack = () => {
     e.preventDefault();
 
     // Validate the form
-    if (!formData.weight || !formData.temperature || !formData.milkProduction) {
+    if (!formData.weight || !formData.temperature) {
+        // if (!formData.weight || !formData.temperature || !formData.milkProduction) {
       setError("All fields are required!");
       return;
     }
@@ -44,7 +45,8 @@ const ReportTrack = () => {
 
       // Handle successful response
       setSuccess(true);
-      setFormData({ weight: '', temperature: '', milkProduction: '' });  // Reset form data
+    //   setFormData({ weight: '', temperature: '', milkProduction: '' });
+      setFormData({ weight: '', temperature: '' });  // Reset form data
     } catch (err) {
       // Log full error response
       console.error("API Error:", err);
@@ -153,7 +155,7 @@ const ReportTrack = () => {
             />
           </div>
 
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label htmlFor="milkProduction" className="block text-gray-700 font-medium mb-2">
               Milk Production
             </label>
@@ -167,7 +169,7 @@ const ReportTrack = () => {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500"
               required
             />
-          </div>
+          </div> */}
 
           <button
             type="submit"
@@ -182,4 +184,4 @@ const ReportTrack = () => {
   );
 };
 
-export default ReportTrack;
+export default ReportTrack1;

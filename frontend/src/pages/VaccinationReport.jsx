@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-let API = "http://localhost:5001/api";
+let API = "http://localhost:5000/api";
 
 const VaccinationReport = () => {
   const [vaccinationData, setVaccinationData] = useState([]);

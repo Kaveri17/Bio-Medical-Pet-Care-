@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 let API = "http://localhost:5000/api";
-const HealthTrack = () => {
+const HealthTrack1 = () => {
   const [weeklyData, setWeeklyData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ const HealthTrack = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col justify-center items-center p-4">
-      <h2 className="text-3xl font-bold mb-6 text-blue-900 text-center">Cow's Daily Data Track</h2>
+      <h2 className="text-3xl font-bold mb-6 text-blue-900 text-center">Dog's Daily Data Track</h2>
 
       {loading ? (
         <p className="text-blue-700 font-semibold">Loading data...</p>
@@ -42,7 +42,7 @@ const HealthTrack = () => {
               <tr>
                 <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">Day</th>
                 <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">Weight</th>
-                <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">Milk Production</th>
+                {/* <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">Milk Production</th> */}
                 <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">Temperature</th>
               </tr>
             </thead>
@@ -51,7 +51,7 @@ const HealthTrack = () => {
                 <tr key={index}>
                   <td className="border border-gray-300 px-4 py-2 text-gray-700">{index+1}</td>
                   <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.weight}</td>
-                  <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.production}</td>
+                  {/* <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.production}</td> */}
                   <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.temperature}</td>
                 </tr>
               ))}
@@ -60,7 +60,7 @@ const HealthTrack = () => {
         </div>
       )}
 
-      <Link to="/reporttrack">
+      <Link to="/reporttrack1">
         <button className="bg-blue-600 text-white px-6 py-2 rounded mt-6 hover:bg-blue-700 transition duration-200 shadow-md w-full sm:w-auto">
           Add Daily Report Tracking
         </button>
@@ -84,4 +84,4 @@ const HealthTrack = () => {
   );
 };
 
-export default HealthTrack;
+export default HealthTrack1;
