@@ -7,28 +7,69 @@ import { authenticate, isAuthenticate } from "../api/Userapp";
 const Animals = () => {
   const [animals, setAnimals] = useState([]);
   const [error, setError] = useState(null);
+  const [token, setToken] = useState(null);
 
-  // Fetch token from cookies
-  const token = authenticate()
-  console.log("Token from cookies:", token);
+  // Fetch token from /check-auth endpoint
+  useEffect(() => {
+
+    const fetchToken = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/user/check-auth", {
+          credentials: "include", // Include cookies in the request
+        });
+        const data = await response.json();
+        console.log("data:",data.token)
+
+        if (data.success) {
+          setToken(data.token);
+          console.log("Token:",token)
+        } else {
+          setError("Unauthorized: Please log in.");
+        }
+      } catch (err) {
+        setError("An error occurred while authenticating.");
+      }
+    };
+
+    fetchToken();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("Token:",token)
+  //   if (!token) {
+  //     setError("Unauthorized: No token found. Please log in.");
+  //     return;
+  //   }
+
+  //   // Fetch animals if token is present
+  //   getAllUserAnimals(token)
+  //     .then((data) => {
+  //       if (data?.error) {
+  //         setError(data.error);
+  //       } else {
+  //         setAnimals(data);
+  //       }
+  //     })
+  //     .catch((err) => setError("An error occurred while fetching animals."));
+  // }, [token]);
 
   useEffect(() => {
-    if (!token) {
-      setError("Unauthorized: No token found. Please log in.");
-      return;
+    console.log("Token before API call:", token); // Debug log
+  
+    if (token) {
+      getAllUserAnimals(token)
+        .then((data) => {
+          console.log("API Response:", data); // Debug log
+          if (data.error) {
+            setError(data.error);
+          } else {
+            setAnimals(data.animals || []);
+          }
+        })
+        .catch(() => setError("An error occurred while fetching animals."));
     }
-
-    // Fetch animals if token is present
-    getAllUserAnimals(token)
-      .then((data) => {
-        if (data?.error) {
-          setError(data.error);
-        } else {
-          setAnimals(data);
-        }
-      })
-      .catch((err) => setError("An error occurred while fetching animals."));
   }, [token]);
+  
 
   if (error) {
     return (

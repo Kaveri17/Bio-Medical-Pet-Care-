@@ -75,7 +75,7 @@ export const verifyEmail = (code) => {
   };
 
   export const authenticate = (data) => {
-    return fetch(`${API}/user/protected-route`, {
+    return fetch(`${API}/user/check-auth`, {
       method: 'GET', // or 'POST', depending on your route
       credentials: 'include',  // This ensures cookies are sent with the request
     })

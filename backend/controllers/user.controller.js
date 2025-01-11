@@ -226,7 +226,8 @@ export const checkAuth = async (req, res) => {
         .status(400)
         .json({ success: false, message: "User not found" });
     }
-    res.status(200).json({ success: true, user });
+    // Include the token in the response
+    res.status(200).json({ success: true, user, token: req.cookies.token });
   } catch (error) {
     console.log("Error in checkAuth", error);
     res.status(500).json({ success: false, message: error.message });

@@ -6,10 +6,12 @@ const Footer = () => {
     <footer className="bg-blue-200 py-10">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-start px-6">
         {/* Logo Section */}
-        <div className="flex items-center mb-6 md:mb-0">
+        <div className="flex items-center  mb-6 md:mb-0">
           <img src="logo.png" className="w-16 h-16 mr-2" alt="Vet Vitals Logo" />
           <h1 className="text-2xl font-bold text-blue-500">Vet Vitals</h1>
+
         </div>
+        
 
         {/* Quick Links */}
         <div className="flex flex-col mb-6 md:mb-0">

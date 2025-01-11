@@ -16,6 +16,8 @@ import ReportTrack from './pages/ReportTrack';
 import VaccinationReport from './pages/VaccinationReport';
 import SummaryReport from './pages/SummaryReport';
 import VaccineReminderNotification from './pages/VaccineReminderNotification';
+import AdminDashboard from './Admin/AdminDashboard';
+import AdminMessage from './Admin/AdminMessage';
 
 
 const MyRoutes = () => {
@@ -42,6 +44,13 @@ const MyRoutes = () => {
           <Route path="/animaldetail" element={<AnimalDetail />} />
           <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
         </Route>
+
+         {/* Admin */}
+          <Route path="/adminmessage" element={<AdminMessage/>}/>
+          
+          <Route path="/admin/dashboard" element={<AdminDashboard/>}>
+         
+          </Route>
       </Routes>
     </Router>
   );

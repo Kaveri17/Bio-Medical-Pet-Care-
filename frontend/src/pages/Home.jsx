@@ -161,7 +161,37 @@ const Home = () => {
             />
           </div>
         </div>
+        
       </div>
+       {/* news letter */}
+      <div className='w-full bg-blue-50  '>
+  
+          <div className='  text-center py-12 '>
+            <h1 className=' p-3  text-3xl md:text-3xl font-bold '>Join Our Newsletter</h1>
+            <p className='text-xl md:text-xl'>Sign up to receive our Newsletter</p>
+            <div className="flex items-center justify-center   pb-12 pt-6 ">
+          
+          <form className="flex flex-col md:flex-row w-full max-w-3xl   md:px-0 ">
+            <input
+              className="border border-stone-400 w-full py-2 px-3 pl-8 rounded-full mb-4 md:mb-0 md:mr-2"
+              type="email"
+              placeholder="Enter Your E-mail Address"
+            
+
+            
+            />
+            
+            <button className="border-2 rounded-full px-8 py-3 text-lg font-semibold transition duration-200 ease-in-out hover:bg-red-200  bg-red-400 text-white ">
+              Subscribe
+            </button>
+          </form>
+        </div>
+
+
+          </div>
+        </div>
+
+        
     </>
   );
 };
