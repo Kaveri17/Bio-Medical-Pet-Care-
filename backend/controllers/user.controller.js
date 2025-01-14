@@ -4,7 +4,7 @@ import bcryptjs from "bcryptjs";
 
 // local functions/models imports
 import { User } from "../models/user.model.js";
-import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
+import  generateTokenAndSetCookie  from "../utils/generateTokenAndSetCookie.js";
 import {
   sendPasswordResetEmail,
   sendResetSuccessEmail,
@@ -125,7 +125,7 @@ export const login = async (req, res) => {
         .json({ success: false, message: "Invalid password" });
     }
     generateTokenAndSetCookie(res,user._id);
-    console.log()
+    // console.log()
     user.lastLogin = new Date();
     await user.save();
     res.status(200).json({
@@ -227,7 +227,8 @@ export const checkAuth = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
     // Include the token in the response
-    res.status(200).json({ success: true, user, token: req.cookies.token });
+    // res.status(200).json({ success: true, user, token: req.cookies.token });
+    res.status(200).json({ success: true, user});
   } catch (error) {
     console.log("Error in checkAuth", error);
     res.status(500).json({ success: false, message: error.message });

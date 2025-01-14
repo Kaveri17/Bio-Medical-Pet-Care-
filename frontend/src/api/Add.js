@@ -26,11 +26,9 @@ export const addUserAnimal = (animalData, token) => {
 //     .catch(error => console.error("Error fetching all user animals:", error));
 // };
 
-export const getAllUserAnimals = (token) => {
+export const getAllUserAnimals = () => {
     return fetch(`${API}/useranimal/alluseranimals`, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Pass token in Authorization header
-      },
+      credentials: "include", // Include cookies in the request
     })
       .then((response) => {
         if (!response.ok) {
