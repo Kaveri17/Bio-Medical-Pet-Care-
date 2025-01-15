@@ -24,6 +24,7 @@ const ReportTrack = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("formdata:",formData)
     // Validate the form
     if (!formData.weight || !formData.temperature || !formData.milkProduction) {
       setError("All fields are required!");

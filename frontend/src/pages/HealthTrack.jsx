@@ -17,6 +17,7 @@ const HealthTrack = () => {
         }
         const data = await response.json();
         setWeeklyData(data);
+        console.log("weeklyData:",weeklyData)
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -47,14 +48,23 @@ const HealthTrack = () => {
               </tr>
             </thead>
             <tbody>
-              {weeklyData.map((data, index) => (
+              {/* {weeklyData.map((data, index) => (
                 <tr key={index}>
                   <td className="border border-gray-300 px-4 py-2 text-gray-700">{index+1}</td>
                   <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.weight}</td>
                   <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.production}</td>
                   <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.temperature}</td>
                 </tr>
-              ))}
+              ))} */}
+              {weeklyData.slice(-7).reverse().map((data, index) => (
+  <tr key={index}>
+    <td className="border border-gray-300 px-4 py-2 text-gray-700">{index + 1}</td>
+    <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.weight}</td>
+    <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.production}</td>
+    <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">{data.temperature}</td>
+  </tr>
+))}
+
             </tbody>
           </table>
         </div>
