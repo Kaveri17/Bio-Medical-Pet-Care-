@@ -17,7 +17,10 @@ import VaccinationReport from './pages/VaccinationReport';
 import SummaryReport from './pages/SummaryReport';
 import VaccineReminderNotification from './pages/VaccineReminderNotification';
 import AdminDashboard from './Admin/AdminDashboard';
+
+import MessageView from './layout/MessageView';
 import AdminMessage from './Admin/AdminMessage';
+
 
 
 const MyRoutes = () => {
@@ -47,10 +50,12 @@ const MyRoutes = () => {
 
          {/* Admin */}
           <Route path="/adminmessage" element={<AdminMessage/>}/>
-          
           <Route path="/admin/dashboard" element={<AdminDashboard/>}>
-         
+
+
           </Route>
+                   
+          <Route path="/messageview/:id" element={<MessageView/>}/>
       </Routes>
     </Router>
   );

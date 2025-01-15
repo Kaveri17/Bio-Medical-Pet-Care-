@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 // import getCookieValue from "../api/getCookieValue";
 
 const Navbar = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [navbar, setNavbar] = useState(false);
   const sidebarRef = useRef(null);
 
@@ -59,17 +60,61 @@ const Navbar = () => {
           <Link to="/contact">
             <li className="text-black hover:text-blue-500">Contact Us</li>
           </Link>
-          <Link to="/login">
+          {/* <Link to="/login">
             <li className="text-black hover:text-blue-500">Login</li>
-          </Link>
+          </Link> */}
           <Link to="/register">
             <li className="text-black hover:text-blue-500 ">Register</li>
           </Link>
         </div>
 
-        <div className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4">
+        {/* <div className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4">
   <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />
-</div>
+</div> */}
+ <div className="relative">
+      {/* Profile Image */}
+      <div
+        className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4 cursor-pointer"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown
+      >
+        <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />
+      </div>
+
+      {/* Dropdown Menu */}
+      {isDropdownOpen && (
+        <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
+          <ul className="py-1 text-sm text-gray-700">
+           
+            <li>
+              <a
+                href="/login"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Login
+              </a>
+            </li>
+            <hr />
+            <li>
+              <a
+                href="/admin/dashboard"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Dashboard
+              </a>
+            </li>
+            <hr  className=""/>
+            <li>
+              <a
+                href="/logout"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
 
       
 
