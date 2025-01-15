@@ -21,6 +21,8 @@ import Dashboard from './admin/Dashboard';
 // import Dashboard from "./admin/Dashboard"; 
 import AddCategory from './admin/AddCategory';
 import VaccinesList from './admin/VaccinesList';
+import HealthTrack1 from './pages/HealthTrack1';
+import ReportTrack1 from './pages/ReportTrack1';
 
 const MyRoutes = () => {
   return (
@@ -36,10 +38,12 @@ const MyRoutes = () => {
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/animals" element={<Animals />} />
-          <Route path="/animal-detail" element={<AnimalDetail />} />
+          {/* <Route path="/animal-detail" element={<AnimalDetail />} /> */}
           <Route path="/healthtrack" element={<HealthTrack />} />
+          <Route path="/healthtrack1" element={<HealthTrack1 />} />
           <Route path="/summaryreport" element={<SummaryReport />} />
           <Route path="/reporttrack" element={<ReportTrack />} />
+          <Route path="/reporttrack1" element={<ReportTrack1 />} />
           <Route path="/vaccinationreport" element={<VaccinationReport />} />
           <Route path="/animaldetail" element={<AnimalDetail />} />
           <Route path='/vaccinenoti' element={<VaccineReminderNotification />} />

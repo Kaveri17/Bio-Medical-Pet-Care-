@@ -39,6 +39,16 @@ const Animals = () => {
                 Data Track
               </Link>
             )}
+            {animal.type === 'Dog' && (
+              <Link to="/healthtrack1" className="mt-4 text-blue-500 hover:underline">
+                Data Track
+              </Link>
+            )}
+            {animal.type === 'Hen' && (
+              <Link to="/healthtrack" className="mt-4 text-blue-500 hover:underline">
+                Data Track
+              </Link>
+            )}
           </div>
         ))}
       </div>
