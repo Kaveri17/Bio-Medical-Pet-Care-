@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useUserStore } from '../store/userStore';
 
-let API = "http://localhost:5001/api";
+let API = "http://localhost:5000/api";
 
 const AnimalDetailForm = () => {
-  const { token } = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQ4YjI1ODAyNWZmMzg2Y2M1ODU1ZGUiLCJpYXQiOjE3MzI5MjE3OTMsImV4cCI6MTczMzUyNjU5M30.aIlywn3d0AW-IZcV3wbxs3xkPGPaNgSKdbjh_lRg1f4";
+    // const {  loginState, isAuthenticated, user } = useUserStore(); // Access Zustand state and actions
 
   const [filteredBreeds, setFilteredBreeds] = useState([]);
   // Form data state
@@ -28,6 +29,7 @@ const AnimalDetailForm = () => {
     const fetchAnimalTypes = async () => {
       try {
         const response = await axios.get(`${API}/animal/getallanimal`);
+        console.log(response)
         // Ensure the response data is an array before setting the state
         if (Array.isArray(response.data.data)) {
           setAnimalTypes(response.data.data);
@@ -88,7 +90,7 @@ const AnimalDetailForm = () => {
       const response = await fetch(`${API}/useranimal/newuseranimal`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),

@@ -128,7 +128,7 @@ const Footer = () => {
                     className="w-1/3 p-2 h-28"
                   />
                   <img
-                    src="/g-4.png"
+                    src="/g-7.jpg"
                     alt=""
                     className="w-1/3 p-2 h-28"
                   />

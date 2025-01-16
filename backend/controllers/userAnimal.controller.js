@@ -14,7 +14,7 @@ export const addUsersAnimal = async (req, res) => {
     }
 
     // Check if the breed exists within the selected animal type
-    const breedExists = animalCategory.breeds.some(
+    const breedExists = animalCategory.breeds.find(
         (breedItem) => breedItem._id.toString() === breed.toString()
     );
     if (!breedExists) {
@@ -51,7 +51,8 @@ export const getUserAnimals = async (req, res) => {
       return res.status(404).json({ success: false, message: "No animals found for this user" });
     }
 
-    res.status(200).json({ success: true, data: userAnimals });
+    // res.status(200).json( userAnimals );
+    res.send(userAnimals)
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
