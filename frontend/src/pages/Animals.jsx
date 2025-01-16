@@ -1,59 +1,75 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 
-const Animals = () => {
-  const animals = [
-    { type: 'Dog', breed: 'Golden Retriever', gender: 'Male', age: 5 },
-    { type: 'Cow', breed: 'Terai Cattle', gender: 'Female', age: 10 },
-    { type: 'Hen', breed: 'Ghanti Khuile', gender: 'Female', age: 2 },
+const AdminCategory = () => {
+  const [showAddModal, setShowAddModal] = useState(false);
+
+  const categories = [
+    { animal_type: 'Dog', breeds: ['Golden Retriever', 'German Shepherd'] },
+    { animal_type: 'Cow', breeds: ['Jersey', 'Terai Cattle'] },
+    { animal_type: 'Hen', breeds: ['Rhode Island Red', 'Ghanti Khuile'] },
   ];
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
-      
-      <Link to="/animal-detail">
-        <button className="bg-blue-400 text-white px-4 py-2 rounded flex items-center mb-4 hover:bg-blue-500 transition duration-200">
-          <i className="fas fa-plus mr-2"></i>
-          Add new animal
-        </button>
-      </Link>
+    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
+      {/* Add New Category Button */}
+      <button
+        onClick={() => setShowAddModal(true)}
+        className="bg-blue-500 text-white px-4 py-2 rounded mb-6 hover:bg-blue-600 transition duration-200"
+      >
+        <i className="fas fa-plus mr-2"></i>
+        Add New Category
+      </button>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 w-full max-w-4xl">
-        {animals.map((animal, index) => (
+      {/* Categories Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+        {categories.map((category, index) => (
           <div
             key={index}
-            className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center border border-gray-200 hover:shadow-xl transition duration-300 hover:bg-blue-300"
+            className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition duration-300 border border-gray-200"
           >
-            
-            <div className="w-24 h-24 flex justify-center items-center bg-blue-100 rounded-full mb-4">
-              <i className={`fas ${animal.type === 'Dog' ? 'fa-dog' : animal.type === 'Cow' ? 'fa-cow' : 'fa-kiwi-bird'} text-4xl text-blue-500`}></i>
-            </div>
-
-            <h3 className="text-xl font-semibold mb-2 text-gray-800">{animal.type}</h3>
-            <p className="text-gray-700 mb-1 font-medium">Breed: <span className="font-normal">{animal.breed}</span></p>
-            <p className="text-gray-700 mb-1 font-medium">Age: <span className="font-normal">{animal.age} years</span></p>
-            <p className="text-gray-700 font-medium">Gender: <span className="font-normal">{animal.gender}</span></p>
-
-            {animal.type === 'Cow' && (
-              <Link to="/healthtrack" className="mt-4 text-blue-500 hover:underline">
-                Data Track
-              </Link>
-            )}
-            {animal.type === 'Dog' && (
-              <Link to="/healthtrack1" className="mt-4 text-blue-500 hover:underline">
-                Data Track
-              </Link>
-            )}
-            {animal.type === 'Hen' && (
-              <Link to="/healthtrack" className="mt-4 text-blue-500 hover:underline">
-                Data Track
-              </Link>
-            )}
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              {category.animal_type}
+            </h2>
+            <p className="text-gray-700">
+              <strong>Breeds:</strong> {category.breeds.join(', ')}
+            </p>
+            <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">
+              Edit
+            </button>
           </div>
         ))}
       </div>
+
+      {/* Add New Category Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+            <h3 className="text-xl font-semibold mb-4">Add New Category</h3>
+            <input
+              type="text"
+              placeholder="Animal Type"
+              className="w-full p-2 border border-gray-300 rounded mb-4"
+            />
+            <textarea
+              placeholder="Breeds (comma-separated)"
+              className="w-full p-2 border border-gray-300 rounded mb-4"
+            ></textarea>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setShowAddModal(false)}
+                className="bg-gray-400 text-white px-4 py-2 rounded mr-2 hover:bg-gray-500"
+              >
+                Cancel
+              </button>
+              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Add Category
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Animals;
+export default AdminCategory;

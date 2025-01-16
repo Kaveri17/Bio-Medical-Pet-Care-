@@ -7,9 +7,9 @@ const VaccinesList = () => {
   const navigate = useNavigate();
   const { vaccines } = location.state;  
 
-  // Handle back to dashboard
+
   const handleBack = () => {
-    navigate('/'); // Navigate to the dashboard page (root)
+    navigate('/'); 
   };
 
   return (

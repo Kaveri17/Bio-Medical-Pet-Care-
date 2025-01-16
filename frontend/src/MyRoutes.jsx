@@ -23,6 +23,11 @@ import AddCategory from './admin/AddCategory';
 import VaccinesList from './admin/VaccinesList';
 import HealthTrack1 from './pages/HealthTrack1';
 import ReportTrack1 from './pages/ReportTrack1';
+import AdminCategory from './admin/AdminCategory';
+import UpdateCategory from './admin/UpdateCategory';
+import AddVaccine from './admin/AddVaccine';
+import FileUpload from './admin/FileUpload';
+
 
 const MyRoutes = () => {
   return (
@@ -48,7 +53,11 @@ const MyRoutes = () => {
           <Route path="/animaldetail" element={<AnimalDetail />} />
           <Route path='/vaccinenoti' element={<VaccineReminderNotification />} />
           <Route path="/admin/dashboard" element={<Dashboard/>} /> 
+          <Route path="/admin/category" element={<AdminCategory/>} /> 
           <Route path="/admin/add-category" element={<AddCategory />} />
+          <Route path="/admin/add-vaccine" element={<AddVaccine />} />
+          <Route path="/admin/update-category" element={<UpdateCategory />} />
+          <Route path="/fileupload" element={<FileUpload />} />
           <Route path="/vaccines" element={<VaccinesList />} />
         </Route>
       </Routes>

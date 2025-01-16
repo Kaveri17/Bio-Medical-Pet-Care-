@@ -1,126 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const AddCategory = () => {
-  const [customerName, setCustomerName] = useState('');
-  const [email, setEmail] = useState('');
-  const [location, setLocation] = useState('');
-  const [lastBooked, setLastBooked] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Basic validation
-    if (!customerName || !email || !location || !lastBooked) {
-      setError('All fields are required.');
-      setSuccess(false);
-      return;
-    }
-
-    // Clear any previous error
-    setError('');
-
-    // Simulate a successful submission (replace with an actual API call)
-    try {
-      // Imagine an API call here like:
-      // await api.addCustomer({ customerName, email, location, lastBooked });
-
-      setSuccess(true);
-
-      // Clear form fields
-      setCustomerName('');
-      setEmail('');
-      setLocation('');
-      setLastBooked('');
-    } catch (err) {
-      setError('Failed to add customer. Please try again.');
-      setSuccess(false);
-    }
-  };
+  const [categories, setCategories] = useState([
+    { id: 1, animalType: "Dog", breeds: "Golden Retriever, Labrador" },
+    { id: 2, animalType: "Cow", breeds: "Jersey, Holstein" },
+  ]);
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-8">
-        <h1 className="text-2xl font-bold mb-6 text-center text-orange-600">Add Customer</h1>
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
-        )}
-        {success && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-            Customer has been added successfully.
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="customerName" className="block font-bold mb-2">
-              Customer Name
-            </label>
-            <input
-              type="text"
-              id="customerName"
-              name="customerName"
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="email" className="block font-bold mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="location" className="block font-bold mb-2">
-              Location
-            </label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="lastBooked" className="block font-bold mb-2">
-              Last Booked
-            </label>
-            <input
-              type="date"
-              id="lastBooked"
-              name="lastBooked"
-              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={lastBooked}
-              onChange={(e) => setLastBooked(e.target.value)}
-              required
-            />
-          </div>
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
-            >
-              <i className="fas fa-user-plus mr-2"></i> Add Customer
-            </button>
-          </div>
-        </form>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h2 className="text-center text-4xl font-semibold text-gray-800 mb-8">Animal Categories</h2>
+      <div className="overflow-x-auto bg-white shadow-xl rounded-lg">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+              <th className="px-6 py-4">Animal Type</th>
+              <th className="px-6 py-4">Breeds</th>
+              <th className="px-6 py-4">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categories.map((category) => (
+              <tr
+                key={category.id}
+                className="border-t hover:bg-gray-100 transition-all"
+              >
+                <td className="px-6 py-4 text-gray-800">{category.animalType}</td>
+                <td className="px-6 py-4 text-gray-800">{category.breeds}</td>
+                <td className="px-6 py-4 text-center space-x-4">
+                  <Link
+                    to="/admin/update-category"
+                    className="bg-yellow-500 text-white px-5 py-3 rounded-lg shadow-lg hover:bg-yellow-600 hover:scale-105 transition-all"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    className="bg-red-500 text-white px-5 py-3 rounded-lg shadow-lg hover:bg-red-600 hover:scale-105 transition-all"
+                    onClick={() => {
+                      const updatedCategories = categories.filter(
+                        (cat) => cat.id !== category.id
+                      );
+                      setCategories(updatedCategories);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
