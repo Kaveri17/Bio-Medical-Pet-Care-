@@ -36,18 +36,18 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col justify-center items-center p-4">
-      {/* Dashboard Cards */}
+     
       <div className="cards flex flex-col md:flex-row w-[87%] justify-between mb-8">
         <DashboardCard icon={<FaUsers />} title="Total Users" value={50} />
         <DashboardCard icon={<FaDog />} title="Total Animals" value={3} />
         <DashboardCard icon={<FaPaw />} title="Animals Registered" value={80} />
       </div>
 
-      {/* Vaccination List Section */}
+    
       <div className="vaccines-list w-full md:w-3/4 lg:w-2/3 py-10">
         <h1 className="text-3xl font-bold pb-6 text-center text-blue-700">Vaccines List</h1>
 
-        {/* Vaccination Table */}
+       
         <div className="vaccines-list-container w-full max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-xl border border-blue-300">
           <table className="table-auto w-full text-sm">
             <thead>
