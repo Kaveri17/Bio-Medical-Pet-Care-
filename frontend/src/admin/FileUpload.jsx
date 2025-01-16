@@ -82,8 +82,8 @@ const FileUpload = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-purple-500 to-indigo-600">
-      <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-4xl">
+    <div className="flex justify-center items-center h-screen">
+      <div className="p-8 rounded-lg shadow-2xl w-full max-w-4xl">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Upload Animal Benchmark Data</h2>
         
         <div className="mb-6">
@@ -102,7 +102,7 @@ const FileUpload = () => {
         {fileData && (
           <div className="mt-4">
             <h3 className="text-lg font-semibold mb-2 text-gray-800">File Data Preview:</h3>
-            <pre className="bg-gray-100 p-6 rounded text-sm text-gray-700 font-mono overflow-x-auto">
+            <pre className="p-6 rounded text-sm text-gray-700 font-mono overflow-x-auto">
               {JSON.stringify(fileData, null, 2)}
             </pre>
           </div>
@@ -129,7 +129,7 @@ const FileUpload = () => {
             <div className="mb-6">
               <h4 className="text-sm font-semibold text-gray-700">Age Data</h4>
               {manualData.age_data.map((ageEntry, index) => (
-                <div key={index} className="mb-6 border p-4 rounded-lg shadow-md bg-gray-50">
+                <div key={index} className="mb-6 border p-4 rounded-lg shadow-md">
                   <div className="grid grid-cols-2 gap-6">
                     <div>
                       <label className="block text-gray-700">Age Range (Min)</label>

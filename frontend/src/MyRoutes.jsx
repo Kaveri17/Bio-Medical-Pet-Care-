@@ -27,6 +27,7 @@ import AdminCategory from './admin/AdminCategory';
 import UpdateCategory from './admin/UpdateCategory';
 import AddVaccine from './admin/AddVaccine';
 import FileUpload from './admin/FileUpload';
+import ExcelUpload from './admin/ExcelUpload';
 
 
 const MyRoutes = () => {
@@ -59,6 +60,7 @@ const MyRoutes = () => {
           <Route path="/admin/update-category" element={<UpdateCategory />} />
           <Route path="/fileupload" element={<FileUpload />} />
           <Route path="/vaccines" element={<VaccinesList />} />
+          <Route path="/excel" element={<ExcelUpload />} />
         </Route>
       </Routes>
     </Router>
