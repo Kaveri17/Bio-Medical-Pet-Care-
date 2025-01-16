@@ -88,7 +88,7 @@ const FileUpload = () => {
         {/* File Upload Section */}
         <div className="mb-3">
           <label htmlFor="file-upload" className="block text-sm font-medium text-gray-600 mb-1">
-            Choose file (.csv or .xlsx)
+            Choose a file to upload
           </label>
           <input
             type="file"
@@ -135,26 +135,45 @@ const FileUpload = () => {
               <h4 className="text-xs font-semibold text-gray-700 mb-1">Age Data</h4>
               {manualData.age_data.map((ageEntry, index) => (
                 <div key={index} className="mb-3 p-2 rounded border border-gray-300 bg-gray-50">
-                  <div className="grid grid-cols-2 gap-2 mb-1">
+                  <div className="grid grid-cols-2 gap-2 mb-2">
                     <input
                       type="number"
-                      placeholder="Age Min"
+                      placeholder="Age Range Min"
                       value={ageEntry.age_range.min}
-                      onChange={(e) =>
-                        handleAgeDataChange(index, 'age_range.min', e.target.value)
-                      }
+                      onChange={(e) => handleAgeDataChange(index, 'age_range', { ...ageEntry.age_range, min: e.target.value })}
                       className="w-full px-2 py-1 border border-gray-300 rounded-md text-sm focus:ring focus:ring-blue-500"
                     />
                     <input
                       type="number"
-                      placeholder="Age Max"
+                      placeholder="Age Range Max"
                       value={ageEntry.age_range.max}
-                      onChange={(e) =>
-                        handleAgeDataChange(index, 'age_range.max', e.target.value)
-                      }
+                      onChange={(e) => handleAgeDataChange(index, 'age_range', { ...ageEntry.age_range, max: e.target.value })}
                       className="w-full px-2 py-1 border border-gray-300 rounded-md text-sm focus:ring focus:ring-blue-500"
                     />
                   </div>
+                  <div className="grid grid-cols-2 gap-2 mb-2">
+                    <input
+                      type="number"
+                      placeholder="Weight Range Min"
+                      value={ageEntry.weight_range.min}
+                      onChange={(e) => handleAgeDataChange(index, 'weight_range', { ...ageEntry.weight_range, min: e.target.value })}
+                      className="w-full px-2 py-1 border border-gray-300 rounded-md text-sm focus:ring focus:ring-blue-500"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Weight Range Max"
+                      value={ageEntry.weight_range.max}
+                      onChange={(e) => handleAgeDataChange(index, 'weight_range', { ...ageEntry.weight_range, max: e.target.value })}
+                      className="w-full px-2 py-1 border border-gray-300 rounded-md text-sm focus:ring focus:ring-blue-500"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Growth Rate"
+                    value={ageEntry.growth_rate}
+                    onChange={(e) => handleAgeDataChange(index, 'growth_rate', e.target.value)}
+                    className="w-full px-2 py-1 border border-gray-300 rounded-md text-sm focus:ring focus:ring-blue-500"
+                  />
                 </div>
               ))}
               <button
