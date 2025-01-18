@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser"
-
+ import nodemailer from "nodemailer"
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/user.route.js";
 import contactRouter from "./routes/contactroute.js"
@@ -42,7 +42,57 @@ app.use("/api/breed",breedRouter)
 app.use("/api/useranimal",userAnimalRouter)
 app.use("/api/daily",dailyrecordRouter)
 
+// Configure Nodemailer transporter
+const transporter = nodemailer.createTransport({
+    host:process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    auth: {
+        user:process.env.SMTP_USERNAME,
+        pass: process.env.SMTP_PASSWORD
+    },
+})
 
+// Function to send a vaccine notification email
+const sendVaccineNotification = async (recipientEmail, vaccineName, dueDate) => {
+  const mailOptions = {
+    from: `"Vaccine Alerts" <${process.env.EMAIL_USER}>`,
+    to: recipientEmail,
+    subject: `Vaccine Alert: ${vaccineName}`,
+    text: `Dear User,
+
+This is a reminder that your animal is scheduled for the ${vaccineName} vaccine on ${dueDate}. 
+
+Please ensure timely vaccination to maintain your animal's health.
+
+Best regards,
+Vaccine Alert System`,
+  };
+
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:', info.response);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw new Error('Failed to send vaccine notification');
+  }
+};
+// API endpoint to send vaccine notifications
+app.post('/send-notification', async (req, res) => {
+  const { recipientEmail, vaccineName, dueDate } = req.body;
+
+  // Validate request body
+  if (!recipientEmail || !vaccineName || !dueDate) {
+    return res.status(400).json({ error: 'Missing required fields: recipientEmail, vaccineName, dueDate' });
+  }
+
+  try {
+    await sendVaccineNotification(recipientEmail, vaccineName, dueDate);
+    res.status(200).json({ message: 'Vaccine notification sent successfully!' });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ error: 'Failed to send vaccine notification' });
+  }
+});
 // app.use('/public/upload',express.static('public/upload'))
 
 app.listen(PORT, ()=>{

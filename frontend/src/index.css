@@ -38,6 +38,31 @@
     transition: 0.4s;
 }
 
+.notification {
+  position: relative;
+}
+
+.notification .fa-bell {
+  font-size: 24px; /* Adjust the size of the bell icon */
+  color: black; /* Change the color of the bell icon */
+  cursor: pointer;
+}
+
+.notification-count {
+  position: absolute;
+  top: -22px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 16px;
+  padding: 1px 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 
   
   

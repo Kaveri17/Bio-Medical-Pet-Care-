@@ -103,7 +103,18 @@ const Navbar = () => {
           <Link to="/register">
             <li className="text-black hover:text-blue-500 ">Register</li>
           </Link>
+
+          <Link to='/vaccinenoti'>
+        <li class="notification">
+      <i class="fa fa-bell "></i>
+      <span class="notification-count">3</span>
+    </li>
+    
+        </Link>
+        
+
         </div>
+        
 
         {/* <div className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4">
   <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />

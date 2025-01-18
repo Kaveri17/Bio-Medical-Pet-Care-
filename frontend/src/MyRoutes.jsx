@@ -20,9 +20,10 @@ import AdminDashboard from './admin/AdminDashboard';
 
 import MessageView from './layout/MessageView';
 import AdminMessage from './admin/AdminMessage';
-import Dashboard from './Admin/Dashboard';
+import Dashboard from './admin/Dashboard';
 import VaccinesList from './admin/VaccinesList';
 import AddVaccine from './admin/AddVaccine';
+import Reports from './pages/Reports';
 
 
 
@@ -46,11 +47,12 @@ const MyRoutes = () => {
           <Route path="/healthtrack/:id" element={<HealthTrack />} />
           
           <Route path="/summaryreport" element={<SummaryReport />} />
-          <Route path="/reporttrack" element={<ReportTrack />} />
+          <Route path="/reporttrack/:id" element={<ReportTrack />} />
         
-          <Route path="/vaccinationreport" element={<VaccinationReport />} />
+          <Route path="/vaccinationreport/:id" element={<VaccinationReport />} />
           <Route path="/animaldetail" element={<AnimalDetail />} />
           <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
+          <Route path='/reports' element={<Reports/>}/>
 
         </Route>
 
