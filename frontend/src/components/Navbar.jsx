@@ -3,8 +3,10 @@ import { IoClose, IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../store/userStore";
 import { authenticate, logout } from "../api/Userapp";
+// import { authenticate, logout } from "../api/Userapp";
 
 const Navbar = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [navbar, setNavbar] = useState(false);
   const sidebarRef = useRef(null);
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -95,37 +97,75 @@ const Navbar = () => {
           <Link to="/contact">
             <li className="text-black hover:text-blue-500">Contact Us</li>
           </Link>
-          {isAuthenticated ? (
-            <>
-              <li
-                className="text-black hover:text-blue-500 cursor-pointer"
-                onClick={handleLogout}
+          {/* <Link to="/login">
+            <li className="text-black hover:text-blue-500">Login</li>
+          </Link> */}
+          <Link to="/register">
+            <li className="text-black hover:text-blue-500 ">Register</li>
+          </Link>
+
+          <Link to='/vaccinenoti'>
+        <li className="notification">
+      <i className="fa fa-bell "></i>
+      <span className="notification-count">3</span>
+    </li>
+    
+        </Link>
+        
+
+        </div>
+        
+
+        {/* <div className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4">
+  <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />
+</div> */}
+ <div className="relative">
+      {/* Profile Image */}
+      <div
+        className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4 cursor-pointer"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown
+      >
+        <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />
+      </div>
+
+      {/* Dropdown Menu */}
+      {isDropdownOpen && (
+        <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
+          <ul className="py-1 text-sm text-gray-700">
+           
+            <li>
+              <a
+                href="/login"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Login
+              </a>
+            </li>
+            <hr />
+            <li>
+              <a
+                href="/admin/dashboard"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Dashboard
+              </a>
+            </li>
+            <hr  className=""/>
+            <li>
+              <a
+                href="/logout"
+                className="block px-4 py-2 hover:bg-gray-100"
               >
                 Logout
-              </li>
-              <li className="text-black">Welcome, {user?.username || "User"}</li>
-            </>
-          ) : (
-            <>
-              <Link to="/login">
-                <li className="text-black hover:text-blue-500">Login</li>
-              </Link>
-              <Link to="/register">
-                <li className="text-black hover:text-blue-500 ">Register</li>
-              </Link>
-            </>
-          )}
+              </a>
+            </li>
+          </ul>
         </div>
+      )}
+    </div>
 
-        {isAuthenticated && (
-          <div className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4">
-            <img
-              src="/team2.jpg"
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        )}
+      
+
 
         {/* Mobile Menu Toggle */}
         <div onClick={handleNavbar} className="md:hidden cursor-pointer">
