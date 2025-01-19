@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 let API = "http://localhost:5000/api";
 
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 const ReportTrack = () => {
    const token  = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQ4YjI1ODAyNWZmMzg2Y2M1ODU1ZGUiLCJpYXQiOjE3MzI4NzQ3MDgsImV4cCI6MTczMzQ3OTUwOH0.avq6CkMMr2PYiQ_qpI7PVV8pnxWyhzaBRE5WA9AxtmQ"
+
+  let {id} = useParams()
 
    const [formData, setFormData] = useState({
 
@@ -15,6 +18,7 @@ const ReportTrack = () => {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

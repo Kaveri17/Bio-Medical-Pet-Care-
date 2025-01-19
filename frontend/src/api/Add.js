@@ -44,11 +44,9 @@ export const getAllUserAnimals = () => {
   
 
 // Get a specific user's animal by ID
-export const getUserAnimalById = (id, token) => {
-    return fetch(`${API}/useranimal/get/${id}`, {
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
+export const getUserAnimalById = (id) => {
+    return fetch(`${API}/useranimal/getanimal/${id}`, {
+        credentials: "include"
     })
     .then(response => response.json())
     .catch(error => console.error("Error fetching user animal by ID:", error));

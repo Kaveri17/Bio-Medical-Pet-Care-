@@ -1,9 +1,11 @@
 import { Dailyrecord } from "../models/dailyrecords.model.js";
 import animalsData from "../data/animal_data.js";
+import { UserAnimal } from "../models/userAnimal.model.js";
 
 //add a new daily record
 export const createDailyRecord = async(req,res) => {
-    const {useranimal, weight, production, temperature} = req.body;
+  const {useranimal} =req.params
+    const { weight, production, temperature} = req.body;
     try {
         const newDailyRecord = new Dailyrecord ({
             useranimal,
@@ -36,12 +38,12 @@ export const getAllDailyRecords = async (req, res) => {
 //get a daily record by id
 export const getDailyRecordById = async (req, res) => {
     const { id } = req.params;
-  
     try {
-      const dailyRecord = await Dailyrecord.findById(id).populate("useranimal");
+      // const dailyRecord = await Dailyrecord.findById(id).populate("useranimal");
+      const dailyRecord = await UserAnimal.findById(id)
   
       if (!dailyRecord) {
-        return res.status(404).json({ message: "Daily record not found" });
+        return res.status(404).json({ message: "Daily record not found of this animal." });
       }
   
       return res.status(200).json(dailyRecord);

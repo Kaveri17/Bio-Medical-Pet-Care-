@@ -38,9 +38,9 @@ const MyRoutes = () => {
           <Route path="/healthtrack/:id" element={<HealthTrack />} />
           
           <Route path="/summaryreport" element={<SummaryReport />} />
-          <Route path="/reporttrack" element={<ReportTrack />} />
+          <Route path="/reporttrack/:id" element={<ReportTrack />} />
         
-          <Route path="/vaccinationreport" element={<VaccinationReport />} />
+          <Route path="/vaccinationreport/:id" element={<VaccinationReport />} />
           <Route path="/animaldetail" element={<AnimalDetail />} />
           <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
         </Route>

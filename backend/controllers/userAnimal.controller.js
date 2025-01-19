@@ -57,3 +57,22 @@ export const getUserAnimals = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+//get all userAnimal 
+export const getUserAnimalById = async (req, res) => {e
+  const { id } = req.params;
+  try {
+    const userAnimals = await UserAnimal.findById(id)
+    .populate("breed")
+    .populate("animal_type");
+
+
+    if(!userAnimals){
+      return res.status(404).json({ success: false, message: "No animals found for this user" });
+    }
+    // res.status(200).json( userAnimals );
+    res.send(userAnimals)
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

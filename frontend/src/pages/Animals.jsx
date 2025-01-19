@@ -16,6 +16,7 @@ const Animals = () => {
         console.log("data",res);
       }
     });
+
   }, []);
   console.log(animals)
 
@@ -70,14 +71,14 @@ const Animals = () => {
               Gender: <span className="font-normal">{animal?.gender}</span>
             </p>
 
-            {animal.animal_type?.animal_type === "Cow" && (
+            {/* {animal.animal_type?.animal_type === "Cow" && ( */}
               <Link
                 to={`/healthtrack/${animal?._id}`}
                 className="mt-4 text-blue-500 hover:underline"
               >
                 Data Track
               </Link>
-            )}
+            {/* )} */}
           </div>
         ))}
       </div>
