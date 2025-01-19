@@ -58,8 +58,10 @@ export const getUserAnimals = async (req, res) => {
   }
 };
 
+//get by id
+
 //get all userAnimal 
-export const getUserAnimalById = async (req, res) => {e
+export const getUserAnimalById = async (req, res) => {
   const { id } = req.params;
   try {
     const userAnimals = await UserAnimal.findById(id)

@@ -16,8 +16,17 @@ import ReportTrack from './pages/ReportTrack';
 import VaccinationReport from './pages/VaccinationReport';
 import SummaryReport from './pages/SummaryReport';
 import VaccineReminderNotification from './pages/VaccineReminderNotification';
-import AdminDashboard from './Admin/AdminDashboard';
-import AdminMessage from './Admin/AdminMessage';
+import AdminDashboard from './admin/AdminDashboard';
+
+import MessageView from './layout/MessageView';
+import AdminMessage from './admin/AdminMessage';
+import Dashboard from './admin/Dashboard';
+import VaccinesList from './admin/VaccinesList';
+import AddVaccine from './admin/AddVaccine';
+import Reports from './pages/Reports';
+
+
+
 
 
 const MyRoutes = () => {
@@ -43,14 +52,24 @@ const MyRoutes = () => {
           <Route path="/vaccinationreport/:id" element={<VaccinationReport />} />
           <Route path="/animaldetail" element={<AnimalDetail />} />
           <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
+          <Route path='/reports' element={<Reports/>}/>
+
         </Route>
 
          {/* Admin */}
+         <Route path="/admin/add-vaccine" element={<AddVaccine />} />
           <Route path="/adminmessage" element={<AdminMessage/>}/>
-          
           <Route path="/admin/dashboard" element={<AdminDashboard/>}>
-         
+          <Route path="/admin/dashboard" element={<Dashboard/>} />
+  
+        
+
+
+
           </Route>
+                   
+          <Route path="/messageview/:id" element={<MessageView/>}/>
+          <Route path="/vaccines" element={<VaccinesList />} />
       </Routes>
     </Router>
   );

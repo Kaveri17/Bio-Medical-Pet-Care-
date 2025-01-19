@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaHome,  FaCog, FaBars, FaTimes, FaSignOutAlt, FaInbox } from 'react-icons/fa';
+import { FaHome,  FaCog, FaBars, FaTimes, FaSignOutAlt, FaInbox, FaUserInjured } from 'react-icons/fa';
 import {  FaCashRegister } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
@@ -52,10 +52,23 @@ const AdminSidebar = () => {
                 <FaCashRegister className="mr-2" />
                 <span>Category</span>
               </li>
+
+              <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
+              <i className="fa-solid fa-syringe mr-2"></i>
+                <span>Vaccine</span>
+              </li>
               <Link to= '/adminmessage'>
               <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
                 <FaInbox className="mr-2" />
                 <span>Inbox</span>
+                
+              </li>
+              </Link>
+
+              <Link to= '/setting'>
+              <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
+                <FaCog className="mr-2" />
+                <span>Setting</span>
                 
               </li>
               </Link>
@@ -64,10 +77,23 @@ const AdminSidebar = () => {
                 <span>Logout</span>
               </li> */}
             </ul>
+
+            <hr />
+{/* 
+            <div className='flex items-center pt-9   lg:mx-auto md:mx-auto mx-auto  gap-16'> */}
+       <div className='pt-6'>
+        <button className='border-2 border-white border-solid px-2 py-2'>
+        <FaSignOutAlt className="font-bold " />
+        
+        </button>
+        <span className='ps-4 text-xl '>Logout</span>
+      </div>
           </div>
 
+          
+
           {/* Profile Section */}
-          <div className="flex items-center  p-4  mt-20">
+          {/* <div className="flex items-center  p-4  mt-20">
             <img
               src="/team2.jpg"
               alt="Profile"
@@ -77,18 +103,11 @@ const AdminSidebar = () => {
               <p className="font-medium">Sita Thapa</p>
               <p className="text-sm text-gray-200">sita122gmail.com</p>
             </div>
-          </div>
+          </div> */}
 
-          <hr />
+          {/* <hr /> */}
 
-      <div className='flex items-center  lg:mx-auto md:mx-auto mx-auto  gap-16'>
-        <button className='border-2 border-white border-solid px-2 py-2'>
-          <FaCog className='font-bold  '/>
-        </button>
-        <button className='border-2 border-white border-solid px-2 py-2'>
-        <FaSignOutAlt className="font-bold " />
-        </button>
-      </div>
+     
         </div>
       </div>
 
