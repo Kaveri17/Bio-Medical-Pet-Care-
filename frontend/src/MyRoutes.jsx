@@ -33,7 +33,6 @@ import UpdateCategory from './admin/UpdateCategory';
 import FileUpload from './admin/FileUpload';
 import ExcelUpload from './admin/ExcelUpload';
 
-
 const MyRoutes = () => {
   return (
     <Router>
