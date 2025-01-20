@@ -82,6 +82,7 @@ const Animals = () => {
           </div>
         ))}
       </div>
+
     </div>
   );
 };

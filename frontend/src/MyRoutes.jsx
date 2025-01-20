@@ -25,8 +25,13 @@ import VaccinesList from './admin/VaccinesList';
 import AddVaccine from './admin/AddVaccine';
 import Reports from './pages/Reports';
 
-
-
+// import AddCategory from './admin/AddCategory';
+// import Dashboard from "./admin/Dashboard"; 
+import AddCategory from './admin/AddCategory';
+import AdminCategory from './admin/AdminCategory';
+import UpdateCategory from './admin/UpdateCategory';
+import FileUpload from './admin/FileUpload';
+import ExcelUpload from './admin/ExcelUpload';
 
 
 const MyRoutes = () => {
@@ -54,6 +59,14 @@ const MyRoutes = () => {
           <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
           <Route path='/reports' element={<Reports/>}/>
 
+          <Route path="/admin/dashboard" element={<Dashboard/>} /> 
+          <Route path="/admin/category" element={<AdminCategory/>} /> 
+          <Route path="/admin/add-category" element={<AddCategory />} />
+          <Route path="/admin/add-vaccine" element={<AddVaccine />} />
+          <Route path="/admin/update-category" element={<UpdateCategory />} />
+          <Route path="/fileupload" element={<FileUpload />} />
+          <Route path="/vaccines" element={<VaccinesList />} />
+          <Route path="/excel" element={<ExcelUpload />} />
         </Route>
 
          {/* Admin */}
