@@ -34,8 +34,9 @@ const getBenchmarkData = (animalType, breed) => {
       throw new Error('No benchmark data found for the given animal type and breed');
     }
   
-    // Find the relevant age data from the benchmark
+    // Finding the relevant age data from the benchmark dataset
     const ageData = benchmark.age_data.find(data => age >= data.age_range.min && age <= data.age_range.max);
+
     if (!ageData) {
       throw new Error('No benchmark data found for the given age range');
     }
@@ -47,6 +48,13 @@ const getBenchmarkData = (animalType, breed) => {
     if (weight < ageData.weight_range.min || weight > ageData.weight_range.max) {
       healthStatus = 'Underweight or Overweight';
     }
+
+    // // Compare weight with benchmark data
+    // if (weight < ageData.weight_range.min) {
+    //   healthStatus = 'Underweight';
+    // } else if (weight > ageData.weight_range.max) {
+    //   healthStatus = 'Overweight';
+    // }
   
     // Compare milk production with benchmark data (only for cows)
     if (milkProduction && animalType === 'Cow') {
@@ -55,7 +63,7 @@ const getBenchmarkData = (animalType, breed) => {
       }
     }
   
-    // Compare temperature with benchmark data (assuming 37-40°C is a normal temperature range for most animals)
+    // Compare temperature with benchmark data 
     if (temperature && (temperature < 37 || temperature > 40)) {
       healthStatus = 'Temperature Abnormal';
     }
