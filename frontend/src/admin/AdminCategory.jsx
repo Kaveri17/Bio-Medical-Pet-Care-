@@ -26,7 +26,9 @@ const AdminCategory = () => {
           <tbody>
             {/* Example Row */}
             <tr>
-              <td className="border border-gray-300 px-4 py-2 text-center">1</td>
+              <td className="border border-gray-300 px-4 py-2 text-center">
+                1
+              </td>
               <td className="border border-gray-300 px-4 py-2">Dog</td>
               <td className="border border-gray-300 px-4 py-2">
                 Golden Retriever, Labrador
@@ -69,7 +71,7 @@ const AdminCategory = () => {
                   htmlFor="breeds"
                   className="block text-sm font-medium mb-1"
                 >
-                  Breeds 
+                  Breeds
                 </label>
                 <input
                   id="breeds"
