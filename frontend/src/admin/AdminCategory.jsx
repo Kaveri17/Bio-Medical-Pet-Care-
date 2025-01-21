@@ -1,56 +1,102 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 const AdminCategory = () => {
-  const [categories, setCategories] = useState([
-    { id: 1, animalType: "Dog", breeds: "Golden Retriever, Labrador" },
-    { id: 2, animalType: "Cow", breeds: "Jersey, Holstein" },
-  ]);
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <h2 className="text-center text-4xl font-semibold text-gray-800 mb-8 font-sans">Animal Categories</h2>
-      <div className="overflow-x-auto bg-white shadow-xl rounded-lg">
-        <table className="w-full text-left border-collapse">
+    <div className="p-4">
+      <h2 className="text-2xl font-semibold mb-4">Animal Categories</h2>
+      <button
+        onClick={() => setShowModal(true)}
+        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mb-4"
+      >
+        Add Category
+      </button>
+
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse border border-gray-200">
           <thead>
-            <tr className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-              <th className="px-6 py-4">Animal Type</th>
-              <th className="px-6 py-4">Breeds</th>
-              <th className="px-6 py-4">Actions</th>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 px-4 py-2">#</th>
+              <th className="border border-gray-300 px-4 py-2">Animal Type</th>
+              <th className="border border-gray-300 px-4 py-2">Breeds</th>
+              <th className="border border-gray-300 px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {categories.map((category) => (
-              <tr
-                key={category.id}
-                className="border-t hover:bg-gray-100 transition-all"
-              >
-                <td className="px-6 py-4 text-gray-800">{category.animalType}</td>
-                <td className="px-6 py-4 text-gray-800">{category.breeds}</td>
-                <td className="px-6 py-4 text-center space-x-4">
-                  <Link
-                    to="/admin/update-category"
-                    className="bg-yellow-500 text-white px-5 py-3 rounded-lg shadow-lg hover:bg-yellow-600 hover:scale-105 transition-all"
-                  >
-                    Edit
-                  </Link>
-                  <button
-                    className="bg-red-500 text-white px-5 py-3 rounded-lg shadow-lg hover:bg-red-600 hover:scale-105 transition-all"
-                    onClick={() => {
-                      const updatedCategories = categories.filter(
-                        (cat) => cat.id !== category.id
-                      );
-                      setCategories(updatedCategories);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {/* Example Row */}
+            <tr>
+              <td className="border border-gray-300 px-4 py-2 text-center">1</td>
+              <td className="border border-gray-300 px-4 py-2">Dog</td>
+              <td className="border border-gray-300 px-4 py-2">
+                Golden Retriever, Labrador
+              </td>
+              <td className="border border-gray-300 px-4 py-2 text-center">
+                <button className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 mr-2">
+                  Edit
+                </button>
+                <button className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">
+                  Delete
+                </button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white w-96 p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold mb-4">Add Category</h3>
+            <form>
+              <div className="mb-4">
+                <label
+                  htmlFor="animal_type"
+                  className="block text-sm font-medium mb-1"
+                >
+                  Animal Type
+                </label>
+                <input
+                  id="animal_type"
+                  type="text"
+                  placeholder="Enter animal type"
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="breeds"
+                  className="block text-sm font-medium mb-1"
+                >
+                  Breeds
+                </label>
+                <input
+                  id="breeds"
+                  type="text"
+                  placeholder="Enter breeds"
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

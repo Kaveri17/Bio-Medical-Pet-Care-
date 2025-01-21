@@ -1,22 +1,51 @@
 import { useEffect, useRef, useState } from "react";
 import { IoClose, IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
-// import getCookieValue from "../api/getCookieValue";
+import { useUserStore } from "../store/userStore";
+import { authenticate, logout } from "../api/Userapp";
+// import { authenticate, logout } from "../api/Userapp";
 
 const Navbar = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [navbar, setNavbar] = useState(false);
   const sidebarRef = useRef(null);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [user, setUser] = useState(null);
+  const { isAuthenticated, user, loginState, logoutState } = useUserStore(); // Access Zustand state and actions
 
   useEffect(() => {
-    console.log('Navbar state:', navbar); // Debugging line
+    // console.log('Navbar state:', navbar); // Debugging line
     document.addEventListener("click", handleClickOutside, true);
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
   }, [navbar]);
 
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await authenticate();
+        if (response.success) {
+          // setIsAuthenticated(true);
+          // setUser(response.user); // Contains user details like name, admin status
+          loginState(response.user); // Update Zustand store with the user data
+        } else {
+          // setIsAuthenticated(false);
+          // setUser(null);
+          logoutState()
+        }
+      } catch (error) {
+        console.error("Error checking auth status");
+        // setIsAuthenticated(false);
+        logoutState()
+
+      }
+    };
+    checkAuthStatus();
+  }, [loginState, logoutState]);
+
   const handleClickOutside = (e) => {
-    console.log('Clicked outside'); // Debugging line
+    console.log("Clicked outside"); // Debugging line
     if (sidebarRef.current && !sidebarRef.current.contains(e.target)) {
       setNavbar(false);
     }
@@ -24,6 +53,15 @@ const Navbar = () => {
 
   const handleNavbar = () => {
     setNavbar(!navbar);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      logoutState();
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   return (
@@ -59,17 +97,72 @@ const Navbar = () => {
           <Link to="/contact">
             <li className="text-black hover:text-blue-500">Contact Us</li>
           </Link>
-          <Link to="/login">
+          {/* <Link to="/login">
             <li className="text-black hover:text-blue-500">Login</li>
-          </Link>
+          </Link> */}
           <Link to="/register">
             <li className="text-black hover:text-blue-500 ">Register</li>
           </Link>
-        </div>
 
-        <div className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4">
+          <Link to='/vaccinenoti'>
+        <li className="notification">
+      <i className="fa fa-bell "></i>
+      <span className="notification-count">3</span>
+    </li>
+    
+        </Link>
+        
+
+        </div>
+        
+
+        {/* <div className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4">
   <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />
-</div>
+</div> */}
+ <div className="relative">
+      {/* Profile Image */}
+      <div
+        className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4 cursor-pointer"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown
+      >
+        <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />
+      </div>
+
+      {/* Dropdown Menu */}
+      {isDropdownOpen && (
+        <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
+          <ul className="py-1 text-sm text-gray-700">
+           
+            <li>
+              <a
+                href="/login"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Login
+              </a>
+            </li>
+            <hr />
+            <li>
+              <a
+                href="/admin/dashboard"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Dashboard
+              </a>
+            </li>
+            <hr  className=""/>
+            <li>
+              <a
+                href="/logout"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
 
       
 
@@ -93,7 +186,7 @@ const Navbar = () => {
         <div className="flex justify-end cursor-pointer" onClick={handleNavbar}>
           <IoClose className="text-black text-3xl" />
         </div>
-        
+
         {/* Mobile Links */}
         <div className="list-none pt-16 text-lg sm:text-xl">
           <Link to="/">
@@ -110,12 +203,26 @@ const Navbar = () => {
           <Link to="/contact">
             <li className="py-4 text-black hover:text-blue-500">Contact Us</li>
           </Link>
-          <Link to="/register">
-            <li className="py-4 text-black hover:text-blue-500">Register</li>
-          </Link>
-          <Link to="/login">
-            <li className="py-4 text-black hover:text-blue-500">Login</li>
-          </Link>
+
+          {isAuthenticated ? (
+             <li
+             className="py-4 text-black hover:text-blue-500 cursor-pointer"
+             onClick={handleLogout}
+           >
+             Logout
+           </li>
+          ) : (
+            <>
+              <Link to="/register">
+                <li className="py-4 text-black hover:text-blue-500">
+                  Register
+                </li>
+              </Link>
+              <Link to="/login">
+                <li className="py-4 text-black hover:text-blue-500">Login</li>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

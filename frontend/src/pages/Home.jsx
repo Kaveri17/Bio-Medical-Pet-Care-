@@ -1,7 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { submitMessage } from '../api/Submitsend';
 
 const Home = () => {
+  const [contact_name, setContactName] = useState('');
+  const [contact_email, setContactEmail] = useState('')
+  const [contact_message, setContactMessage] = useState("I would like to know about this vet Vitals briefly!!!")
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+
+    // Validation for email
+    if (!contact_email) {
+      setError("Please fill your email");
+    } else if (!contact_email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+      setError("Invalid Email");
+    } else {
+      const contactname = contact_email.substring(0, contact_email.indexOf('@'));
+      setContactName(contactname);
+
+      const messageData = {
+        contact_email,
+        contact_name: contactname,
+        contact_message,
+      };
+      submitMessage(messageData)
+      .then((data) => {
+        if(data.error) {
+          setError(data.error);
+          setSuccess(false)
+        }
+        else {
+          setError('')
+          setSuccess(true)
+          setContactEmail('')
+          setContactName('')
+          setContactMessage('')
+        }
+      })
+      .catch((error) => console.log(error))
+  };
+
+  }
+
+  const showError = () => {
+    if (error) {
+      return <div className="text-red-800 font-bold text-2xl pt-3  text-center">{error}</div>;
+    }
+  };
+
+  const showSuccess = () => {
+    if (success) {
+      return <div className="text-green-800 text-2xl font-bold text-center pt-3">"Message Sent Successfully"</div>;
+    }
+  };
+
+  
   return (
     <>
       <div className="h-screen w-full flex flex-col md:flex-row pt-24 pb-12 items-center bg-gradient-to-r from-blue-300 via-blue-200 to-white px-6 md:px-10">
@@ -159,9 +216,46 @@ const Home = () => {
               alt="Team at work"
               className="rounded-3xl shadow-lg w-full h-auto object-cover"
             />
+
+            
+          </div>
+
+        </div>
+        
+      </div>
+       {/* news letter */}
+      <div className='w-full bg-blue-50  '>
+  
+          <div className='  text-center py-12 '>
+            <h1 className=' p-3  text-3xl md:text-3xl font-bold '>Join Our Newsletter</h1>
+            <p className='text-xl md:text-xl'>Sign up to receive our Newsletter</p>
+            {showError()}
+            {showSuccess()}
+            <div className="flex items-center justify-center   pb-12 pt-6 ">
+          
+          <form className="flex flex-col md:flex-row w-full max-w-3xl   md:px-0  " onSubmit={handleSubmit}>
+            <input
+              className="border border-stone-400 w-full py-2 px-3 pl-8 rounded-full mb-4 md:mb-0 md:mr-2"
+              type="email"
+              placeholder="Enter Your E-mail Address"
+              value={contact_email}
+              onChange={event => setContactEmail(event.target.value)}
+            />
+            <input type='hidden' value={contact_name}/>
+            <input type='hidden' value={contact_email} />
+            <input type='hidden' value={contact_message}/>
+            
+            <button className="border-2 rounded-full px-8 py-3 text-lg font-semibold transition duration-200 ease-in-out hover:bg-red-200  bg-red-400 text-white ">
+              Subscribe
+            </button>
+          </form>
+        </div>
+
+
           </div>
         </div>
-      </div>
+
+        
     </>
   );
 };

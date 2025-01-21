@@ -6,13 +6,15 @@ import {
   getAnimalById,
   updateAnimal,
 } from "../controllers/animalcontroller.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
+
 router.post("/addanimal", addanimal);
-router.get("/getallanimal", getAllAnimals);
-router.get("/getanimals/:id", getAnimalById);
-router.put("/update/:id", updateAnimal);
-router.delete("/delete/:id", deleteAnimal);
+router.get("/getallanimal",getAllAnimals);
+router.get("/getanimals/:id", verifyToken,getAnimalById);
+router.put("/update/:id",verifyToken, updateAnimal);
+router.delete("/delete/:id",verifyToken, deleteAnimal);
 
 export default router;

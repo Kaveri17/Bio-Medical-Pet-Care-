@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../api/Userapp';
+import { useUserStore } from '../store/userStore';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -8,6 +9,12 @@ const Login = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate()
+  // const [token,setToken] = useState("")
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [user, setUser] = useState(null);
+
+    const {  loginState } = useUserStore(); // Access Zustand state and actions
+  
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -17,9 +24,20 @@ const Login = () => {
         setError(data.message || "Login Failed. Please try again") ;
         setSuccess(false)
       } else{
-        setSuccess(false)
+        loginState(data.user)
+        setSuccess(true)
         setError("")
         navigate("/")
+
+      //   const cookieToken = Cookies.get("token");
+      // if (cookieToken) {
+      //   setToken(cookieToken);
+      //   console.log("TOKEN:", cookieToken);
+      // } else {
+      //   console.error("Token not found in cookies");
+      // }
+        // authenticate(data)
+        // console.log("data in login page: ",data)
         
       }
       
@@ -29,6 +47,18 @@ const Login = () => {
 
       
     }
+    // setError("");
+
+    // const result = await login(email, password);
+
+    // if (result.success) {
+    //   console.log("Login successful! Token:", result.token);
+    //   navigate("/")
+    //   // Redirect or perform any post-login actions
+    // } else {
+    //   setError(result.error);
+    // }
+
   };
   const showSuccess = () => {
     if (success) {
@@ -44,6 +74,17 @@ const Login = () => {
       )
     }
   }
+  // const redirect = () => {
+  //   // role= isAuthenticate().user.role
+  //   if (success) {
+  //     if (isAuthenticate().user.role === 1) {
+  //       return navigate('/admin/dashboard')
+  //     }
+  //     else {
+  //       return navigate('/')
+  //     }
+  //   }
+  // }
 
 
   return (
@@ -89,6 +130,9 @@ const Login = () => {
           >
             Log in
           </button>
+          <Link>
+          <p></p>
+          </Link>
         </form>
       </div>
     </div>

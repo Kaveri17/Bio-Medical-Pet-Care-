@@ -1,23 +1,31 @@
 import { Dailyrecord } from "../models/dailyrecords.model.js";
 import animalsData from "../data/animal_data.js";
+import { UserAnimal } from "../models/userAnimal.model.js";
 
 //add a new daily record
 export const createDailyRecord = async(req,res) => {
-    const {useranimal, weight, production, temperature} = req.body;
+  const {id} =req.params
+  const { weight, production, temperature} = req.body;
     try {
         const newDailyRecord = new Dailyrecord ({
-            useranimal,
+            useranimal:id,
             weight,
             production,
             temperature
+            
         });
         const savedRecord = await newDailyRecord.save();
+       
         return res.status(201).json({message: "Daily record created", data: savedRecord})
     } catch (error) {
         return res.status(500).json({message: "Error ctrating daily record",error})
         
     }
 }
+
+
+
+
 
 // const dailyRecords = await Dailyrecord.find({ useranimal: animalId })
 
@@ -34,21 +42,38 @@ export const getAllDailyRecords = async (req, res) => {
   }
 };
 //get a daily record by id
-export const getDailyRecordById = async (req, res) => {
-    const { id } = req.params;
+// export const getDailyRecordById = async (req, res) => {
+//     const { id } = req.params;
   
-    try {
-      const dailyRecord = await Dailyrecord.findById(id).populate("useranimal");
+//     try {
+//       const dailyRecord = await Dailyrecord.findById(id).populate("useranimal");
   
-      if (!dailyRecord) {
-        return res.status(404).json({ message: "Daily record not found" });
-      }
+//       if (!dailyRecord) {
+//         return res.status(404).json({ message: "Daily record not found" });
+//       }
   
-      return res.status(200).json(dailyRecord);
-    } catch (error) {
-      return res.status(500).json({ message: "Error fetching daily record", error });
-    }
-  };
+//       return res.status(200).json(dailyRecord);
+//     } catch (error) {
+//       return res.status(500).json({ message: "Error fetching daily record", error });
+//     }
+//   };
+
+
+export const getDailyRecordsByUserAnimalId = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const dailyRecords = await Dailyrecord.find({ useranimal: id}).populate('useranimal');
+
+  
+
+    return res.status(200).json(dailyRecords);
+  } catch (error) {
+    console.error("Error fetching daily records:", error);
+    return res.status(500).json({ message: "An error occurred while retrieving the daily records.", error });
+  }
+};
+
   //update
   export const updateDailyRecord = async (req, res) => {
     const { id } = req.params;

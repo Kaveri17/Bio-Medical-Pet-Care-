@@ -16,6 +16,38 @@ const Animals = () => {
         console.log("data",res);
       }
     });
+
+  }, []);
+  console.log(animals)
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+        <p className="text-red-500 font-semibold">{error}</p>
+        <Link to="/login" className="text-blue-500 underline mt-4">
+          Go to Login
+        </Link>
+      </div>
+    );
+  }
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getAllUserAnimals } from "../api/Add";
+// import { authenticate, isAuthenticate } from "../api/Userapp";
+
+const Animals = () => {
+  const [animals, setAnimals] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    getAllUserAnimals().then((res) => {
+      if (res?.error) {
+        console.log(res.error);
+      } else {
+        setAnimals(res);
+        console.log("data",res);
+      }
+    });
   }, []);
   console.log(animals)
 
@@ -31,16 +63,19 @@ const Animals = () => {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
-      <Link to="/animal-detail">
-        <button className="bg-blue-400 text-white px-4 py-2 rounded flex items-center mb-4 hover:bg-blue-500 transition duration-200">
-          <i className="fas fa-plus mr-2"></i>
-          Add new animal
-        </button>
-      </Link>
+    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
+      {/* Add New Category Button */}
+      <button
+        onClick={() => setShowAddModal(true)}
+        className="bg-blue-500 text-white px-4 py-2 rounded mb-6 hover:bg-blue-600 transition duration-200"
+      >
+        <i className="fas fa-plus mr-2"></i>
+        Add New Category
+      </button>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 w-full max-w-4xl">
-        {animals?.map((animal) => (
+      {/* Categories Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+        {categories.map((category, index) => (
           <div
             key={animal._id}
             className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center border border-gray-200 hover:shadow-xl transition duration-300 hover:bg-blue-300"
@@ -70,17 +105,18 @@ const Animals = () => {
               Gender: <span className="font-normal">{animal?.gender}</span>
             </p>
 
-            {animal.animal_type?.animal_type === "Cow" && (
+            {/* {animal.animal_type?.animal_type === "Cow" && ( */}
               <Link
                 to={`/healthtrack/${animal?._id}`}
                 className="mt-4 text-blue-500 hover:underline"
               >
                 Data Track
               </Link>
-            )}
+            {/* )} */}
           </div>
         ))}
       </div>
+
     </div>
   );
 };

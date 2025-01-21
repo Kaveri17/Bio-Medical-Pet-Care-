@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
+
+  {/* <div className="flex flex-row  items-center  mb-6 md:mb-0">
+          <img src="logo.png" className="w-16 h-16 mr-2" alt="Vet Vitals Logo" />
+          <h1 className="text-2xl font-bold text-blue-500">Vet Vitals</h1>
+      
+          
+          </div>
+        */}
+
 const App = () => {
+
+
   const [animals, setAnimals] = useState([]);
   const [selectedAnimal, setSelectedAnimal] = useState(null);
   const [newHealthRecord, setNewHealthRecord] = useState({

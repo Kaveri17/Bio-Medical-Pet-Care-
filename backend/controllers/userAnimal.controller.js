@@ -14,7 +14,7 @@ export const addUsersAnimal = async (req, res) => {
     }
 
     // Check if the breed exists within the selected animal type
-    const breedExists = animalCategory.breeds.some(
+    const breedExists = animalCategory.breeds.find(
         (breedItem) => breedItem._id.toString() === breed.toString()
     );
     if (!breedExists) {
@@ -38,3 +38,43 @@ export const addUsersAnimal = async (req, res) => {
 };
 
 //get all user
+
+//get all userAnimal 
+export const getUserAnimals = async (req, res) => {
+  try {
+    const userId = req.userId; // Retrieved from token in the middleware
+    const userAnimals = await UserAnimal.find({ user: userId })
+      .populate("breed")
+      .populate("animal_type");
+    
+    if (userAnimals.length === 0) {
+      return res.status(404).json({ success: false, message: "No animals found for this user" });
+    }
+
+    // res.status(200).json( userAnimals );
+    res.send(userAnimals)
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+//get by id
+
+//get all userAnimal 
+export const getUserAnimalById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const userAnimals = await UserAnimal.findById(id)
+    .populate("breed")
+    .populate("animal_type");
+
+
+    if(!userAnimals){
+      return res.status(404).json({ success: false, message: "No animals found for this user" });
+    }
+    // res.status(200).json( userAnimals );
+    res.send(userAnimals)
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};

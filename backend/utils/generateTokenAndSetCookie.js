@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
-export const generateTokenAndSetCookie = (res,userId) =>{
+// export const generateTokenAndSetCookie = (res,userId) =>{
+const generateTokenAndSetCookie = (res,userId) => {
     const token = jwt.sign({userId}, process.env.JWT_SECRET,{ // userId -> passing payload 
         expiresIn: "7d",
     })
@@ -9,7 +10,8 @@ export const generateTokenAndSetCookie = (res,userId) =>{
         httpOnly: true, // cookie cannot be accessed by client side javascript only accesible by http
         // secure: process.env.NODE_ENV ==="production",
         secure: false,
-        sameSite: "strict",
+        path: "/", 
+        // sameSite: "strict",
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
@@ -20,5 +22,6 @@ export const generateTokenAndSetCookie = (res,userId) =>{
     // res.cookie('token',token, {expire:Date.now() + 86400})
 
 
-    return token
+    // return token
 }
+export default generateTokenAndSetCookie;

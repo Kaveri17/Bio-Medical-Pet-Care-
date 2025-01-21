@@ -16,19 +16,22 @@ import ReportTrack from './pages/ReportTrack';
 import VaccinationReport from './pages/VaccinationReport';
 import SummaryReport from './pages/SummaryReport';
 import VaccineReminderNotification from './pages/VaccineReminderNotification';
+import AdminDashboard from './admin/AdminDashboard';
+
+import MessageView from './layout/MessageView';
+import AdminMessage from './admin/AdminMessage';
 import Dashboard from './admin/Dashboard';
+import VaccinesList from './admin/VaccinesList';
+import AddVaccine from './admin/AddVaccine';
+import Reports from './pages/Reports';
+
 // import AddCategory from './admin/AddCategory';
 // import Dashboard from "./admin/Dashboard"; 
 import AddCategory from './admin/AddCategory';
-import VaccinesList from './admin/VaccinesList';
-import HealthTrack1 from './pages/HealthTrack1';
-import ReportTrack1 from './pages/ReportTrack1';
 import AdminCategory from './admin/AdminCategory';
 import UpdateCategory from './admin/UpdateCategory';
-import AddVaccine from './admin/AddVaccine';
 import FileUpload from './admin/FileUpload';
 import ExcelUpload from './admin/ExcelUpload';
-
 
 const MyRoutes = () => {
   return (
@@ -44,15 +47,17 @@ const MyRoutes = () => {
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/animals" element={<Animals />} />
-          {/* <Route path="/animal-detail" element={<AnimalDetail />} /> */}
-          <Route path="/healthtrack" element={<HealthTrack />} />
-          <Route path="/healthtrack1" element={<HealthTrack1 />} />
+          <Route path="/animal-detail" element={<AnimalDetail />} />
+          <Route path="/healthtrack/:id" element={<HealthTrack />} />
+          
           <Route path="/summaryreport" element={<SummaryReport />} />
-          <Route path="/reporttrack" element={<ReportTrack />} />
-          <Route path="/reporttrack1" element={<ReportTrack1 />} />
-          <Route path="/vaccinationreport" element={<VaccinationReport />} />
+          <Route path="/reporttrack/:id" element={<ReportTrack />} />
+        
+          <Route path="/vaccinationreport/:id" element={<VaccinationReport />} />
           <Route path="/animaldetail" element={<AnimalDetail />} />
-          <Route path='/vaccinenoti' element={<VaccineReminderNotification />} />
+          <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
+          <Route path='/reports' element={<Reports/>}/>
+
           <Route path="/admin/dashboard" element={<Dashboard/>} /> 
           <Route path="/admin/category" element={<AdminCategory/>} /> 
           <Route path="/admin/add-category" element={<AddCategory />} />
@@ -62,6 +67,21 @@ const MyRoutes = () => {
           <Route path="/vaccines" element={<VaccinesList />} />
           <Route path="/excel" element={<ExcelUpload />} />
         </Route>
+
+         {/* Admin */}
+         <Route path="/admin/add-vaccine" element={<AddVaccine />} />
+          <Route path="/adminmessage" element={<AdminMessage/>}/>
+          <Route path="/admin/dashboard" element={<AdminDashboard/>}>
+          <Route path="/admin/dashboard" element={<Dashboard/>} />
+  
+        
+
+
+
+          </Route>
+                   
+          <Route path="/messageview/:id" element={<MessageView/>}/>
+          <Route path="/vaccines" element={<VaccinesList />} />
       </Routes>
     </Router>
   );
