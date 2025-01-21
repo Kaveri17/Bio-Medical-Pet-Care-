@@ -1,5 +1,6 @@
 const chickenData =[
     {
+      "animalType": "Chicken",
       "breed": "Sakini",
       "size": "Medium",
       "weight": {
@@ -47,6 +48,7 @@ const chickenData =[
       ]
     },
     {
+      "animalType": "Chicken",
       "breed": "Ghanti Khuile",
       "size": "Medium",
       "weight": {
@@ -94,6 +96,7 @@ const chickenData =[
       ]
     },
     {
+      "animalType": "Chicken",
       "breed": "Puwankh Ulte",
       "size": "Medium",
       "weight": {

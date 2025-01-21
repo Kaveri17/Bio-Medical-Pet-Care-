@@ -1,5 +1,6 @@
 const cowData =[
     {
+      "animalType": "Cow",
       "breed": "Lulu",
       "size": "Medium",
       "weight": {
@@ -42,6 +43,7 @@ const cowData =[
       ]
     },
     {
+      "animalType": "Cow",
       "breed": "Achhami",
       "size": "Small",
       "weight": {
@@ -84,6 +86,7 @@ const cowData =[
       ]
     },
     {
+      "animalType": "Cow",
       "breed": "Siri",
       "size": "Medium",
       "weight": {
@@ -126,6 +129,7 @@ const cowData =[
       ]
     },
     {
+      "animalType": "Cow",
       "breed": "Khaila",
       "size": "Large",
       "weight": {
@@ -168,6 +172,7 @@ const cowData =[
       ]
     },
     {
+      "animalType": "Cow",
       "breed": "Terai",
       "size": "Medium",
       "weight": {
@@ -210,6 +215,7 @@ const cowData =[
       ]
     },
     {
+      "animalType": "Cow",
       "breed": "Pahadi",
       "size": "Medium",
       "weight": {
