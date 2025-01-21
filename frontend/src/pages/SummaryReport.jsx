@@ -30,17 +30,17 @@ const VaccinationReport = () => {
   const normalProductionCount = matchingVaccines.filter((vaccine) => vaccine.production === 'Normal').length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 to-blue-200 flex flex-col items-center justify-center py-10 px-6">
+    <div className="min-h-screen flex flex-col items-center justify-center py-10 px-6">
       <div className="w-full max-w-5xl bg-white shadow-xl rounded-lg overflow-hidden">
-        <header className="bg-blue-600 text-white py-4 px-6">
-          <h2 className="text-2xl font-bold">Animal Vaccination Report</h2>
+        <header className="py-4 px-6">
+          <h2 className="text-2xl font-bold text-gray-800">Animal Vaccination Report</h2>
         </header>
 
         <div className="p-6">
           {/* Vaccine Table */}
           <div className="overflow-x-auto mb-8">
-            <table className="w-full border-collapse bg-white text-sm sm:text-base">
-              <thead className="bg-blue-100 text-gray-800">
+            <table className="w-full border-collapse text-sm sm:text-base">
+              <thead className="bg-blue-500 text-white">
                 <tr>
                   <th className="border py-3 px-4 text-left">Animal Type</th>
                   <th className="border py-3 px-4 text-left">Breed</th>
@@ -58,7 +58,7 @@ const VaccinationReport = () => {
                 {matchingVaccines.map((vaccine, index) => (
                   <tr
                     key={index}
-                    className="hover:bg-blue-50 transition duration-200"
+                    className="hover:bg-gray-100 transition duration-200"
                   >
                     <td className="border py-2 px-4">Cow</td>
                     <td className="border py-2 px-4">Terai Cattle</td>
@@ -77,7 +77,7 @@ const VaccinationReport = () => {
           </div>
 
           {/* Summary Section */}
-          <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+          <div className="p-6 rounded-lg shadow-md">
             <h3 className="text-xl font-semibold mb-4 text-gray-800">Summary Report</h3>
             <div className="text-lg space-y-3">
               <p>
@@ -104,7 +104,7 @@ const VaccinationReport = () => {
             <h4 className="text-xl font-semibold text-gray-800">Upcoming Vaccinations</h4>
             <ul className="mt-4 space-y-2">
               {matchingVaccines.map((vaccine, index) => (
-                <li key={index} className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition">
+                <li key={index} className="p-4 rounded-lg shadow-sm hover:shadow-md transition">
                   <strong className="text-gray-800">{vaccine.vaccine}</strong> - Next vaccination: 
                   <span className="text-blue-600 font-medium"> {vaccine.nextVaccination}</span>
                 </li>
