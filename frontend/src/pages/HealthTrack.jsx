@@ -144,7 +144,8 @@ const HealthTrack = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col justify-center items-center p-4">
       <h2 className="text-3xl font-bold mb-6 text-blue-900 text-center">
-      {animal.animal_type?.animal_type}'s Daily Data Track
+      {animal.animal_type?.animal_type}'s
+       Daily Data Track
       </h2>
 
       {loading ? (

@@ -83,9 +83,31 @@ const MyRoutes = () => {
                    
           <Route path="/messageview/:id" element={<MessageView/>}/>
           <Route path="/vaccines" element={<VaccinesList />} />
+
+          
+
+
+          
       </Routes>
     </Router>
   );
 };
 
 export default MyRoutes;
+
+
+{/* <Route path= "/admin" element ={<AdminRoute/>}>
+         <Route path="add-vaccine" element={<AddVaccine />} />
+          <Route path="adminmessage" element={<AdminMessage/>}/>
+          <Route path="dashboard" element={<AdminDashboard/>}/>
+         
+  
+        
+
+
+
+          </Route>
+          <Route path="/dashboard" element={<Dashboard/>} />    
+          <Route path="/messageview/:id" element={<MessageView/>}/>
+          <Route path="/vaccines" element={<VaccinesList />} />
+      </Routes> */}
