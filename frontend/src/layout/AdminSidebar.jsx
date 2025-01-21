@@ -60,7 +60,7 @@ const AdminSidebar = () => {
               </li>
 
               <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
-              <i class="fa-solid fa-syringe mr-2"></i>
+              <i className="fa-solid fa-syringe mr-2"></i>
                 <span>Vaccine</span>
               </li>
               <Link to= '/adminmessage'>

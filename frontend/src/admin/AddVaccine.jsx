@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 const AddVaccine = () => {
   const navigate = useNavigate();
-  
- 
   const [formData, setFormData] = useState({
     vaccineName: "",
     animalType: "",
@@ -14,7 +12,6 @@ const AddVaccine = () => {
     ageRange: "",
   });
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -23,12 +20,18 @@ const AddVaccine = () => {
     }));
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { vaccineName, animalType, breeds, frequency, duration, ageRange } = formData;
-    
-    if (!vaccineName || !animalType || !breeds || !frequency || !duration || !ageRange) {
+    const { vaccineName, animalType, breeds, frequency, duration, ageRange } =
+      formData;
+    if (
+      !vaccineName ||
+      !animalType ||
+      !breeds ||
+      !frequency ||
+      !duration ||
+      !ageRange
+    ) {
       alert("Please fill in all fields");
       return;
     }
@@ -41,11 +44,15 @@ const AddVaccine = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-8">
       <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-lg">
-        <h2 className="text-3xl font-semibold text-gray-800 text-center mb-8">Add Vaccine</h2>
+        <h2 className="text-3xl font-semibold text-gray-800 text-center mb-8">
+          Add Vaccine
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-        
           <div>
-            <label htmlFor="vaccineName" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="vaccineName"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Vaccine Name
             </label>
             <input
@@ -59,9 +66,11 @@ const AddVaccine = () => {
             />
           </div>
 
-          
           <div>
-            <label htmlFor="animalType" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="animalType"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Animal Type
             </label>
             <select
@@ -78,9 +87,11 @@ const AddVaccine = () => {
             </select>
           </div>
 
-         
           <div>
-            <label htmlFor="breeds" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="breeds"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Breeds
             </label>
             <select
@@ -97,9 +108,11 @@ const AddVaccine = () => {
             </select>
           </div>
 
-      
           <div>
-            <label htmlFor="frequency" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="frequency"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Frequency
             </label>
             <input
@@ -113,9 +126,11 @@ const AddVaccine = () => {
             />
           </div>
 
-        
           <div>
-            <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="duration"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Duration (Months)
             </label>
             <input
@@ -129,25 +144,25 @@ const AddVaccine = () => {
             />
           </div>
 
-         
-<div>
-  <label htmlFor="ageRange" className="block text-sm font-medium text-gray-700 mb-2">
-    Age Range (Years)
-  </label>
-  <input
-    type="number"
-    id="ageRange"
-    name="ageRange"
-    value={formData.ageRange}
-    onChange={handleChange}
-    min="0" 
-    className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-    placeholder="Age range in years"
-  />
-</div>
+          <div>
+            <label
+              htmlFor="ageRange"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Age Range (Years)
+            </label>
+            <input
+              type="number"
+              id="ageRange"
+              name="ageRange"
+              value={formData.ageRange}
+              onChange={handleChange}
+              min="0"
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              placeholder="Age range in years"
+            />
+          </div>
 
-
-      
           <button
             type="submit"
             className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 transition-all"

@@ -1,5 +1,6 @@
 import { Dailyrecord } from "../models/dailyrecords.model.js";
 import animalsData from "../data/animal_data.js";
+import { UserAnimal } from "../models/userAnimal.model.js";
 
 //add a new daily record
 export const createDailyRecord = async(req,res) => {

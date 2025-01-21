@@ -105,9 +105,9 @@ const Navbar = () => {
           </Link>
 
           <Link to='/vaccinenoti'>
-        <li class="notification">
-      <i class="fa fa-bell "></i>
-      <span class="notification-count">3</span>
+        <li className="notification">
+      <i className="fa fa-bell "></i>
+      <span className="notification-count">3</span>
     </li>
     
         </Link>

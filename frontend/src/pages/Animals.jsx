@@ -16,6 +16,7 @@ const Animals = () => {
         console.log("data",res);
       }
     });
+
   }, []);
   console.log(animals)
 
@@ -81,6 +82,7 @@ const Animals = () => {
           </div>
         ))}
       </div>
+
     </div>
   );
 };
