@@ -1,15 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaSyringe } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { getAllVaccines } from "../api/Vaccine"; // Adjust path as per your project structure
 
 const VaccinesList = () => {
-  const location = useLocation();
+  const [vaccines, setVaccines] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { vaccines } = location.state;
+
+  useEffect(() => {
+    const fetchVaccines = async () => {
+      try {
+        const fetchedVaccines = await getAllVaccines();
+        setVaccines(fetchedVaccines);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to load vaccines");
+        setLoading(false);
+      }
+    };
+
+    fetchVaccines();
+  }, []);
 
   const handleBack = () => {
     navigate("/");
   };
+
+  if (loading) {
+    return <p className="text-center text-blue-600">Loading vaccines...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center text-red-600">{error}</p>;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col justify-center items-center p-4">
@@ -40,17 +65,17 @@ const VaccinesList = () => {
                     <FaSyringe className="text-orange-600 text-xl" />
                   </div>
                   <span className="font-semibold text-gray-800">
-                    {vaccine.name}
+                    {vaccine.vaccine_name}
                   </span>
                 </td>
-                <td className="py-3 px-6 text-gray-700">{vaccine.animal}</td>
+                <td className="py-3 px-6 text-gray-700">{vaccine.animal_type}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {/* Back Button */}
+   
       <div className="flex justify-center mt-6">
         <button
           onClick={handleBack}
