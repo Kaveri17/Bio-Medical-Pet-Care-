@@ -194,6 +194,11 @@ const HealthTrack = () => {
           </table>
         </div>
       )}
+       <Link to={`/reports/${id}`}>
+        <button className="bg-blue-600 text-white px-6 py-2 rounded mt-4 hover:bg-blue-700 transition duration-200 shadow-md w-full sm:w-auto">
+         summary
+        </button>
+      </Link>
            <Link to={`/reporttrack/${id}`}>
         <button className="bg-blue-600 text-white px-6 py-2 rounded mt-6 hover:bg-blue-700 transition duration-200 shadow-md w-full sm:w-auto">
           Add Daily Report Tracking
@@ -209,6 +214,8 @@ const HealthTrack = () => {
           Check Report
         </button>
       </Link>
+
+     
     </div>
   );
 };

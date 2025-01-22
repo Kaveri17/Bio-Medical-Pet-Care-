@@ -57,7 +57,7 @@ const MyRoutes = () => {
           <Route path="/vaccinationreport/:id" element={<VaccinationReport />} />
           <Route path="/animaldetail" element={<AnimalDetail />} />
           <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
-          <Route path='/reports' element={<Reports/>}/>
+          <Route path='/reports/:id' element={<Reports/>}/>
 
           <Route path="/admin/dashboard" element={<Dashboard/>} /> 
           <Route path="/admin/category" element={<AdminCategory/>} /> 
