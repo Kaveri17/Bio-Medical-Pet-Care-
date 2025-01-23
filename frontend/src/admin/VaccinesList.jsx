@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FaSyringe } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { getAllVaccines } from "../api/Vaccine"; // Adjust path as per your project structure
+import axios from "axios";
+
+const API = "http://localhost:5001/api";
 
 const VaccinesList = () => {
   const [vaccines, setVaccines] = useState([]);
@@ -12,21 +14,16 @@ const VaccinesList = () => {
   useEffect(() => {
     const fetchVaccines = async () => {
       try {
-        const fetchedVaccines = await getAllVaccines();
-        setVaccines(fetchedVaccines);
+        const response = await axios.get(`${API}/vaccines`);
+        setVaccines(response.data);
         setLoading(false);
       } catch (err) {
         setError("Failed to load vaccines");
         setLoading(false);
       }
     };
-
     fetchVaccines();
   }, []);
-
-  const handleBack = () => {
-    navigate("/");
-  };
 
   if (loading) {
     return <p className="text-center text-blue-600">Loading vaccines...</p>;
@@ -41,49 +38,36 @@ const VaccinesList = () => {
       <h1 className="text-3xl font-bold pb-6 text-center text-blue-700">
         All Vaccines
       </h1>
-
-      {/* Vaccination Table */}
-      <div className="vaccines-list-container w-full max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-xl border border-blue-300">
+      <div className="vaccines-list-container w-full max-w-2xl bg-white p-6 rounded-lg shadow-xl">
         <table className="table-auto w-full text-sm">
           <thead>
             <tr className="bg-blue-100">
-              <th className="py-4 px-6 text-left text-blue-800">
-                Vaccine Name
-              </th>
-              <th className="py-4 px-6 text-left text-blue-800">Animal Type</th>
+              <th className="py-4 px-6 text-left">Vaccine Name</th>
+              <th className="py-4 px-6 text-left">Animal Type</th>
             </tr>
           </thead>
           <tbody>
-            {vaccines.map((vaccine, index) => (
+            {vaccines.map((vaccine) => (
               <tr
-                key={index}
+                key={vaccine.id}
                 className="border-b hover:bg-blue-50 transition duration-300"
               >
                 <td className="py-3 px-6 flex items-center space-x-4">
-                  {/* Syringe icon next to vaccine name */}
-                  <div className="bg-orange-100 p-2 rounded-full">
-                    <FaSyringe className="text-orange-600 text-xl" />
-                  </div>
-                  <span className="font-semibold text-gray-800">
-                    {vaccine.vaccine_name}
-                  </span>
+                  <FaSyringe className="text-orange-600 text-xl" />
+                  <span>{vaccine.vaccine_name}</span>
                 </td>
-                <td className="py-3 px-6 text-gray-700">{vaccine.animal_type}</td>
+                <td className="py-3 px-6">{vaccine.animal_type}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-   
-      <div className="flex justify-center mt-6">
-        <button
-          onClick={handleBack}
-          className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg hover:bg-gradient-to-l transition duration-300 shadow-md transform hover:scale-105"
-        >
-          Back to Dashboard
-        </button>
-      </div>
+      <button
+        onClick={() => navigate("/")}
+        className="mt-6 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md"
+      >
+        Back to Dashboard
+      </button>
     </div>
   );
 };
