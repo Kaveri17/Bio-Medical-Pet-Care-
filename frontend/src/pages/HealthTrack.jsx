@@ -144,7 +144,8 @@ const HealthTrack = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col justify-center items-center p-4">
       <h2 className="text-3xl font-bold mb-6 text-blue-900 text-center">
-      {animal.animal_type?.animal_type}'s Daily Data Track
+      {animal.animal_type?.animal_type}'s
+       Daily Data Track
       </h2>
 
       {loading ? (
@@ -193,6 +194,11 @@ const HealthTrack = () => {
           </table>
         </div>
       )}
+       <Link to={`/reports/${id}`}>
+        <button className="bg-blue-600 text-white px-6 py-2 rounded mt-4 hover:bg-blue-700 transition duration-200 shadow-md w-full sm:w-auto">
+         summary
+        </button>
+      </Link>
            <Link to={`/reporttrack/${id}`}>
         <button className="bg-blue-600 text-white px-6 py-2 rounded mt-6 hover:bg-blue-700 transition duration-200 shadow-md w-full sm:w-auto">
           Add Daily Report Tracking
@@ -208,6 +214,8 @@ const HealthTrack = () => {
           Check Report
         </button>
       </Link>
+
+     
     </div>
   );
 };

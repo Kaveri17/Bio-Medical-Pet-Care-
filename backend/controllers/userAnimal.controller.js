@@ -14,10 +14,10 @@ export const addUsersAnimal = async (req, res) => {
     }
 
     // Check if the breed exists within the selected animal type
-    const breedExists = animalCategory.breeds.find(
-        (breedItem) => breedItem._id.toString() === breed.toString()
+    const breedData = animalCategory?.breeds.find(
+        (breedItem) => breedItem.breed_name.toString() === breed.toString()
     );
-    if (!breedExists) {
+    if (!breedData) {
       return res
         .status(400)
         .json({ error: "Invalid breed for this animal type" });
@@ -25,7 +25,7 @@ export const addUsersAnimal = async (req, res) => {
     const newUserAnimal = await UserAnimal.create({
       user: userId, // verifyToken
       animal_type: animalCategory._id,
-      breed,
+      breed:breedData._id,
       age,
       gender,
     });

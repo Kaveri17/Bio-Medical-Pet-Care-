@@ -11,6 +11,7 @@ import vaccineRouter from "./routes/vaccineroute.js"
 import userAnimalRouter from "./routes/userAnimal.route.js"
 import breedRouter from "./routes/breedroute.js"
 import dailyrecordRouter from "./routes/dailyrecord.route.js"
+import reportRouter from "./routes/healthroute.js"
 //app config
 dotenv.config();
 
@@ -41,6 +42,8 @@ app.use("/api/vaccine", vaccineRouter)
 app.use("/api/breed",breedRouter)
 app.use("/api/useranimal",userAnimalRouter)
 app.use("/api/daily",dailyrecordRouter)
+app.use("/api/report",reportRouter)
+
 
 // Configure Nodemailer transporter
 const transporter = nodemailer.createTransport({

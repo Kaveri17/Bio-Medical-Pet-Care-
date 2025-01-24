@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import { FaHome,  FaCog, FaBars, FaTimes, FaSignOutAlt, FaInbox, FaUserInjured } from 'react-icons/fa';
 import {  FaCashRegister } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+
 
 const AdminSidebar = () => {
+  const navigate = useNavigate();
+  function signout(){
+    localStorage.clear();
+    navigate('/login')
+  }
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -82,7 +88,7 @@ const AdminSidebar = () => {
 {/* 
             <div className='flex items-center pt-9   lg:mx-auto md:mx-auto mx-auto  gap-16'> */}
        <div className='pt-6'>
-        <button className='border-2 border-white border-solid px-2 py-2'>
+        <button onClick={signout} className='border-2 border-white border-solid px-2 py-2'>
         <FaSignOutAlt className="font-bold " />
         
         </button>
@@ -117,6 +123,7 @@ const AdminSidebar = () => {
         className="md:hidden fixed top-4 left-4 bg-gray-800 text-white p-2 rounded z-50"
       >
         <FaBars />
+
       </button>
       
 
