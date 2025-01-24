@@ -32,6 +32,8 @@ import AdminCategory from './admin/AdminCategory';
 import UpdateCategory from './admin/UpdateCategory';
 import FileUpload from './admin/FileUpload';
 import ExcelUpload from './admin/ExcelUpload';
+// import AdminRoute from './auth/AdminRoute'
+// import AdminSidebar from './layout/AdminSidebar';
 
 
 const MyRoutes = () => {
@@ -72,17 +74,23 @@ const MyRoutes = () => {
          {/* Admin */}
          <Route path="/admin/add-vaccine" element={<AddVaccine />} />
           <Route path="/adminmessage" element={<AdminMessage/>}/>
-          <Route path="/admin/dashboard" element={<AdminDashboard/>}>
+          <Route path="/admin/dashboards" element={<AdminDashboard/>}/>
           <Route path="/admin/dashboard" element={<Dashboard/>} />
-  
-        
-
+{/*           
+ <Route path= "/admin" element ={<AdminRoute/>}>
+<Route path= 'admin' element = {<AdminSidebar/>}/>
+         <Route path="add-vaccine" element={<AddVaccine />} />
+          <Route path="adminmessage" element={<AdminMessage/>}/>
+          
+          
 
 
           </Route>
+          <Route path="messageview/:id" element={<MessageView/>}/>
+          <Route path="vaccines" element={<VaccinesList />} /> */}
                    
-          <Route path="/messageview/:id" element={<MessageView/>}/>
-          <Route path="/vaccines" element={<VaccinesList />} />
+           <Route path="/messageview/:id" element={<MessageView/>}/>
+          <Route path="/vaccines" element={<VaccinesList />} /> 
 
           
 

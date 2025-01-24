@@ -192,21 +192,20 @@
 // export default ReportTrack;
 
 
-
 import React, { useState } from 'react';
 import { addDaily } from '../api/dailyRecord';
 import { useParams } from 'react-router-dom';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ReportTrack = () => {
-  let {id} = useParams()
+  let { id } = useParams();
   const [newFrom, setNewFrom] = useState({
     weight: "",
     production: "",
     temperature: "",
   });
-  const [dailyData, setDailyData] = useState([]); 
-  const [error, setError] = useState("");
+  const [dailyData, setDailyData] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -220,32 +219,32 @@ const ReportTrack = () => {
     e.preventDefault();
 
     if (!newFrom.weight || !newFrom.production || !newFrom.temperature) {
-      setError("Please fill all fields.");
+      toast.error("Please fill all fields.");
       return;
     }
 
     addDaily(newFrom, id)
-  .then((data) => {
-    if (data?.error) {
-      setError(typeof data.error === 'object' ? JSON.stringify(data.error) : data.error);
-    } else {
-      setDailyData((prevData) => [data, ...prevData]);
-      setNewFrom({ weight: "", production: "", temperature: "" });
-      setError(""); // Clear error on success
-    }
-  })
-  .catch((err) => {
-    console.error("Error while adding daily record:", err);
-    setError("Failed to add the daily record.");
-  });
-
+      .then((data) => {
+        if (data?.error) {
+          toast.error(
+            typeof data.error === 'object' ? JSON.stringify(data.error) : data.error
+          );
+        } else {
+          setDailyData((prevData) => [data, ...prevData]);
+          setNewFrom({ weight: "", production: "", temperature: "" });
+          toast.success("Daily report added successfully!");
+        }
+      })
+      .catch((err) => {
+        console.error("Error while adding daily record:", err);
+        toast.error("Failed to add the daily record.");
+      });
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md border border-blue-300">
         <h2 className="text-3xl font-bold text-blue-900 mb-6">Daily Report</h2>
-        {error && <p className="text-red-600 mb-4">{typeof error === 'object' ? JSON.stringify(error) : error}</p>}
         <form onSubmit={handleAddFrom}>
           <div className="mb-4">
             <label htmlFor="weight" className="block text-gray-700 font-medium mb-2">
@@ -298,8 +297,10 @@ const ReportTrack = () => {
           >
             Add Report
           </button>
-        </form> 
+        </form>
       </div>
+      {/* Toastify Container */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

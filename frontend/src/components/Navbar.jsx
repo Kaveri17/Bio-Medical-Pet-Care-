@@ -144,7 +144,7 @@ const Navbar = () => {
             <hr />
             <li>
               <a
-                href="/admin/dashboard"
+                href="/admin/dashboards"
                 className="block px-4 py-2 hover:bg-gray-100"
               >
                 Dashboard
