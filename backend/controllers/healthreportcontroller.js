@@ -175,14 +175,10 @@ const generateWeeklyReport = (dailyRecords, benchmarkData) => {
     // Calculate the totals for weight and temperature
     totalWeight += record.weight || 0; // If no weight data, add 0
     totalTemperature += record.temperature || 0; // If no temperature data, add 0
-
     const animalType = record?.useranimal?.animal_type?.animal_type; // Accessing animal type
-    // const breed = record.useranimal.breed.breed_name; // Accessing breed name
-
     if (record.production) {
       totalProduction += record.production;
       productionCount++;
-
       if (animalType === "Cow") {
         // Check milk production for cows
         if (
@@ -201,7 +197,6 @@ const generateWeeklyReport = (dailyRecords, benchmarkData) => {
         }
       }
     }
-
     // Check weight range
     if (
       record.weight < benchmarkData.weight_range?.min ||
@@ -209,7 +204,6 @@ const generateWeeklyReport = (dailyRecords, benchmarkData) => {
     ) {
       abnormalCount++;
     }
-
     // Check for temperature abnormalities
     if (record.temperature < 37 || record.temperature > 40) {
       abnormalCount++;
