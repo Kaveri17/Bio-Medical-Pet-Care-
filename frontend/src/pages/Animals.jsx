@@ -24,9 +24,6 @@ const Animals = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
         <p className="text-red-500 font-semibold">{error}</p>
-        <Link to="/login" className="text-blue-500 underline mt-4">
-          Go to Login
-        </Link>
       </div>
     );
   }
