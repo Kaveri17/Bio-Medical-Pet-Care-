@@ -4,21 +4,53 @@ import { useNavigate } from "react-router-dom";
 import DashboardCard from "../components/DashboardCard";
 import axios from "axios";
 
+// API URL
 const API = "http://localhost:5001/api";
+
+// Function to get all animals (not needed directly for animal type count now)
+const getAllAnimals = () => {
+  return fetch(`${API}/animal/getallanimal`)
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .catch((error) => {
+      console.error("Error during getAllAnimals request:", error);
+      return { error: "An error occurred while retrieving animals." };
+    });
+};
 
 const Dashboard = () => {
   const [vaccines, setVaccines] = useState([]);
+  const [animalTypesCount, setAnimalTypesCount] = useState({}); // State to store animal type counts for vaccines
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch vaccines from the API
+  // Fetch vaccines and count animal types associated with them
   useEffect(() => {
     const fetchVaccines = async () => {
       try {
         const response = await axios.get(`${API}/vaccine/getallvaccines`);
         setVaccines(response.data);
         setLoading(false);
+
+        // Count animal types per vaccine
+        const vaccineAnimalTypeCounts = response.data.reduce((acc, vaccine) => {
+          const animalType = vaccine.animal_type;
+          
+          // Increment count for the vaccine's animal_type
+          if (acc[animalType]) {
+            acc[animalType]++;
+          } else {
+            acc[animalType] = 1;
+          }
+          return acc;
+        }, {});
+
+        setAnimalTypesCount(vaccineAnimalTypeCounts); // Set the animal type count for vaccines
       } catch (err) {
         setError("Failed to load vaccines");
         setLoading(false);
@@ -27,9 +59,6 @@ const Dashboard = () => {
 
     fetchVaccines();
   }, []);
-
-  // Display only the first 10 vaccines
-  const displayedVaccines = vaccines.slice(0, 10);
 
   const handleShowMore = () => {
     navigate("/vaccines");
@@ -44,14 +73,35 @@ const Dashboard = () => {
       <div className="flex flex-col justify-center items-center p-4">
         {/* Dashboard Cards */}
         <div className="cards flex flex-col md:flex-row w-[62%] justify-between mb-8">
-          <DashboardCard icon={<FaUsers />} title="Total Users" value={50} />
+          <DashboardCard icon={<FaUsers />} title="Total Users" value={7} />
           <DashboardCard icon={<FaDog />} title="Total Animals" value={3} />
           <DashboardCard
             icon={<FaPaw />}
             title="Animals Registered"
-            value={80}
+            value={3} // Displaying the total count of animals (could be dynamic if needed)
           />
         </div>
+
+        {/* Animal Types Count per Vaccine */}
+        {/* <div className="animal-types-count w-full md:w-3/4 lg:w-2/3 py-10">
+          <h2 className="text-2xl font-semibold pb-4 text-center text-blue-700">
+            Animal Types per Vaccine
+          </h2>
+
+          {Object.keys(animalTypesCount).length > 0 ? (
+            <div className="animal-type-list">
+              <ul className="list-disc pl-8">
+                {Object.entries(animalTypesCount).map(([type, count], index) => (
+                  <li key={index} className="text-blue-600">
+                    {type}: <strong>{count}</strong> vaccines
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p className="text-center text-blue-600">No animal types associated with vaccines</p>
+          )}
+        </div> */}
 
         {/* Vaccines List */}
         <div className="vaccines-list w-full md:w-3/4 lg:w-2/3 py-10">
@@ -77,7 +127,7 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayedVaccines.map((vaccine, index) => (
+                  {vaccines.map((vaccine, index) => (
                     <tr
                       key={index}
                       className="border-b hover:bg-blue-50 transition duration-300"
@@ -102,7 +152,6 @@ const Dashboard = () => {
             </div>
           )}
 
-          {/* Show More Button */}
           <div className="flex justify-center mt-6">
             <button
               onClick={handleShowMore}
