@@ -1,13 +1,12 @@
-// VerifyEmail.jsx
 import React, { useState } from "react";
 import { verifyEmail } from "../api/Userapp";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VerifyEmail = () => {
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -15,37 +14,19 @@ const VerifyEmail = () => {
     try {
       const data = await verifyEmail(verificationCode);
       if (!data.success) {
-        setError(data.message || "Login Failed. Please try again");
-        setSuccess(false);
+        toast.error(data.message || "Login Failed. Please try again");
       } else {
-        setSuccess(true);
-        setError("");
-        navigate("/login");
+        toast.success("Successfully Verified. Redirecting to login...");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000); // Redirect after 2 seconds
       }
     } catch (error) {
       console.log(error);
-      setError(error.message);
+      toast.error(error.message || "An error occurred");
     }
     console.log("Verification code submitted for:", email);
     console.log("Verification code:", verificationCode);
-  };
-  const showSuccess = () => {
-    if (success) {
-      return (
-        <div className="text-green-600 text-xl font-bold text-center">
-          Sucessfully Login
-        </div>
-      );
-    }
-  };
-  const showError = () => {
-    if (error) {
-      return (
-        <div className="text-red-600 text-xl font-bold text-center">
-          {error}
-        </div>
-      );
-    }
   };
 
   return (
@@ -54,8 +35,6 @@ const VerifyEmail = () => {
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">
           Verify Email
         </h2>
-        {showSuccess()}
-        {showError()}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
@@ -100,6 +79,7 @@ const VerifyEmail = () => {
             Verify
           </button>
         </form>
+        <ToastContainer />
       </div>
     </div>
   );
