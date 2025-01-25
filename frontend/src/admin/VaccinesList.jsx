@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API = "http://localhost:5001/api";
+const API = "http://localhost:5000/api";
 
 const AddVaccine = () => {
   const navigate = useNavigate();

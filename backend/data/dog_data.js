@@ -1,5 +1,6 @@
 const dogData =[
     {
+      "animalType": "Dog",
       "breed": "Nepali Sheepdog",
       "size": "Medium",
       "weight": {
@@ -37,6 +38,7 @@ const dogData =[
       ]
     },
     {
+      "animalType": "Dog",
       "breed": "Rottweiler",
       "size": "Large",
       "weight": {
@@ -74,6 +76,7 @@ const dogData =[
       ]
     },
     {
+      "animalType": "Dog",
       "breed": "Labrador Retriever",
       "size": "Large",
       "weight": {
@@ -111,6 +114,7 @@ const dogData =[
       ]
     },
     {
+      "animalType": "Dog",
       "breed": "Pahadi Dog",
       "size": "Medium",
       "weight": {
@@ -148,6 +152,7 @@ const dogData =[
       ]
     },
     {
+      "animalType": "Dog",
         "breed": "Gorkha Dog",
         "size": "Medium",
         "weight": {
