@@ -1,89 +1,149 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+
+const API = "http://localhost:5001/api";
 
 const UpdateCategory = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const [animalType, setAnimalType] = useState("");
-  const [breeds, setBreeds] = useState("");
-  const [categories, setCategories] = useState([
-    { id: 1, animalType: "Dog", breeds: "Golden Retriever, Labrador" },
-    { id: 2, animalType: "Cow", breeds: "Jersey, Holstein" },
-  ]);
+  const [formData, setFormData] = useState({
+    animalType: "",
+    breeds: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const category = categories.find((category) => category.id === parseInt(id));
-    if (category) {
-      setAnimalType(category.animalType);
-      setBreeds(category.breeds);
-    }
-  }, [id, categories]);
+    const fetchCategoryData = async () => {
+      try {
+        // Fetch animal data using /getanimals/:id
+        const response = await axios.get(`${API}/animal/getanimals/${id}`, { withCredentials: true });
+        
+        if (response.data.success) {
+          const { animal_type, breeds } = response.data.data;
+          
+          // Populate formData with the fetched animal type and breed names
+          setFormData({
+            animalType: animal_type || "",
+            breeds: breeds ? breeds.map(breed => breed.breed_name).join(", ") : "",
+          });
+        } else {
+          setError("Animal category not found.");
+        }
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load category data.");
+      }
+    };
 
-  const handleSubmit = (e) => {
+    fetchCategoryData();
+  }, [id]); // Dependency on id, ensuring it fetches data whenever the id changes
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedCategory = { id: parseInt(id), animalType, breeds };
-    setCategories(
-      categories.map((category) =>
-        category.id === updatedCategory.id ? updatedCategory : category
-      )
-    );
-    navigate("/");
+    setError(null);
+
+    const { animalType, breeds } = formData;
+
+    // Validate fields
+    if (!animalType || !breeds) {
+      setError("All fields are required.");
+      return;
+    }
+
+    const breedList = breeds.split(",").map((breed) => breed.trim());
+
+    const updatedData = {
+      animal_type: animalType,
+      breeds: breedList,
+    };
+
+    setLoading(true);
+    try {
+      const response = await axios.put(`${API}/animal/update/${id}`, updatedData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      if (response.data.success) {
+        alert("Category updated successfully!");
+        navigate("/admin/add-category");
+      } else {
+        setError(response.data.error || "An unexpected error occurred.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-lg bg-white p-6 rounded-lg shadow-xl">
+        <h1 className="text-3xl font-bold pb-6 text-center text-blue-700">
           Update Category
-        </h3>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
+        </h1>
+        {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
             <label
-              htmlFor="animal_type"
+              htmlFor="animalType"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
               Animal Type
             </label>
             <input
-              id="animal_type"
-              value={animalType}
-              onChange={(e) => setAnimalType(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              type="text"
+              id="animalType"
+              name="animalType"
+              value={formData.animalType}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               placeholder="Enter animal type"
             />
           </div>
-          <div className="mb-6">
+
+          <div>
             <label
-              htmlFor="breed"
+              htmlFor="breeds"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Breed
+              Breeds (comma separated)
             </label>
-            <textarea
-              id="breed"
-              value={breeds}
-              onChange={(e) => setBreeds(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              placeholder="Enter breed"
-              rows="3"
+            <input
+              type="text"
+              id="breeds"
+              name="breeds"
+              value={formData.breeds}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              placeholder="Enter breeds, separated by commas"
             />
           </div>
-          <div className="flex justify-between items-center">
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              className="px-4 py-2 rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300 transition"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all"
-            >
-              Save Changes
-            </button>
-          </div>
+
+          <button
+            type="submit"
+            className={`w-full px-6 py-3 rounded-lg shadow-md text-white transition-all ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
+            disabled={loading}
+          >
+            {loading ? "Updating..." : "Update Category"}
+          </button>
         </form>
       </div>
     </div>

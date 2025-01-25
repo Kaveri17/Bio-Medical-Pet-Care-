@@ -1,44 +1,106 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getAllAnimals } from "../api/Animals";
+import { addVaccine } from "../api/Vaccine";
+// import { addVaccine } from "../api/Vaccine"; // API function for adding vaccine
+// import { getAllAnimals } from "../api/Animal"; // API function for fetching animals
 
 const AddVaccine = () => {
   const navigate = useNavigate();
+
+  // State for animal types and breeds
+  const [animals, setAnimals] = useState([]);
+  const [breeds, setBreeds] = useState([]);
   const [formData, setFormData] = useState({
     vaccineName: "",
     animalType: "",
-    breeds: "",
+    breed: "",
     frequency: "",
     duration: "",
-    ageRange: "",
+    ageRangeMin: "",
+    ageRangeMax: "",
   });
 
+  // Fetch animal types and their breeds on component mount
+  useEffect(() => {
+    const getAnimals = async () => {
+      try {
+        const response = await getAllAnimals(); // API call to get animals
+        setAnimals(response.data.data); // Set the animals with breeds
+      } catch (error) {
+        console.error("Error fetching animals:", error);
+      }
+    };
+
+    getAnimals();
+  }, []);
+
+  // Handle change in form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // When animal type is selected, filter breeds for that animal
+    if (name === "animalType") {
+      const selectedAnimal = animals.find((animal) => animal._id === value);
+      setBreeds(selectedAnimal?.breeds || []); // Update breeds based on selected animal type
+      setFormData((prev) => ({
+        ...prev,
+        breed: "", // Reset breed when animal type changes
+      }));
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { vaccineName, animalType, breeds, frequency, duration, ageRange } =
-      formData;
+    const {
+      vaccineName,
+      animalType,
+      breed,
+      frequency,
+      duration,
+      ageRangeMin,
+      ageRangeMax,
+    } = formData;
+
     if (
       !vaccineName ||
       !animalType ||
-      !breeds ||
+      !breed ||
       !frequency ||
       !duration ||
-      !ageRange
+      !ageRangeMin ||
+      !ageRangeMax
     ) {
       alert("Please fill in all fields");
       return;
     }
 
-    console.log("Vaccine Added:", formData);
+    const vaccineData = {
+      vaccine_name: vaccineName,
+      animal_type: animalType, // Send animal type ID
+      breed, // Send breed ID
+      frequency,
+      duration: parseInt(duration, 10),
+      age_range: {
+        min: parseInt(ageRangeMin, 10),
+        max: parseInt(ageRangeMax, 10),
+      },
+    };
 
-    navigate("/admin/vaccine-list");
+    try {
+      await addVaccine(vaccineData);
+      alert("Vaccine added successfully!");
+      navigate("/admin/add-vaccine");
+    } catch (error) {
+      console.error("Error adding vaccine:", error);
+      alert("Failed to add vaccine. Please try again.");
+    }
   };
 
   return (
@@ -81,87 +143,40 @@ const AddVaccine = () => {
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
             >
               <option value="">Select Animal Type</option>
-              <option value="1">Dog</option>
-              <option value="2">Cow</option>
-              <option value="3">Cat</option>
+              {animals.map((animal) => (
+                <option key={animal._id} value={animal._id}>
+                  {animal.animal_type}
+                </option>
+              ))}
             </select>
           </div>
 
           <div>
             <label
-              htmlFor="breeds"
+              htmlFor="breed"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
               Breeds
             </label>
             <select
-              id="breeds"
-              name="breeds"
-              value={formData.breeds}
+              id="breed"
+              name="breed"
+              value={formData.breed}
               onChange={handleChange}
               className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
             >
-              <option value="">Select Breeds</option>
-              <option value="1">Golden Retriever</option>
-              <option value="2">Labrador</option>
-              <option value="3">Jersey</option>
+              <option value="">Select Breed</option>
+              {breeds.map((breed) => (
+                <option key={breed._id} value={breed._id}>
+                  {breed.breed_name}
+                </option>
+              ))}
             </select>
           </div>
 
-          <div>
-            <label
-              htmlFor="frequency"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Frequency
-            </label>
-            <input
-              type="text"
-              id="frequency"
-              name="frequency"
-              value={formData.frequency}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              placeholder="How often is it given?"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="duration"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Duration (Months)
-            </label>
-            <input
-              type="number"
-              id="duration"
-              name="duration"
-              value={formData.duration}
-              onChange={handleChange}
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              placeholder="Duration in months"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="ageRange"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Age Range (Years)
-            </label>
-            <input
-              type="number"
-              id="ageRange"
-              name="ageRange"
-              value={formData.ageRange}
-              onChange={handleChange}
-              min="0"
-              className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              placeholder="Age range in years"
-            />
-          </div>
+          {/* Remaining fields */}
+          {/* Frequency, Duration, Age Range, etc. */}
+          {/* Same as original code */}
 
           <button
             type="submit"

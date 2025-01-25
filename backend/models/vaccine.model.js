@@ -26,10 +26,31 @@ const vaccineSchema = new mongoose.Schema(
             type: Number,
             required:true
         },
+        // age_range: {
+        //     type: Number,
+        //     required: true
+        // }
+
         age_range: {
-            type: Number,
-            required: true
-        }
+            min: {
+              type: Number,
+              required: true,
+              validate: {
+                validator: (value) => value >= 0,
+                message: 'Minimum age must be a non-negative number.',
+              },
+            },
+            max: {
+              type: Number,
+              required: true,
+              validate: {
+                validator: function (value) {
+                  return value >= this.age_range.min;
+                },
+                message: 'Maximum age must be greater than or equal to minimum age.',
+              },
+            },
+          },
     },
 {
     timestamps:true
