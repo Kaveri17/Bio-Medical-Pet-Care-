@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser"
- import nodemailer from "nodemailer"
+
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/user.route.js";
 import contactRouter from "./routes/contactroute.js"
@@ -12,8 +12,7 @@ import userAnimalRouter from "./routes/userAnimal.route.js"
 import breedRouter from "./routes/breedroute.js"
 import dailyrecordRouter from "./routes/dailyrecord.route.js"
 import reportRouter from "./routes/healthroute.js"
-import emailRouter from './routes/emailroute.js'
-//app config
+import emailRouter from './routes/emailroute.js'//app config
 dotenv.config();
 
 const app = express();
@@ -121,6 +120,32 @@ app.use("/api/report",reportRouter)
 //       res.status(500).json({ error: "Failed to send email" });
 //   }
 // });
+
+// app.post('/api/notifications', async (req, res) => {
+//   try {
+//     const { message, time } = req.body;
+//     const newNotification = new Notifications({
+//       message,
+//       time: time || new Date(), // Default to current time if not provided
+//     });
+//     await newNotification.save();
+//     res.status(201).json({ message: 'Notification created successfully' });
+//   } catch (error) {
+//     console.error('Error creating notification:', error);
+//     res.status(500).json({ error: 'Failed to create notification' });
+//   }
+// });
+// app.get('/api/notifications', async (req, res) => {
+//   try {
+//     const notifications = await Notifications.find();
+//     res.json({ notifications });
+//   } catch (error) {
+//     console.error('Error fetching notifications:', error);
+//     res.status(500).json({ error: 'Error fetching notifications' });
+//   }
+// });
+
+
 
 app.use("/api/send-email", emailRouter);
 // app.use('/public/upload',express.static('public/upload'))

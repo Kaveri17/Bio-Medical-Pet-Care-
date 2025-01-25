@@ -37,7 +37,8 @@ import {
     sendVaccineFollowUpEmail,
     sendVaccineReminderEmail
 } from "../mailtrap/vaccine.js";
-import { getAllVaccineEmails, getVaccineEmailById } from "../controllers/vaccinenoticontroller.js";
+// import { getAllVaccineEmails, getVaccineEmailById } from "../controllers/vaccinenoticontroller.js";
+// import Notifications from "../models/notificationsmodel.js";
 
 // Assuming you have a function to get vaccine email dat
  // Update with your actual file path
@@ -66,11 +67,22 @@ router.post("/send-vaccine-email", async (req, res) => {
     }
 });
 
-// GET route to get a single vaccine email by ID
-router.get("/get-vaccine-email/:id", getVaccineEmailById);
+// // GET route to get a single vaccine email by ID
+// router.get("/get-vaccine-email/:id", getVaccineEmailById);
 
-// GET route to get all vaccine emails
-router.get("/get-all-vaccine-emails", getAllVaccineEmails);
+// // GET route to get all vaccine emails
+// router.get("/get-all-vaccine-emails", getAllVaccineEmails);
+// Endpoint to fetch notifications
+// app.get('/api/notifications', async (req, res) => {
+//   try {
+//       // Fetch the latest notifications from the database
+//       const notifications = await Notifications.find().sort({ createdAt: -1 }).limit(10);
+//       res.json({ notifications });
+//   } catch (error) {
+//       console.error('Error fetching notifications:', error);
+//       res.status(500).send('Error fetching notifications');
+//   }
+// });
 
 export default router;
 

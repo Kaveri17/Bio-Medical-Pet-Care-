@@ -32,6 +32,7 @@ import AdminCategory from './admin/AdminCategory';
 import UpdateCategory from './admin/UpdateCategory';
 import FileUpload from './admin/FileUpload';
 import ExcelUpload from './admin/ExcelUpload';
+// import SendVaccineReminder from './pages/SendVaccineReminder';
 // import AdminRoute from './auth/AdminRoute'
 // import AdminSidebar from './layout/AdminSidebar';
 
@@ -60,7 +61,7 @@ const MyRoutes = () => {
           <Route path="/animaldetail" element={<AnimalDetail />} />
           {/* <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/> */}
           <Route path='/reports/:id' element={<Reports/>}/>
-
+          {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
           <Route path="/admin/dashboard" element={<Dashboard/>} /> 
           <Route path="/admin/category" element={<AdminCategory/>} /> 
           <Route path="/admin/add-category" element={<AddCategory />} />
@@ -69,6 +70,7 @@ const MyRoutes = () => {
           <Route path="/fileupload" element={<FileUpload />} />
           <Route path="/vaccines" element={<VaccinesList />} />
           <Route path="/excel" element={<ExcelUpload />} />
+          {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
         </Route>
 
          {/* Admin */}
