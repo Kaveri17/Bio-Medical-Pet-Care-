@@ -77,7 +77,7 @@ const Navbar = () => {
           </div>
           <Link to="/">
             <span className="heading text-2xl sm:text-3xl text-blue-900 ps-2 font-bold">
-              Vite Vitals
+              Vet Vitals
             </span>
           </Link>
         </div>
