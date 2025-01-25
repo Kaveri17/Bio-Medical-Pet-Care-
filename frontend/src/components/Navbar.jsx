@@ -26,10 +26,15 @@ const Navbar = () => {
         const response = await authenticate();
         if (response.success) {
           loginState(response.user); // Update Zustand store with the user data
+          console.log(response.user)
         } else {
+          // setIsAuthenticated(false);
+          // setUser(null);
           logoutState();
         }
       } catch (error) {
+        console.error("Error checking auth status");
+        // setIsAuthenticated(false);
         logoutState();
       }
     };
@@ -90,61 +95,85 @@ const Navbar = () => {
           <Link to="/about">
             <li className="text-black hover:text-blue-500">About Us</li>
           </Link>
+          {isAuthenticated && (
+
           <Link to="/animals">
             <li className="text-black hover:text-blue-500">Animals</li>
           </Link>
+          )}
+
           <Link to="/contact">
             <li className="text-black hover:text-blue-500">Contact Us</li>
           </Link>
-          <Link to="/register">
-            <li className="text-black hover:text-blue-500 ">Register</li>
-          </Link>
-        </div>
-
-        {/* Profile Dropdown */}
-        <div className="relative">
-          <div
-            className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4 cursor-pointer"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown
-          >
-            <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />
-          </div>
-
-          {/* Dropdown Menu */}
-          {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
-              <ul className="py-1 text-sm text-gray-700">
-                <li>
-                  <a
-                    href="/login"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Login
-                  </a>
-                </li>
-                <hr />
-                <li>
-                  <a
-                    href="/admin/dashboards"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    Dashboard
-                  </a>
-                </li>
-                <hr />
-                <li>
-                  <a
-                    href="/login"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                    onClick={handleLogout} // Call handleLogout when clicked
-                  >
-                    Logout
-                  </a>
-                </li>
-              </ul>
-            </div>
+          {/* <Link to="/login">
+            <li className="text-black hover:text-blue-500">Login</li>
+          </Link> */}
+          {!isAuthenticated && (
+            <>
+              <Link to="/register">
+                <li className="text-black hover:text-blue-500 ">Register</li>
+              </Link>
+              <Link to="/login">
+                <li className="text-black hover:text-blue-500 ">Login</li>
+              </Link>
+            </>
           )}
+
+          {/* <li className="notification">
+            <i className="fa fa-bell "></i>
+            <span className="notification-count">3</span>
+          </li> */}
         </div>
+
+        {/* <div className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4">
+  <img src="/team2.jpg" alt="Profile" className="w-full h-full object-cover" />
+</div> */}
+
+        {isAuthenticated && (
+          <div className="relative ps-10">
+            {/* Profile Image */}
+            <div
+              className="profile w-[55px] h-[50px] flex justify-center items-center rounded-full text-white bg-[#023478] overflow-hidden mx-4 cursor-pointer"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)} // Toggle dropdown
+            >
+              <img
+                src="/team2.jpg"
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-10">
+                <ul className="py-1 text-sm text-gray-700">
+                  {user?.role === 1 && (
+                    <>
+                    <li>
+                      <Link
+                        to="/admin/dashboards"
+                        className="block px-4 py-2 hover:bg-gray-100"
+                      >
+                        Dashboard
+                      </Link>
+                    </li>
+                  <hr className="" />
+                    
+                    </>
+                  )}
+                  <li>
+                    <Link
+                      onClick={handleLogout}
+                      className="block px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Mobile Menu Toggle */}
         <div onClick={handleNavbar} className="md:hidden cursor-pointer">

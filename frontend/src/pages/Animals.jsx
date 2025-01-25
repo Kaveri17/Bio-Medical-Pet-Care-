@@ -1,38 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllUserAnimals } from "../api/Add";
-// import { authenticate, isAuthenticate } from "../api/Userapp";
 
 const Animals = () => {
   const [animals, setAnimals] = useState([]);
   const [error, setError] = useState(null); // Added state
   // const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   getAllUserAnimals()
-  //     .then((res) => {
-  //       console.log("res",res)
-  //       if (res?.error) {
-  //         setError(res.error);
-  //       } else {
-  //         setAnimals(res);
-  //       }
-  //     })
-  //     .catch((err) => setError("Failed to fetch animals."))
-  //     .finally(() => setLoading(false));
-  // }, []);
-  // useEffect(() => {
-  //   getAllUserAnimals().then((res) => {
-  //     // console.log(res)
-  //     if (res?.error) {
-  //       console.log(res.error);
-  //     } else {
-  //       setAnimals(res);
-  //       console.log("data",res);
-  //     }
-  //   });
-
-  // }, []);
   useEffect(() => {
     getAllUserAnimals().then((res) => {
       console.log("out",res)
@@ -129,13 +103,6 @@ const Animals = () => {
           ))}
         </div>
       )}
-      {/* {animals?.length === 0 ? (
-        <p className="text-gray-700 text-center w-full">
-          No animals added yet. Click "Add New Animal" to get started.
-        </p>
-      ) : ( */}
-
-      {/* )} */}
     </div>
   );
 };

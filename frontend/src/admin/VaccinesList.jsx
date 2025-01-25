@@ -8,7 +8,7 @@ const VaccinesList = () => {
   const { vaccines } = location.state;
 
   const handleBack = () => {
-    navigate("/");
+    navigate("/admin/dashboards");
   };
 
   return (
