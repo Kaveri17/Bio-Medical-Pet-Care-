@@ -122,7 +122,7 @@ export const WELCOME_EMAIL_TEMPLATE = `
 
 
 
-export const VACCINE_REMINDER_TEMPLATE = "<html>Reminder Template</html>";
+export const VACCINE_REMINDER_TEMPLATE = "<html>Reminder !!! <br> It's Time To Vaccinate Your Animal </html>";
 export const VACCINE_CONFIRMATION_TEMPLATE = "<html>Confirmation Template</html>";
 export const VACCINE_FOLLOWUP_TEMPLATE = "<html>Follow-up Template</html>";
 

@@ -13,6 +13,7 @@ import breedRouter from "./routes/breedroute.js"
 import dailyrecordRouter from "./routes/dailyrecord.route.js"
 import reportRouter from "./routes/healthroute.js"
 import emailRouter from './routes/emailroute.js'//app config
+import animalBenchmarkRoutes from './routes/benchmarkroute.js'
 dotenv.config();
 
 const app = express();
@@ -146,6 +147,7 @@ app.use("/api/report",reportRouter)
 // });
 
 
+app.use('/api/animal-benchmarks', animalBenchmarkRoutes);
 
 app.use("/api/send-email", emailRouter);
 // app.use('/public/upload',express.static('public/upload'))

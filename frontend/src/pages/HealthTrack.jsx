@@ -104,7 +104,6 @@ const HealthTrack = () => {
         setError(data.error);
       } else {
         setAnimal(data);
-        console.log("data", data);
       }
       setLoading(false);
     });
@@ -116,13 +115,17 @@ const HealthTrack = () => {
       .then((data) => {
         if (data?.error) {
           setError(data.error);
+          console.log(data.error)
         } else {
+          // setDailyData(data.data.slice(0, 7).reverse());
           setDailyData(data);
+        console.log("data", data);
+          
         }
         setLoading(false);
       })
       .catch((err) => {
-        setError("Failed to fetch daily records.");
+        setError(err.message || "Failed to fetch daily records.");
         setLoading(false);
       });
   };

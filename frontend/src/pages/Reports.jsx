@@ -316,51 +316,62 @@ const Reports = () => {
         </h1>
       </div>
 
+      {/* {reportData ? ( */}
       {/* Weekly Health Report */}
-      <div className="mb-10">
-        <h2 className="text-xl font-bold mb-5">Weekly Health Report</h2>
-        <div className="flex flex-wrap gap-4 justify-center">
-          <DataCard
-            title="Temperature"
-            value={reportData?.avgTemperature || "N/A"}
-            // isAbnormal={isAbnormal(reportData?.avgTemperature, thresholds.temperature)}
-          />
-          <DataCard
-            title="Weight"
-            value={reportData?.avgWeight || "N/A"}
-            // isAbnormal={isAbnormal(reportData?.avgWeight, thresholds.weight)}
-          />
-          {(animalDetails?.animal_type?.animal_type === "Cow" ||
-            animalDetails?.animal_type?.animal_type === "Chicken") && (
+      {reportData ? (
+        <div className="mb-10">
+          <h2 className="text-xl font-bold mb-5">Weekly Health Report</h2>
+          <div className="flex flex-wrap gap-4 justify-center">
             <DataCard
-              title={`${animalDetails?.animal_type?.animal_type === "Cow" ? "Milk Production (litres)" : "Egg Production"}`}
-              value={reportData?.avgProduction || "N/A"}
-              // isAbnormal={isAbnormal(reportData?.avgProduction, thresholds.milkProduction)}
+              title="Temperature"
+              value={reportData?.avgTemperature || "N/A"}
+              // isAbnormal={isAbnormal(reportData?.avgTemperature, thresholds.temperature)}
             />
-          )}
+            <DataCard
+              title="Weight"
+              value={reportData?.avgWeight || "N/A"}
+              // isAbnormal={isAbnormal(reportData?.avgWeight, thresholds.weight)}
+            />
+            {(animalDetails?.animal_type?.animal_type === "Cow" ||
+              animalDetails?.animal_type?.animal_type === "Chicken") && (
+              <DataCard
+                title={`${
+                  animalDetails?.animal_type?.animal_type === "Cow"
+                    ? "Milk Production (litres)"
+                    : "Egg Production"
+                }`}
+                value={reportData?.avgProduction || "N/A"}
+                // isAbnormal={isAbnormal(reportData?.avgProduction, thresholds.milkProduction)}
+              />
+            )}
+          </div>
+          <div className="mt-5">
+            <h3 className="text-xl font-semibold">Conclusion:</h3>
+            {/* <p
+     className={`text-lg font-medium`}
+   >
+     {isAbnormal(reportData?.avgTemperature, thresholds.temperature) ||
+     isAbnormal(reportData?.avgWeight, thresholds.weight) ||
+     isAbnormal(reportData?.avgProduction, thresholds.milkProduction)
+       ? 'Abnormality found. Consult a vet immediately.'
+       : 'Your animal is healthy. Continue to monitor their health.'}
+   </p> */}
+            {reportData?.healthStatus === "Healthy" ? (
+              <p className="text-lg font-medium text-green-400">
+                Your animal is healthy. Continue to monitor their health.
+              </p>
+            ) : (
+              <p className="text-lg font-medium text-red-400">
+                Abnormal Health Report. Consult a vet immediately.
+              </p>
+            )}
+          </div>
         </div>
-        <div className="mt-5">
-          <h3 className="text-xl font-semibold">Conclusion:</h3>
-          {/* <p
-            className={`text-lg font-medium`}
-          >
-            {isAbnormal(reportData?.avgTemperature, thresholds.temperature) ||
-            isAbnormal(reportData?.avgWeight, thresholds.weight) ||
-            isAbnormal(reportData?.avgProduction, thresholds.milkProduction)
-              ? 'Abnormality found. Consult a vet immediately.'
-              : 'Your animal is healthy. Continue to monitor their health.'}
-          </p> */}
-          {reportData?.healthStatus === "Healthy" ? (
-            <p className="text-lg font-medium text-green-400">
-              Your animal is healthy. Continue to monitor their health.
-            </p>
-          ) : (
-            <p className="text-lg font-medium text-red-400">
-              Abnormal Health Report. Consult a vet immediately.
-            </p>
-          )}
+      ) : (
+        <div className="text-center text-red-500 text-lg font-semibold mt-10">
+          No records found for this animal this week.
         </div>
-      </div>
+      )}
     </div>
   );
 };

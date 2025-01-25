@@ -15,6 +15,22 @@ export const createDailyRecord = async (req, res) => {
     }
 
     const { animal_type } = userAnimal;
+    // Check if a daily record already exists for today
+    const today = new Date();
+    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+
+    const existingRecord = await Dailyrecord.findOne({
+      useranimal: id,
+      createdAt: { $gte: startOfDay, $lte: endOfDay },
+    });
+
+    if (existingRecord) {
+      return res
+        .status(400)
+        .json({ error: "You have already entered data for today." });
+    }
+
     // Validate production field for cow and chicken
     if (
       (animal_type?.animal_type === "Cow" ||
@@ -76,7 +92,7 @@ export const getAllDailyRecords = async (req, res) => {
 //     }
 //   };
 
-export const getDailyRecordsByUserAnimalId = async (req, res) => {
+export const getAllDailyRecordsByUserAnimalId = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -87,12 +103,53 @@ export const getDailyRecordsByUserAnimalId = async (req, res) => {
     return res.status(200).json(dailyRecords);
   } catch (error) {
     console.error("Error fetching daily records:", error);
+    return res.status(500).json({
+      message: "An error occurred while retrieving the daily records.",
+      error,
+    });
+  }
+};
+export const getDailyRecordsByUserAnimalId = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Get today's date
+    // const today = new Date();
+
+    // // Get the current day (0 is Sunday, 1 is Monday, etc.)
+    // const currentDay = today.getDay();
+
+    // // Calculate the start of the week (Sunday)
+    // const startOfWeek = new Date(today);
+    // startOfWeek.setDate(today.getDate() - currentDay); // Set to Sunday
+
+    // // Set time to midnight for the start of the week
+    // startOfWeek.setHours(0, 0, 0, 0);
+
+    // // Calculate the end of the week (Saturday)
+    // const endOfWeek = new Date(startOfWeek);
+    // endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to Saturday
+
+    // // Set time to just before midnight for the end of the week
+    // endOfWeek.setHours(23, 59, 59, 999);
+
+    // Fetch records for the current week (from Sunday to Saturday)
+    const dailyRecords = await Dailyrecord.find({
+      useranimal: id,
+      // createdAt: { $gte: startOfWeek, $lte: endOfWeek },
+    }).populate("useranimal");
+
+    if (dailyRecords.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No records found for the current week" });
+    }
+
+    return res.status(200).json( dailyRecords );
+  } catch (error) {
     return res
       .status(500)
-      .json({
-        message: "An error occurred while retrieving the daily records.",
-        error,
-      });
+      .json({ message: "Error fetching weekly data", error });
   }
 };
 
@@ -142,73 +199,73 @@ export const deleteDailyRecord = async (req, res) => {
 };
 
 // Function to fetch the user-entered data and compare with the dataset
-export const getComparisonReport = async (req, res) => {
-  const { userId, animalId } = req.params;
+// export const getComparisonReport = async (req, res) => {
+//   const { userId, animalId } = req.params;
 
-  try {
-    // Fetch the daily records for a specific user and animal
-    const dailyRecords = await Dailyrecord.find({
-      useranimal: animalId,
-    }).populate("useranimal");
+//   try {
+//     // Fetch the daily records for a specific user and animal
+//     const dailyRecords = await Dailyrecord.find({
+//       useranimal: animalId,
+//     }).populate("useranimal");
 
-    if (!dailyRecords || dailyRecords.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No records found for this animal." });
-    }
+//     if (!dailyRecords || dailyRecords.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ message: "No records found for this animal." });
+//     }
 
-    const dataset = animalsData;
+//     const dataset = animalsData;
 
-    const comparisonResults = dailyRecords
-      .map((record) => {
-        const userAnimal = record.useranimal;
-        const breed = userAnimal.breed;
-        const animalType = userAnimal.animalType;
-        const age = userAnimal.age;
+//     const comparisonResults = dailyRecords
+//       .map((record) => {
+//         const userAnimal = record.useranimal;
+//         const breed = userAnimal.breed;
+//         const animalType = userAnimal.animalType;
+//         const age = userAnimal.age;
 
-        // const breedDataset = dataset.find(item => item.breed === breed && item.animalType === animalType);
+//         // const breedDataset = dataset.find(item => item.breed === breed && item.animalType === animalType);
 
-        const breedDataset = dataset.find((item) =>
-          item.breeds.some(
-            (breedObj) =>
-              breedObj.breed === breed && breedObj.animalType === animalType
-          )
-        );
+//         const breedDataset = dataset.find((item) =>
+//           item.breeds.some(
+//             (breedObj) =>
+//               breedObj.breed === breed && breedObj.animalType === animalType
+//           )
+//         );
 
-        if (breedDataset) {
-          const matchedAgeRange = breedDataset.ageRanges.find(
-            (range) => age >= range.minAge && age <= range.maxAge
-          );
-          if (matchedAgeRange) {
-            return {
-              breed,
-              animalType,
-              age,
-              weight: record.weight,
-              production: record.production,
-              temp: record.temperature,
-              comparison: {
-                weightMatch:
-                  record.weight >= matchedAgeRange.minWeight &&
-                  record.weight <= matchedAgeRange.maxWeight,
-                productionMatch:
-                  record.production >= matchedAgeRange.minProduction &&
-                  record.production <= matchedAgeRange.maxProduction,
-              },
-            };
-          }
-        }
+//         if (breedDataset) {
+//           const matchedAgeRange = breedDataset.ageRanges.find(
+//             (range) => age >= range.minAge && age <= range.maxAge
+//           );
+//           if (matchedAgeRange) {
+//             return {
+//               breed,
+//               animalType,
+//               age,
+//               weight: record.weight,
+//               production: record.production,
+//               temp: record.temperature,
+//               comparison: {
+//                 weightMatch:
+//                   record.weight >= matchedAgeRange.minWeight &&
+//                   record.weight <= matchedAgeRange.maxWeight,
+//                 productionMatch:
+//                   record.production >= matchedAgeRange.minProduction &&
+//                   record.production <= matchedAgeRange.maxProduction,
+//               },
+//             };
+//           }
+//         }
 
-        return null;
-      })
-      .filter((result) => result !== null);
+//         return null;
+//       })
+//       .filter((result) => result !== null);
 
-    return res.status(200).json(comparisonResults);
-  } catch (error) {
-    console.error("Error fetching or comparing records:", error);
-    return res.status(500).json({ message: "Server error." });
-  }
-};
+//     return res.status(200).json(comparisonResults);
+//   } catch (error) {
+//     console.error("Error fetching or comparing records:", error);
+//     return res.status(500).json({ message: "Server error." });
+//   }
+// };
 
 // // // // Function to fetch the user-entered data and compare it with the dataset
 // // export const getComparisonReport = async (req, res) => {
