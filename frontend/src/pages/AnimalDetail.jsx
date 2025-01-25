@@ -56,30 +56,15 @@ const AnimalDetailForm = () => {
 
   // Handle animal type radio button change
   const handleRadioChange = (e) => {
-    setFormData({ ...formData, animal_type: e.target.value });
+    const selectedAnimalTypeId = e.target.value;
+    setFormData({ ...formData, animal_type: selectedAnimalTypeId });
+     // Filter the breeds based on the selected animal type
+     const selectedAnimal = animalTypes.find(animal => animal._id === selectedAnimalTypeId);
+     if (selectedAnimal && Array.isArray(selectedAnimal.breeds)) {
+       setFilteredBreeds(selectedAnimal.breeds); // Assuming breeds are part of the animal type
+     }
   };
 
-  const loadBreed = async (e) => {
-    const response = await axios.get(`${API}/breed/getbreed`);
-    if (Array.isArray(response.data.data)) {
-      setBreeds(response.data.data);
-      const filtered = breeds.filter(breed => breed.animal_type._id === e._id);
-      setFilteredBreeds(filtered);
-      console.log(filtered)
-    } else {
-      console.error("Expected an array of animal types, but received:", response.data);
-    }
-
-    handleChange(e)
-  }
-  // useEffect(() => {
-  //   if (formData.animal_type) {
-  //     const filtered = breeds.filter(breed => breed.animal_type._id === formData.animal_type);
-  //     setFilteredBreeds(filtered);
-  //   } else {
-  //     setFilteredBreeds([]); // Reset breed options if no animal type selected
-  //   }
-  // }, [formData.animal_type, breeds]);
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -139,16 +124,19 @@ const AnimalDetailForm = () => {
 
           <div className="mb-4">
             <label htmlFor="breed" className="block text-gray-700 font-medium mb-2">Breed</label>
-            <input
-              type="text"
+            <select
               id="breed"
               name="breed"
               value={formData.breed}
               onChange={handleChange}
-              placeholder="Enter breed"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-500"
               required
-            />
+            >
+              <option value="" disabled>Select breed</option>
+              {filteredBreeds?.map((breed) => (
+                <option key={breed._id} value={breed._id}>{breed.breed_name}</option>
+              ))}
+            </select>
           </div>
 
           <div className="mb-4">

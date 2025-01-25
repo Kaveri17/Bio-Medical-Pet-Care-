@@ -72,13 +72,13 @@ const Navbar = () => {
           <div className="logo w-[20%] sm:w-[22%] md:w-[20%] lg:w-[12%]">
             <img
               src="/logo.png"
-              alt="Vite Vitals"
+              alt="Vet Vitals"
               className="rounded-full w-full"
             />
           </div>
           <Link to="/">
             <span className="heading text-2xl sm:text-3xl text-blue-900 ps-2 font-bold">
-              Vite Vitals
+              Vet Vitals
             </span>
           </Link>
         </div>
@@ -153,7 +153,7 @@ const Navbar = () => {
             <hr  className=""/>
             <li>
               <a
-                href="/logout"
+                onClick={handleLogout}
                 className="block px-4 py-2 hover:bg-gray-100"
               >
                 Logout

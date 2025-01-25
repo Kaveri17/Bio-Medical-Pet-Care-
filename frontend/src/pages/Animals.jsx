@@ -5,28 +5,70 @@ import { getAllUserAnimals } from "../api/Add";
 
 const Animals = () => {
   const [animals, setAnimals] = useState([]);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null); // Added state
+  // const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   getAllUserAnimals()
+  //     .then((res) => {
+  //       console.log("res",res)
+  //       if (res?.error) {
+  //         setError(res.error);
+  //       } else {
+  //         setAnimals(res);
+  //       }
+  //     })
+  //     .catch((err) => setError("Failed to fetch animals."))
+  //     .finally(() => setLoading(false));
+  // }, []);
+  // useEffect(() => {
+  //   getAllUserAnimals().then((res) => {
+  //     // console.log(res)
+  //     if (res?.error) {
+  //       console.log(res.error);
+  //     } else {
+  //       setAnimals(res);
+  //       console.log("data",res);
+  //     }
+  //   });
+
+  // }, []);
   useEffect(() => {
     getAllUserAnimals().then((res) => {
-      if (res?.error) {
-        console.log(res.error);
-      } else {
-        setAnimals(res);
-        console.log("data",res);
-      }
-    });
-
+      console.log("out",res)
+      
+    if (Array.isArray(res) && res.length > 0) {
+      setAnimals(res); // Set animals with the API data
+      console.log("Updated Animals:", res); // Log the updated data here
+      setError(null); // Clear error
+    } else {
+      setError(res.message);
+    }
+  });
   }, []);
-  console.log(animals)
+  // const fetchAnimals = async () => {
+  //   const result = await getAllUserAnimals();
 
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-        <p className="text-red-500 font-semibold">{error}</p>
-      </div>
-    );
-  }
+  //   console.log("result",result)
+  //   if (!result.success) {
+  //     // Set the error message from the API response
+  //     setError(result.message);
+  //   } else {
+  //     // Set animals if the API call is successful
+  //     setAnimals(result);
+  //     setError(null);
+  //   }
+  // };
+
+  // console.log(animals)
+
+  // if (error) {
+  //   return (
+  //     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+  //       <p className="text-red-500 font-semibold">{error}</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
@@ -36,50 +78,64 @@ const Animals = () => {
           Add new animal
         </button>
       </Link>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 w-full max-w-4xl">
-        {animals?.map((animal) => (
-          <div
-            key={animal._id}
-            className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center border border-gray-200 hover:shadow-xl transition duration-300 hover:bg-blue-300"
-          >
-            <div className="w-24 h-24 flex justify-center items-center bg-blue-100 rounded-full mb-4">
-              <i
-                className={`fas ${
-                  animal.animal_type?.animal_type === "Dog"
-                    ? "fa-dog"
-                    : animal.animal_type?.animal_type === "Cow"
-                    ? "fa-cow"
-                    : "fa-kiwi-bird"
-                } text-4xl text-blue-500`}
-              ></i>
-            </div>
-
-            <h3 className="text-xl font-semibold mb-2 text-gray-800">
-              {animal.animal_type?.animal_type}
-            </h3>
-            <p className="text-gray-700 mb-1 font-medium">
-              Breed: <span className="font-normal">{animal.breed?.breed_name}</span>
-            </p>
-            <p className="text-gray-700 mb-1 font-medium">
-              Age: <span className="font-normal">{animal?.age} years</span>
-            </p>
-            <p className="text-gray-700 font-medium">
-              Gender: <span className="font-normal">{animal?.gender}</span>
-            </p>
-
-            {/* {animal.animal_type?.animal_type === "Cow" && ( */}
+      {error ? (
+        <p className="text-red-600 text-lg">{error}</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">
+          {animals.map((animal, index) => (
+            <div
+              key={animal._id || index}
+              className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center border border-gray-200 hover:shadow-xl transition duration-300 hover:bg-blue-300"
+            >
+              <div className="w-24 h-24 flex justify-center items-center bg-blue-100 rounded-full mb-4">
+                <i
+                  className={`fas ${
+                    animal.animal_type?.animal_type === "Dog"
+                      ? "fa-dog"
+                      : animal.animal_type?.animal_type === "Cow"
+                      ? "fa-cow"
+                      : "fa-kiwi-bird"
+                  } text-4xl text-blue-500`}
+                ></i>
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                {animal.animal_type?.animal_type || "Unknown"}
+              </h3>
+              <p className="text-gray-700 mb-1 font-medium">
+                Breed:{" "}
+                <span className="font-normal">
+                  {animal.breed?.breed_name || "Unknown"}
+                </span>
+              </p>
+              <p className="text-gray-700 mb-1 font-medium">
+                Age:{" "}
+                <span className="font-normal">
+                  {animal?.age || "Unknown"} years
+                </span>
+              </p>
+              <p className="text-gray-700 font-medium">
+                Gender:{" "}
+                <span className="font-normal">
+                  {animal?.gender || "Unknown"}
+                </span>
+              </p>
               <Link
                 to={`/healthtrack/${animal?._id}`}
                 className="mt-4 text-blue-500 hover:underline"
               >
                 Data Track
               </Link>
-            {/* )} */}
-          </div>
-        ))}
-      </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {/* {animals?.length === 0 ? (
+        <p className="text-gray-700 text-center w-full">
+          No animals added yet. Click "Add New Animal" to get started.
+        </p>
+      ) : ( */}
 
+      {/* )} */}
     </div>
   );
 };
