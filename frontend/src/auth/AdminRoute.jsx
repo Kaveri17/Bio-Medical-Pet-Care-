@@ -1,35 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { authenticate } from "../api/Userapp";
+// import React from 'react';
+// import { Navigate, Outlet } from 'react-router-dom';
+// import { useUserStore } from '../store/userStore'; // Update the path as per your project structure
 
-const AdminRoute = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null); // null = loading, false = not authenticated, true = authenticated
+// const AdminRoute = () => {
+//   const { isAuthenticated, } = useUserStore();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const authResponse = await authenticate();
-        if (authResponse?.user?.role === 0) {
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        console.error("Authentication check failed:", error);
-        setIsAuthenticated(false);
-      }
-    };
+//   if (!isAuthenticated || !user || user.role !== 1) {
+//     return <Navigate to="/login" />;
+//   }
 
-    checkAuth();
-  }, []);
+//   return <Outlet />;
+// };
 
-  // Show a loading state while authentication is being checked
-  if (isAuthenticated === null) {
-    return <div>Loading...</div>;
-  }
+// export default AdminRoute;
 
-  // Render child routes if authenticated, otherwise redirect to login
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
-};
 
-export default AdminRoute;
+// import React from 'react'
+
+// import { Navigate, Outlet } from 'react-router-dom'
+// import { useUserStore } from '../store/userStore';
+
+// const AdminRoute = () => {
+//   const { isAuthenticated } = useUserStore();
+//   return (
+//     isAuthenticated() && isAuthenticated().user.role === '1' ? <Outlet/> : <Navigate to ='/login' />
+//   )
+// }
+
+// export default AdminRoute

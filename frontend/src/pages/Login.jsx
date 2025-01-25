@@ -8,82 +8,48 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  const navigate = useNavigate()
-  // const [token,setToken] = useState("")
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-    const {  loginState } = useUserStore(); // Access Zustand state and actions
-  
+  const { loginState } = useUserStore(); // Access Zustand state and actions
 
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const data = await login(email,password);
-      if(!data.success) {
-        setError(data.message || "Login Failed. Please try again") ;
-        setSuccess(false)
-      } else{
-        loginState(data.user)
-        setSuccess(true)
-        setError("")
-        navigate("/")
-
-      //   const cookieToken = Cookies.get("token");
-      // if (cookieToken) {
-      //   setToken(cookieToken);
-      //   console.log("TOKEN:", cookieToken);
-      // } else {
-      //   console.error("Token not found in cookies");
-      // }
-        // authenticate(data)
-        // console.log("data in login page: ",data)
-        
+      const data = await login(email, password);
+      if (!data.success) {
+        setError(data.message || "Login Failed. Please try again");
+        setSuccess(false);
+      } else {
+        loginState(data.user);
+        setSuccess(true);
+        setError("");
+        navigate("/");
       }
-      
     } catch (error) {
-      console.log(error)
-      setError(error.message); 
+      console.log(error);
+      setError(error.message);
     }
-    // setError("");
-
-    // const result = await login(email, password);
-
-    // if (result.success) {
-    //   console.log("Login successful! Token:", result.token);
-    //   navigate("/")
-    //   // Redirect or perform any post-login actions
-    // } else {
-    //   setError(result.error);
-    // }
-
   };
+
   const showSuccess = () => {
     if (success) {
       return (
-        <div className='text-green-600 text-xl font-bold text-center'>Sucessfully Login</div>
-      )
+        <div className="text-green-600 text-xl font-bold text-center">
+          Successfully Logged In
+        </div>
+      );
     }
-  }
+  };
+
   const showError = () => {
     if (error) {
       return (
-        <div className='text-red-600 text-xl font-bold text-center'>{error}</div>
-      )
+        <div className="text-red-600 text-xl font-bold text-center">
+          {error}
+        </div>
+      );
     }
-  }
-  // const redirect = () => {
-  //   // role= isAuthenticate().user.role
-  //   if (success) {
-  //     if (isAuthenticate().user.role === 1) {
-  //       return navigate('/admin/dashboard')
-  //     }
-  //     else {
-  //       return navigate('/')
-  //     }
-  //   }
-  // }
-
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -128,10 +94,22 @@ const Login = () => {
           >
             Log in
           </button>
-          <Link>
-          <p></p>
-          </Link>
         </form>
+        <div className="mt-4 text-center text-lg">
+          <Link
+            to="/forgot-password"
+            className="text-blue-600 hover:underline"
+          >
+            Forgot Password
+          </Link>
+          {/* <Link
+            to="/reset-password"
+            className="text-blue-600 hover:underline ps-12"
+          >
+             Reset Password
+          </Link> */}
+         
+        </div>
       </div>
     </div>
   );

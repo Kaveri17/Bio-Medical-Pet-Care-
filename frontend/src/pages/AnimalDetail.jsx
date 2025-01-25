@@ -1,39 +1,28 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useUserStore } from '../store/userStore';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
 
 let API = "http://localhost:5000/api";
 
 const AnimalDetailForm = () => {
-    // const {  loginState, isAuthenticated, user } = useUserStore(); // Access Zustand state and actions
-
   const [filteredBreeds, setFilteredBreeds] = useState([]);
-  // Form data state
   const [formData, setFormData] = useState({
-    animal_type: '',  // This will store the selected ObjectId
+    animal_type: '',
     breed: '',
     gender: '',
     age: '',
   });
-
-  // State to store the fetched animal types
   const [animalTypes, setAnimalTypes] = useState([]);
-
   const [breeds, setBreeds] = useState([]);
-
-  // State to manage form submission status
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Fetch animal types on component mount
   useEffect(() => {
     const fetchAnimalTypes = async () => {
       try {
         const response = await axios.get(`${API}/animal/getallanimal`);
-        console.log(response)
-        // Ensure the response data is an array before setting the state
         if (Array.isArray(response.data.data)) {
           setAnimalTypes(response.data.data);
-          console.log(animalTypes)
         } else {
           console.error("Expected an array of animal types, but received:", response.data);
         }
@@ -45,7 +34,6 @@ const AnimalDetailForm = () => {
     fetchAnimalTypes();
   }, []);
 
-  // Handle changes in form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'age' && (value < 1 || isNaN(value))) {
@@ -54,7 +42,6 @@ const AnimalDetailForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle animal type radio button change
   const handleRadioChange = (e) => {
     const selectedAnimalTypeId = e.target.value;
     setFormData({ ...formData, animal_type: selectedAnimalTypeId });
@@ -65,8 +52,6 @@ const AnimalDetailForm = () => {
      }
   };
 
-
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -75,7 +60,6 @@ const AnimalDetailForm = () => {
       const response = await fetch(`${API}/useranimal/newuseranimal`, {
         method: 'POST',
         headers: {
-          // Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
@@ -88,10 +72,10 @@ const AnimalDetailForm = () => {
       }
 
       const result = await response.json();
-      alert('Animal details added successfully!');
+      toast.success('Animal details added successfully!');
     } catch (error) {
       console.error('Error submitting animal details:', error);
-      alert(`Error: ${error.message}`);
+      toast.error(`Error: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -105,18 +89,17 @@ const AnimalDetailForm = () => {
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2">Animal Type</label>
             <div className="flex gap-4">
-              {/* Dynamically map over the animalTypes array */}
               {animalTypes?.map((animal) => (
                 <label key={animal._id} className="inline-flex items-center">
                   <input
                     type="radio"
                     name="animal_type"
-                    value={animal._id}  // Set the value to the ObjectId
+                    value={animal._id}
                     checked={formData.animal_type === animal._id}
                     onChange={handleRadioChange}
                     className="mr-2"
                   />
-                  {animal.animal_type} {/* Display the name of the animal */}
+                  {animal.animal_type}
                 </label>
               ))}
             </div>
@@ -179,6 +162,7 @@ const AnimalDetailForm = () => {
           </button>
         </form>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

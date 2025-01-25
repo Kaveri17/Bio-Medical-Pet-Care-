@@ -15,7 +15,7 @@ import HealthTrack from './pages/HealthTrack';
 import ReportTrack from './pages/ReportTrack';
 import VaccinationReport from './pages/VaccinationReport';
 import SummaryReport from './pages/SummaryReport';
-import VaccineReminderNotification from './pages/VaccineReminderNotification';
+// import VaccineReminderNotification from './pages/VaccineReminderNotification';
 import AdminDashboard from './admin/AdminDashboard';
 
 import MessageView from './layout/MessageView';
@@ -32,6 +32,9 @@ import AdminCategory from './admin/AdminCategory';
 import UpdateCategory from './admin/UpdateCategory';
 import FileUpload from './admin/FileUpload';
 import ExcelUpload from './admin/ExcelUpload';
+// import SendVaccineReminder from './pages/SendVaccineReminder';
+// import AdminRoute from './auth/AdminRoute'
+// import AdminSidebar from './layout/AdminSidebar';
 
 
 const MyRoutes = () => {
@@ -56,9 +59,9 @@ const MyRoutes = () => {
         
           <Route path="/vaccinationreport/:id" element={<VaccinationReport />} />
           <Route path="/animaldetail" element={<AnimalDetail />} />
-          <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/>
+          {/* <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/> */}
           <Route path='/reports/:id' element={<Reports/>}/>
-
+          {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
           <Route path="/admin/dashboard" element={<Dashboard/>} /> 
           <Route path="/admin/category" element={<AdminCategory/>} /> 
           <Route path="/admin/add-category" element={<AddCategory />} />
@@ -67,22 +70,29 @@ const MyRoutes = () => {
           <Route path="/fileupload" element={<FileUpload />} />
           <Route path="/vaccines" element={<VaccinesList />} />
           <Route path="/excel" element={<ExcelUpload />} />
+          {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
         </Route>
 
          {/* Admin */}
          <Route path="/admin/add-vaccine" element={<AddVaccine />} />
           <Route path="/adminmessage" element={<AdminMessage/>}/>
-          <Route path="/admin/dashboard" element={<AdminDashboard/>}>
+          <Route path="/admin/dashboards" element={<AdminDashboard/>}/>
           <Route path="/admin/dashboard" element={<Dashboard/>} />
-  
-        
-
+{/*           
+ <Route path= "/admin" element ={<AdminRoute/>}>
+<Route path= 'admin' element = {<AdminSidebar/>}/>
+         <Route path="add-vaccine" element={<AddVaccine />} />
+          <Route path="adminmessage" element={<AdminMessage/>}/>
+          
+          
 
 
           </Route>
+          <Route path="messageview/:id" element={<MessageView/>}/>
+          <Route path="vaccines" element={<VaccinesList />} /> */}
                    
-          <Route path="/messageview/:id" element={<MessageView/>}/>
-          <Route path="/vaccines" element={<VaccinesList />} />
+           <Route path="/messageview/:id" element={<MessageView/>}/>
+          <Route path="/vaccines" element={<VaccinesList />} /> 
 
           
 
