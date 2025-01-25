@@ -93,8 +93,8 @@ const VaccinationReport = () => {
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm sm:text-base bg-white rounded-lg shadow-md">
-            <thead>
-              <tr className="bg-blue-400 text-white">
+            <thead className="bg-blue-500 text-white">
+              <tr>
                 <th className="border py-3 px-4 text-left">Vaccine</th>
                 <th className="border py-3 px-4 text-left">Vaccination Date</th>
                 <th className="border py-3 px-4 text-left">Completed</th>

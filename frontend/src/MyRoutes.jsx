@@ -37,7 +37,6 @@ import UploadForm from './admin/UploadForm';
 // import AdminRoute from './auth/AdminRoute'
 // import AdminSidebar from './layout/AdminSidebar';
 
-
 const MyRoutes = () => {
   return (
     <Router>

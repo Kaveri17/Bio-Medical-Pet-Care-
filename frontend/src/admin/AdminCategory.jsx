@@ -1,106 +1,78 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-const AdminCategory = () => {
-  const [showModal, setShowModal] = useState(false);
+const API = "http://localhost:5001/api";
+
+const SimpleAnimalCategory = () => {
+  const [animalType, setAnimalType] = useState("");
+  const [breeds, setBreeds] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!animalType || !breeds) {
+      alert("Please fill out all fields");
+      return;
+    }
+
+    const data = { 
+      animal_type: animalType.trim(), 
+      breeds: breeds.split(",").map(breed => breed.trim()) // Split and trim for multiple breeds 
+    };
+
+    try {
+      const response = await axios.post(`${API}/animals/addcategory`, data);
+      alert("Animal category added successfully!");
+      setAnimalType("");
+      setBreeds("");
+      console.log("Response:", response.data);
+    } catch (error) {
+      console.error("Error adding animal category:", error);
+      alert("Failed to add animal category. Please try again.");
+    }
+  };
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">Animal Categories</h2>
-      <button
-        onClick={() => setShowModal(true)}
-        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mb-4"
-      >
-        Add Category
-      </button>
-
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-200">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 px-4 py-2">#</th>
-              <th className="border border-gray-300 px-4 py-2">Animal Type</th>
-              <th className="border border-gray-300 px-4 py-2">Breeds</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Example Row */}
-            <tr>
-              <td className="border border-gray-300 px-4 py-2 text-center">
-                1
-              </td>
-              <td className="border border-gray-300 px-4 py-2">Dog</td>
-              <td className="border border-gray-300 px-4 py-2">
-                Golden Retriever, Labrador
-              </td>
-              <td className="border border-gray-300 px-4 py-2 text-center">
-                <button className="bg-yellow-500 text-white px-2 py-1 rounded-md hover:bg-yellow-600 mr-2">
-                  Edit
-                </button>
-                <button className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white w-96 p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-semibold mb-4">Add Category</h3>
-            <form>
-              <div className="mb-4">
-                <label
-                  htmlFor="animal_type"
-                  className="block text-sm font-medium mb-1"
-                >
-                  Animal Type
-                </label>
-                <input
-                  id="animal_type"
-                  type="text"
-                  placeholder="Enter animal type"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="breeds"
-                  className="block text-sm font-medium mb-1"
-                >
-                  Breeds
-                </label>
-                <input
-                  id="breeds"
-                  type="text"
-                  placeholder="Enter breeds"
-                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="flex justify-end space-x-2">
-                <button
-                  type="button"
-                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
-                  onClick={() => setShowModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
+      <h2 className="text-2xl font-semibold mb-4">Add Animal Category</h2>
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+        <div className="mb-4">
+          <label htmlFor="animalType" className="block text-gray-700 mb-2">
+            Animal Type
+          </label>
+          <input
+            type="text"
+            id="animalType"
+            value={animalType}
+            onChange={(e) => setAnimalType(e.target.value)}
+            className="w-full border border-gray-300 rounded-lg px-4 py-2"
+            placeholder="Enter animal type"
+            required
+          />
         </div>
-      )}
+        <div className="mb-4">
+          <label htmlFor="breeds" className="block text-gray-700 mb-2">
+            Breeds (comma-separated)
+          </label>
+          <input
+            type="text"
+            id="breeds"
+            value={breeds}
+            onChange={(e) => setBreeds(e.target.value)}
+            className="w-full border border-gray-300 rounded-lg px-4 py-2"
+            placeholder="Enter breeds, separated by commas"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full"
+        >
+          Add Category
+        </button>
+      </form>
     </div>
   );
 };
 
-export default AdminCategory;
+export default SimpleAnimalCategory;
