@@ -71,13 +71,13 @@ const AdminSidebar = () => {
               </li>
               </Link>
 
-              <Link to= '/setting'>
+              {/* <Link to= '/setting'>
               <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
                 <FaCog className="mr-2" />
                 <span>Setting</span>
                 
               </li>
-              </Link>
+              </Link> */}
               {/* <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
                 <FaSignOutAlt className="mr-2" />
                 <span>Logout</span>
