@@ -86,9 +86,9 @@ const VaccinationReport = () => {
   // ).length;
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+    <div className="min-h-[85vh] bg-gray-50 flex flex-col items-center justify-center p-6">
       <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-3xl font-semibold mb-6 text-gray-800">
+        <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">
           Vaccine Report
         </h2>
         <div className="overflow-x-auto">
@@ -126,12 +126,12 @@ const VaccinationReport = () => {
           </table>
         </div>
 
-        <div className="mt-4 p-4 bg-blue-400 rounded-lg shadow-lg">
+        {/* <div className="mt-4 p-4 bg-blue-400 rounded-lg shadow-lg">
           <h3 className="text-2xl font-semibold mb-4 text-white text-center">
             Summary Report
           </h3>
           <div className="flex flex-col items-start">
-            {/* <p className="text-lg mb-2 text-white">Total Number of Vaccinations: <span className="font-bold">{totalVaccines}</span></p> */}
+            <p className="text-lg mb-2 text-white">Total Number of Vaccinations: <span className="font-bold">{totalVaccines}</span></p>
             <p className="text-lg mb-2 text-white">
               Weight Status:{" "}
               <span className="font-bold">2 animals with stable weight</span>.
@@ -153,13 +153,13 @@ const VaccinationReport = () => {
           </div>
         </div>
 
-        {/* Conclusion Section */}
+        Conclusion Section
         <div className="mt-6 p-2 bg-blue-500 rounded-lg shadow-lg text-center text-white">
           <p className="text-lg font-semibold">
             Conclusion: Your animal is healthy and well-maintained. Continue to
             monitor their health and ensure timely vaccinations.
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

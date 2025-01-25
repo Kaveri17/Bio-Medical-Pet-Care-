@@ -183,13 +183,14 @@
 
 import React, { useEffect, useState } from "react";
 import { addDaily } from "../api/dailyRecord";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getUserAnimalById } from "../api/Add";
 
 const ReportTrack = () => {
   let { id } = useParams();
+  const navigate = useNavigate(); // Initialize navigate
   const [newFrom, setNewFrom] = useState({
     weight: "",
     production: "",
@@ -252,7 +253,9 @@ const ReportTrack = () => {
         } else {
           setDailyData((prevData) => [data, ...prevData]);
           setNewFrom({ weight: "", production: "", temperature: "" });
-          toast.success("Daily report added successfully!");
+          toast.success("Daily report added successfully!", {
+            onClose: () => navigate(`/healthtrack/${id}`), // Navigate to HealthTrack after success
+          });
         }
       })
       .catch((err) => {
@@ -334,3 +337,4 @@ const ReportTrack = () => {
 };
 
 export default ReportTrack;
+
