@@ -104,13 +104,13 @@ const Navbar = () => {
             <li className="text-black hover:text-blue-500 ">Register</li>
           </Link>
 
-          <Link to='/vaccinenoti'>
+          {/* <Link to='/vaccinenoti'>
         <li className="notification">
       <i className="fa fa-bell "></i>
       <span className="notification-count">3</span>
     </li>
     
-        </Link>
+        </Link> */}
         
 
         </div>
