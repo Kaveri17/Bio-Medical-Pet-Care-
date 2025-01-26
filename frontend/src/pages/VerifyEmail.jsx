@@ -1,25 +1,46 @@
-// VerifyEmail.jsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { verifyEmail } from "../api/Userapp";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VerifyEmail = () => {
-  const [email, setEmail] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
+  const [email, setEmail] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log('Verification code submitted for:', email);
-    console.log('Verification code:', verificationCode);
-
+    try {
+      const data = await verifyEmail(verificationCode);
+      if (!data.success) {
+        toast.error(data.message || "Login Failed. Please try again");
+      } else {
+        toast.success("Successfully Verified. Redirecting to login...");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000); // Redirect after 2 seconds
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message || "An error occurred");
+    }
+    console.log("Verification code submitted for:", email);
+    console.log("Verification code:", verificationCode);
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-blue-200 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Verify Email</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+          Verify Email
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 font-medium mb-2"
+            >
               Email
             </label>
             <input
@@ -34,7 +55,10 @@ const VerifyEmail = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="verificationCode" className="block text-gray-700 font-medium mb-2">
+            <label
+              htmlFor="verificationCode"
+              className="block text-gray-700 font-medium mb-2"
+            >
               Verification Code
             </label>
             <input
@@ -55,6 +79,7 @@ const VerifyEmail = () => {
             Verify
           </button>
         </form>
+        <ToastContainer />
       </div>
     </div>
   );

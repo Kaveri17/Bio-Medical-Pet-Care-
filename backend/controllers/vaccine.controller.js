@@ -224,8 +224,12 @@ function calculateNextVaccinationDate(vaccine, age) {
     const currentDate = new Date();
     const dob = new Date();
     dob.setFullYear(currentDate.getFullYear() - age);
+    // dob.setFullYear(currentDate.getFullYear() - Math.floor(age));
+    // dob.setMonth(dob.getMonth() - Math.round((age % 1) * 12));
 
-    const nextVaccinationDate = new Date(dob);
+    console.log("Date of Birth:", dob);
+
+    let nextVaccinationDate = new Date(dob)
 
     if (durationUnit.includes('year')) {
         nextVaccinationDate.setFullYear(nextVaccinationDate.getFullYear() + Math.floor(durationValue));
@@ -233,5 +237,36 @@ function calculateNextVaccinationDate(vaccine, age) {
         nextVaccinationDate.setMonth(nextVaccinationDate.getMonth() + durationValue);
     }
 
-    return nextVaccinationDate.toISOString().split('T')[0];
+    // if (frequency === "every") {
+    //     // Assuming recurring frequency adds the same duration repeatedly
+    //     if (durationUnit.includes('year')) {
+    //         nextVaccinationDate.setFullYear(currentDate.getFullYear() + + Math.floor(durationValue));
+    //     } else if (durationUnit.includes('months')) {
+    //         nextVaccinationDate.setMonth(currentDate.getMonth() + durationValue);
+    //     }
+    // }
+
+    // if (frequency === "every") {
+    //     const currentYear = currentDate.getFullYear();
+    //     while (nextVaccinationDate <= currentDate) {
+    //         if (durationUnit.includes('year')) {
+    //             nextVaccinationDate.setFullYear(nextVaccinationDate.getFullYear() + Math.floor(durationValue));
+    //         } else if (durationUnit.includes('month')) {
+    //             nextVaccinationDate.setMonth(nextVaccinationDate.getMonth() + durationValue);
+    //         }
+    //     }
+    // }
+
+    //   // Handle recurring frequency if specified
+    //   if (frequency.includes("every")) {
+    //     while (nextVaccinationDate <= currentDate) {
+    //         if (durationUnit.includes('year')) {
+    //             nextVaccinationDate.setFullYear(nextVaccinationDate.getFullYear() + Math.floor(durationValue));
+    //         } else if (durationUnit.includes('month')) {
+    //             nextVaccinationDate.setMonth(nextVaccinationDate.getMonth() + Math.floor(durationValue));
+    //         }
+    //     }
+    // }
+
+    return nextVaccinationDate.toISOString().split('T')[0]; // Return the next vaccination date in YYYY-MM-DD format
 }

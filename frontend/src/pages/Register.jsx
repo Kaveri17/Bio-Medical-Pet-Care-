@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../api/Userapp";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
-  let [username, setUserName] = useState("");
-  let [firstname, setFirstName] = useState("");
-  let [lastname, setLastName] = useState("");
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
+  const [username, setUserName] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+
   const validateForm = () => {
-    // Simple validation rules
     if (!firstname.trim()) return "First name is required.";
     if (!lastname.trim()) return "Last name is required.";
     if (!username.trim()) return "Username is required.";
@@ -21,7 +21,6 @@ const Register = () => {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       return "Invalid email format.";
     if (!password.trim()) return "Password is required.";
-    // if (password.length < 6) return 'Password must be at least 6 characters.';
     return ""; // No errors
   };
 
@@ -29,11 +28,10 @@ const Register = () => {
     event.preventDefault();
     const validationError = validateForm();
     if (validationError) {
-      setError(validationError);
-      setSuccess(false);
+      toast.error(validationError);
       return;
     }
-
+  
     let user = {
       username,
       firstname,
@@ -44,41 +42,20 @@ const Register = () => {
     try {
       const data = await register(user);
       if (!data.success) {
-        setError(data.message || "Registration Failed. Please try again");
-        setSuccess(false);
+        toast.error(data.message || "Registration Failed. Please try again");
       } else {
-        setSuccess(true);
-        setError("");
+        toast.success("Successfully Registered");
         navigate("/verify-email");
       }
     } catch (error) {
       console.log(error);
-      setError(error.message);
+      toast.error(error.message || "An error occurred");
     }
   };
-  const showSuccess = () => {
-    if (success) {
-      return (
-        <div className='text-green-600 text-xl font-bold text-center'>Sucessfully Registered</div>
-      )
-    }
-  }
-  const showError = () => {
-    if (error) {
-      return (
-        <div className="text-red-600 text-xl font-bold text-center">
-          {error}
-        </div>
-      );
-    }
-  };
-
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-blue-200 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Register</h2>
-        {showSuccess()}
-        {showError()}
         <form onSubmit={handleRegister}>
           <div className="mb-4">
             <label
@@ -183,6 +160,7 @@ const Register = () => {
           </button>
         </form>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

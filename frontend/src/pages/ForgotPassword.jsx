@@ -1,75 +1,94 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { forgotpassword } from '../api/Userapp';
-import { useNavigate, useParams } from 'react-router-dom';
 
-const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const navigate = useNavigate()
-  const [error, setError] = useState("");
+const ForgetPassword = () => {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await forgotpassword({ email }).then((data) => {
+  // Email validation function
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Validate email before proceeding
+    if (!email) {
+      setError('Email is required.');
+      setSuccess(false);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address.');
+      setSuccess(false);
+      return;
+    }
+
+    // If validation passes, call the forgotpassword function
+    forgotpassword({ email })
+      .then((data) => {
         if (data.error) {
           setError(data.error);
           setSuccess(false);
         } else {
-          setSuccess(false)
-          setError("")
-          navigate("/")
+          setError('');
+          setSuccess(true);
+          setEmail('');
         }
-      });
-    } catch (error) {
-      console.log(error);
-      setError(error.message);
-    }
+      })
+      .catch((err) => console.log(err));
   };
+
   const showError = () => {
     if (error) {
-      return (
-        <div className="text-red-600 text-xl font-bold text-center">
-          {error}
-        </div>
-      );
+      return <div className="text-red-600 text-xl font-bold text-center">{error}</div>;
+    }
+  };
+
+  const showSuccess = () => {
+    if (success) {
+      return <div className="text-green-500 text-lg font-bold text-center">Password reset link has been sent to your email.</div>;
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-blue-200 p-8 rounded-lg shadow-lg w-full max-w-md">
-      {showError()}
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6">Forgot Password</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-200"
-              required
-            />
+    <>
+      <div className="w-5/6 mx-auto">
+        <form className="shadow-md flex flex-col items-center justify-center w-full" style={{ height: '100vh' }}>
+          {showError()}
+          {showSuccess()}
+          <div className="w-full lg:w-1/2 bg-blue-200 border-2 border-solid border-slate-900 ps-3 pr-4">
+            <h1 className="text-2xl font-bold text-center pb-4 pt-4 underline">Forget Password</h1>
+
+            <div className="pb-4 text-2xl font-semibold flex justify-between">
+              <label htmlFor="email">Email</label>
+              <input
+                type="text"
+                className="border-2 border-zinc-300 p-2 rounded-md w-5/6"
+                name="email"
+                id="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </div>
+            <div className="pb-4 text-center">
+              <button
+                type="submit"
+                className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+                onClick={handleSubmit}
+              >
+                Send password reset link
+              </button>
+            </div>
           </div>
-        
-         
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
-          >
-            Reset Password
-          </button>
         </form>
       </div>
-    </div>
+    </>
   );
 };
 
-export default ForgotPassword;
+export default ForgetPassword;

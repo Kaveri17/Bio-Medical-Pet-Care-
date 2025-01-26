@@ -1,7 +1,6 @@
 // import React, { useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
 
-
 // let API = "http://localhost:5000/api";
 // const HealthTrack = () => {
 //   const [weeklyData, setWeeklyData] = useState([]);
@@ -74,21 +73,10 @@
 //       </Link>
 //     </div>
 
-
-
-
-
-
-
-
-    
 //   );
 // };
 
 // export default HealthTrack;
-
-
-
 
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -99,28 +87,25 @@ const HealthTrack = () => {
   const [dailyData, setDailyData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [animal,setAnimal] = useState("")
+  const [animal, setAnimal] = useState("");
   const [error, setError] = useState("");
-  let {id} = useParams()
-  console.log(id)
+  let { id } = useParams();
+  console.log(id);
   useEffect(() => {
     fetchDailyData();
-    animalDetail()
-    
+    animalDetail();
   }, []);
 
   const animalDetail = () => {
     setLoading(true);
-    getUserAnimalById(id)
-    .then((data) => {
+    getUserAnimalById(id).then((data) => {
       if (data?.error) {
         console.log(data.error);
-        setError(data.error)
+        setError(data.error);
       } else {
         setAnimal(data);
-        console.log("data", data);
       }
-      setLoading(false)
+      setLoading(false);
     });
   };
 
@@ -130,13 +115,17 @@ const HealthTrack = () => {
       .then((data) => {
         if (data?.error) {
           setError(data.error);
+          console.log(data.error)
         } else {
+          // setDailyData(data.data.slice(0, 7).reverse());
           setDailyData(data);
+        console.log("data", data);
+          
         }
         setLoading(false);
       })
       .catch((err) => {
-        setError("Failed to fetch daily records.");
+        setError(err.message || "Failed to fetch daily records.");
         setLoading(false);
       });
   };
@@ -144,8 +133,7 @@ const HealthTrack = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col justify-center items-center p-4">
       <h2 className="text-3xl font-bold mb-6 text-blue-900 text-center">
-      {animal.animal_type?.animal_type}'s
-       Daily Data Track
+        {animal.animal_type?.animal_type}'s Daily Data Track
       </h2>
 
       {loading ? (
@@ -153,7 +141,9 @@ const HealthTrack = () => {
       ) : error ? (
         <p className="text-red-600 text-lg">{error}</p>
       ) : dailyData.length === 0 ? (
-        <p className="text-blue-700 text-lg">No data available .Please add your animal health record</p>
+        <p className="text-blue-700 text-lg">
+          No data available .Please add your animal health record
+        </p>
       ) : (
         <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl border border-blue-300 mb-6">
           <table className="w-full border-collapse text-sm sm:text-base">
@@ -165,9 +155,14 @@ const HealthTrack = () => {
                 <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">
                   Weight
                 </th>
-                <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">
-                  Milk Production
-                </th>
+                {(animal?.animal_type?.animal_type === "Cow" ||
+                  animal?.animal_type?.animal_type === "Chicken") && (
+                  <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">
+                {animal?.animal_type?.animal_type === "Cow" ? "Milk Production (litres)" : "Egg Production"}
+
+                  </th>
+                )}
+
                 <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">
                   Temperature
                 </th>
@@ -182,9 +177,12 @@ const HealthTrack = () => {
                   <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">
                     {data.weight}
                   </td>
-                  <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">
-                    {data.production}
-                  </td>
+                  {(animal?.animal_type?.animal_type === "Cow" ||
+                    animal?.animal_type?.animal_type === "Chicken") && (
+                    <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">
+                      {data.production}
+                    </td>
+                  )}
                   <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">
                     {data.temperature}
                   </td>
@@ -194,28 +192,22 @@ const HealthTrack = () => {
           </table>
         </div>
       )}
-       <Link to={`/reports/${id}`}>
+      <Link to={`/reports/${id}`}>
         <button className="bg-blue-600 text-white px-6 py-2 rounded mt-4 hover:bg-blue-700 transition duration-200 shadow-md w-full sm:w-auto">
-         summary
+          Check Summary Support
         </button>
       </Link>
-           <Link to={`/reporttrack/${id}`}>
+      <Link to={`/reporttrack/${id}`}>
         <button className="bg-blue-600 text-white px-6 py-2 rounded mt-6 hover:bg-blue-700 transition duration-200 shadow-md w-full sm:w-auto">
           Add Daily Report Tracking
-         </button>
-     </Link>
-
-
-    
-
-      
-     <Link to={`/vaccinationreport/${id}`}>
-        <button className="bg-blue-600 text-white px-6 py-2 rounded mt-4 hover:bg-blue-700 transition duration-200 shadow-md w-full sm:w-auto">
-          Check Report
         </button>
       </Link>
 
-     
+      <Link to={`/vaccinationreport/${id}`}>
+        <button className="bg-blue-600 text-white px-6 py-2 rounded mt-4 hover:bg-blue-700 transition duration-200 shadow-md w-full sm:w-auto">
+          Check Vaccination Schedule
+        </button>
+      </Link>
     </div>
   );
 };

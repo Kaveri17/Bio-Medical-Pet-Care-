@@ -14,10 +14,10 @@ export const addUsersAnimal = async (req, res) => {
     }
 
     // Check if the breed exists within the selected animal type
-    const breedData = animalCategory?.breeds.find(
-        (breedItem) => breedItem.breed_name.toString() === breed.toString()
-    );
-    if (!breedData) {
+    // const breedData = animalCategory?.breeds.find(
+    //     (breedItem) => breedItem.breed_name.toString() === breed.toString()
+    // );
+    if (!breed) {
       return res
         .status(400)
         .json({ error: "Invalid breed for this animal type" });
@@ -25,7 +25,7 @@ export const addUsersAnimal = async (req, res) => {
     const newUserAnimal = await UserAnimal.create({
       user: userId, // verifyToken
       animal_type: animalCategory._id,
-      breed:breedData._id,
+      breed:breed,
       age,
       gender,
     });
@@ -49,6 +49,7 @@ export const getUserAnimals = async (req, res) => {
     
     if (userAnimals.length === 0) {
       return res.status(404).json({ success: false, message: "No animals found for this user" });
+      // return res.status(200).json({ success: true, data: [] });
     }
 
     // res.status(200).json( userAnimals );
@@ -67,8 +68,6 @@ export const getUserAnimalById = async (req, res) => {
     const userAnimals = await UserAnimal.findById(id)
     .populate("breed")
     .populate("animal_type");
-
-
     if(!userAnimals){
       return res.status(404).json({ success: false, message: "No animals found for this user" });
     }

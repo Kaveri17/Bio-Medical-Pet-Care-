@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
 import { login } from '../api/Userapp';
 import { useUserStore } from '../store/userStore';
 
@@ -17,46 +19,23 @@ const Login = () => {
     try {
       const data = await login(email, password);
       if (!data.success) {
-        setError(data.message || "Login Failed. Please try again");
-        setSuccess(false);
+        toast.error(data.message || "Login Failed. Please try again");
       } else {
         loginState(data.user);
-        setSuccess(true);
-        setError("");
-        navigate("/");
+        toast.success("Successfully Logged In!", {
+          onClose: () => navigate("/"), // Redirect after toast closes
+        });
       }
     } catch (error) {
-      console.log(error);
-      setError(error.message);
+      console.error(error);
+      toast.error(error.message || "An error occurred. Please try again.");
     }
   };
-
-  const showSuccess = () => {
-    if (success) {
-      return (
-        <div className="text-green-600 text-xl font-bold text-center">
-          Successfully Logged In
-        </div>
-      );
-    }
-  };
-
-  const showError = () => {
-    if (error) {
-      return (
-        <div className="text-red-600 text-xl font-bold text-center">
-          {error}
-        </div>
-      );
-    }
-  };
-
+  
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-blue-200 p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6">Login</h2>
-        {showSuccess()}
-        {showError()}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
@@ -102,15 +81,10 @@ const Login = () => {
           >
             Forgot Password
           </Link>
-          {/* <Link
-            to="/reset-password"
-            className="text-blue-600 hover:underline ps-12"
-          >
-             Reset Password
-          </Link> */}
-         
         </div>
       </div>
+      {/* ToastContainer to display toast messages */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

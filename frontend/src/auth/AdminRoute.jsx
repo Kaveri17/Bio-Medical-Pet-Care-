@@ -1,20 +1,27 @@
-// import React from 'react';
-// import { Navigate, Outlet } from 'react-router-dom';
-// import { useUserStore } from '../store/userStore'; // Update the path as per your project structure
+import React from "react";
 
-// const AdminRoute = () => {
-//   const { isAuthenticated, } = useUserStore();
+import { Navigate, Outlet } from "react-router-dom";
+import { useUserStore } from "../store/userStore";
+import AdminSidebar from "../layout/AdminSidebar";
 
-//   if (!isAuthenticated || !user || user.role !== 1) {
-//     return <Navigate to="/login" />;
-//   }
+const AdminRoute = () => {
+  const { isAuthenticated, user } = useUserStore();
+  console.log("role:", user);
 
-//   return <Outlet />;
-// };
+  return isAuthenticated && user?.role === 1 ? (
+    <>
+      <AdminSidebar />
+      <div className="w-full">
+      <Outlet />
 
-// export default AdminRoute;
+      </div>
+    </>
+  ) : (
+      <Navigate to="/" />
+    );
+};
 
-
+export default AdminRoute
 // import React from 'react'
 
 // import { Navigate, Outlet } from 'react-router-dom'
@@ -26,5 +33,3 @@
 //     isAuthenticated() && isAuthenticated().user.role === '1' ? <Outlet/> : <Navigate to ='/login' />
 //   )
 // }
-
-// export default AdminRoute

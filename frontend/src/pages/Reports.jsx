@@ -238,19 +238,17 @@
 
 // export default Reports;
 
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getUserAnimalById } from '../api/Add';
-import { generateWeeklyReport } from '../api/healthreport';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getUserAnimalById } from "../api/Add";
+import { generateWeeklyReport } from "../api/healthreport";
 
-const DataCard = ({ title, value, isAbnormal }) => (
-  <div className="bg-white shadow-md rounded-lg p-6 mb-4 w-full sm:w-1/3 md:w-1/4 lg:w-1/4">
-    <h3 className="text-lg font-semibold mb-3">{title}</h3>
-    <div
-      className={`text-xl font-medium ${isAbnormal ? 'text-red-500' : 'text-green-500'}`}
-    >
-      {value}
-    </div>
+const DataCard = ({ title, value }) => (
+  <div className="bg-blue-200 shadow-md rounded-lg px-6 mb-4 w-full sm:w-1/3 md:w-1/4 lg:w-1/4 py-8">
+    <h3 className="text-lg font-semibold mb-3 text-center tracking-wider">
+      {title}
+    </h3>
+    <div className={`text-xl font-semibold text-center`}>{value}</div>
   </div>
 );
 
@@ -261,13 +259,13 @@ const Reports = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const thresholds = {
-    temperature: { min: 98.5, max: 103 },
-    weight: { min: 80, max: 150 },
-    milkProduction: { min: 5, max: 10 },
-  };
+  // const thresholds = {
+  //   temperature: { min: 37, max: 40 },
+  //   weight: { min: 80, max: 150 },
+  //   milkProduction: { min: 5, max: 10 },
+  // };
 
-  const isAbnormal = (value, { min, max }) => value < min || value > max;
+  // const isAbnormal = (value, { min, max }) => value < min || value > max;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -279,7 +277,7 @@ const Reports = () => {
         const reportData = await generateWeeklyReport(id);
         setReportData(reportData.report);
       } catch (err) {
-        setError('Failed to fetch data. Please try again.');
+        setError("Failed to fetch data. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -296,67 +294,84 @@ const Reports = () => {
     return <p className="text-center text-red-500">{error}</p>;
   }
 
-  const { animal_type: animalType, breeds } = animalDetails;
+  // const { animal_type: animalType, breeds } = animalDetails;
 
+  // console.log("reportData", reportData);
   return (
-    <div className="w-5/6 mx-auto">
-      <h1 className="text-2xl font-bold text-center">Summary Report</h1>
+    <div className="w-5/6 mx-auto py-5">
+      <h1 className="text-3xl font-bold text-center">Summary Report</h1>
       <div className="pb-7 ps-5">
-     
         {/* Animal Details */}
-        <h1 className="py-3">
-          Animal Type:{' '}
-          <span>{ animalDetails.animal_type.animal_type|| 'Unknown Animal Type'}</span>
-        </h1>
-        <h1>
-          Breed:{' '}
-          <span>
-          {animalDetails.breed.breed_name}
+        <h1 className="py-3 text-xl font-medium">
+          Animal Type:{" "}
+          <span className=" text-lg font-normal">
+            {animalDetails.animal_type.animal_type || "Unknown Animal Type"}
           </span>
-          
+        </h1>
+        <h1 className=" text-xl font-medium">
+          Breed:{" "}
+          <span className=" text-lg font-normal">
+            {animalDetails.breed.breed_name}
+          </span>
         </h1>
       </div>
-      
 
+      {/* {reportData ? ( */}
       {/* Weekly Health Report */}
-      <div className="mb-10">
-        <h2 className="text-xl font-bold mb-5">Weekly Health Report</h2>
-        <div className="flex flex-wrap gap-4 justify-center">
-          <DataCard
-            title="Temperature"
-            value={reportData?.avgTemperature || 'N/A'}
-            isAbnormal={isAbnormal(reportData?.avgTemperature, thresholds.temperature)}
-          />
-          <DataCard
-            title="Weight"
-            value={reportData?.avgWeight || 'N/A'}
-            isAbnormal={isAbnormal(reportData?.avgWeight, thresholds.weight)}
-          />
-          <DataCard
-            title="Milk Production"
-            value={reportData?.avgProduction || 'N/A'}
-            isAbnormal={isAbnormal(reportData?.avgProduction, thresholds.milkProduction)}
-          />
+      {reportData ? (
+        <div className="mb-10">
+          <h2 className="text-xl font-bold mb-5">Weekly Health Report</h2>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <DataCard
+              title="Temperature"
+              value={reportData?.avgTemperature || "N/A"}
+              // isAbnormal={isAbnormal(reportData?.avgTemperature, thresholds.temperature)}
+            />
+            <DataCard
+              title="Weight"
+              value={reportData?.avgWeight || "N/A"}
+              // isAbnormal={isAbnormal(reportData?.avgWeight, thresholds.weight)}
+            />
+            {(animalDetails?.animal_type?.animal_type === "Cow" ||
+              animalDetails?.animal_type?.animal_type === "Chicken") && (
+              <DataCard
+                title={`${
+                  animalDetails?.animal_type?.animal_type === "Cow"
+                    ? "Milk Production (litres)"
+                    : "Egg Production"
+                }`}
+                value={reportData?.avgProduction || "N/A"}
+                // isAbnormal={isAbnormal(reportData?.avgProduction, thresholds.milkProduction)}
+              />
+            )}
+          </div>
+          <div className="mt-5">
+            <h3 className="text-xl font-semibold">Conclusion:</h3>
+            {/* <p
+     className={`text-lg font-medium`}
+   >
+     {isAbnormal(reportData?.avgTemperature, thresholds.temperature) ||
+     isAbnormal(reportData?.avgWeight, thresholds.weight) ||
+     isAbnormal(reportData?.avgProduction, thresholds.milkProduction)
+       ? 'Abnormality found. Consult a vet immediately.'
+       : 'Your animal is healthy. Continue to monitor their health.'}
+   </p> */}
+            {reportData?.healthStatus === "Healthy" ? (
+              <p className="text-lg font-medium text-green-400">
+                Your animal is healthy. Continue to monitor their health.
+              </p>
+            ) : (
+              <p className="text-lg font-medium text-red-400">
+                Abnormal Health Report. Consult a vet immediately.
+              </p>
+            )}
+          </div>
         </div>
-        <div className="mt-5">
-          <h3 className="text-lg font-semibold">Conclusion:</h3>
-          <p
-            className={`text-lg font-medium ${
-              isAbnormal(reportData?.avgTemperature, thresholds.temperature) ||
-              isAbnormal(reportData?.avgWeight, thresholds.weight) ||
-              isAbnormal(reportData?.avgProduction, thresholds.milkProduction)
-                ? 'text-red-500'
-                : 'text-green-500'
-            }`}
-          >
-            {isAbnormal(reportData?.avgTemperature, thresholds.temperature) ||
-            isAbnormal(reportData?.avgWeight, thresholds.weight) ||
-            isAbnormal(reportData?.avgProduction, thresholds.milkProduction)
-              ? 'Abnormality found. Consult a vet immediately.'
-              : 'Your animal is healthy. Continue to monitor their health.'}
-          </p>
+      ) : (
+        <div className="text-center text-red-500 text-lg font-semibold mt-10">
+          No records found for this animal this week.
         </div>
-      </div>
+      )}
     </div>
   );
 };
