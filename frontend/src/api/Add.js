@@ -9,7 +9,8 @@ export const addUserAnimal = (animalData) => {
             "Content-Type": "application/json",
             // "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(animalData)
+        body: JSON.stringify(animalData),
+             credentials: "include",
     })
     .then(response => response.json())
     .catch(error => console.error("Error adding user animal:", error));
@@ -17,22 +18,44 @@ export const addUserAnimal = (animalData) => {
 
 
 
-export const getAllUserAnimals = () => {
-    return fetch(`${API}/useranimal/alluseranimals`, {
+// export const getAllUserAnimals =  () => {
+//     return fetch(`${API}/useranimal/alluseranimals`, {
+//       credentials: "include", // Include cookies in the request
+//     })
+//       .then((response) =>{
+//         const data = response.json();
+//         if (!response.ok) {
+//           // throw new Error("Failed to fetch user animals");
+//             // Handle response with status codes other than 2xx
+//       return { success: false, message: data.message || "Failed to fetch user animals" };
+//         }
+//         return data;
+//       })
+//       .catch((error) => {
+//         console.error("Error fetching all user animals:", error);
+//         return { error: error.message };
+//       });
+//   };
+export const getAllUserAnimals = async () => {
+  try {
+    const response = await fetch(`${API}/useranimal/alluseranimals`, {
       credentials: "include", // Include cookies in the request
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch user animals");
-        }
-        return response.json();
-      })
-      .catch((error) => {
-        console.error("Error fetching all user animals:", error);
-        return { error: error.message };
-      });
-  };
-  
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      // Handle response with status codes other than 2xx
+      return { success: false, message: data.message || "Failed to fetch user animals" };
+    }
+
+    return data; // Return data if the request is successful
+  } catch (error) {
+    console.error("Error fetching all user animals:", error);
+    return { success: false, message: error.message };
+  }
+};
+
 
 
 // Get a specific user's animal by ID

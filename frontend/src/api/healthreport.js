@@ -1,12 +1,12 @@
 let API = "http://localhost:5000/api";
 
 // Generate weekly health report
-export const generateWeeklyReport = (id, token) => {
+export const generateWeeklyReport = (id) => {
   return fetch(`${API}/report/getWeeklyReport/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
+      // "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
     },
     credentials: "include", // Include credentials for session handling (if required)
   })
@@ -18,6 +18,6 @@ export const generateWeeklyReport = (id, token) => {
       return data;
     })
     .catch((error) => {
-      return { error: "An error occurred while communicating with the server." };
+      return { error:  error.message ||"An error occurred while communicating with the server." };
     });
 };

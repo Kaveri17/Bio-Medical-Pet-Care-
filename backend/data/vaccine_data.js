@@ -233,7 +233,7 @@ const vaccineData = [
   {
     "id": 14,
     "vaccine_name": "Anthrax",
-    "animal_type": "cow",
+    "animal_type": "Cow",
     "breeds": [
       "Terai",
       "Pahadi",
