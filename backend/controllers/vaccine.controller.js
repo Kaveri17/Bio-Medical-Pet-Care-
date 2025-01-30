@@ -1,272 +1,275 @@
-// import vaccineData from '../data/vaccine_data.js';
 
-// // Fetch all vaccines
-// export const getAllVaccines = (req, res) => {
-//     res.json(vaccineData);
-// };
+// ----------------------------------------------------------------------------------------------------------------------
+import { UserAnimal } from "../models/userAnimal.model.js";
+import { Vaccine } from "../models/vaccine.model.js";
 
-// // Fetch vaccine by ID
-// export const getVaccineById = (req, res) => {
-//     const vaccine = vaccineData.find(v => v.id === parseInt(req.params.id));
-//     if (!vaccine) {
-//         return res.status(404).send('Vaccine not found');
+
+// const calculateCosineSimilarity = (vectorA, vectorB) => {
+//     const dotProduct = vectorA.reduce((sum, val, i) => sum + val * vectorB[i], 0);
+//     const magnitudeA = Math.sqrt(vectorA.reduce((sum, val) => sum + val * val, 0));
+//     const magnitudeB = Math.sqrt(vectorB.reduce((sum, val) => sum + val * val, 0));
+  
+//     return magnitudeA && magnitudeB ? dotProduct / (magnitudeA * magnitudeB) : 0;
+//   };
+  
+//   export const recommendVaccines = async (req, res) => {
+//     try {
+//       const { userAnimalId } = req.params;
+  
+//       // Find the user's animal profile
+//       const userAnimal = await UserAnimal.findById(userAnimalId)
+//         .populate("animal_type")
+//         .populate("breed");
+  
+//       if (!userAnimal) {
+//         return res.status(404).json({ message: "User animal not found" });
+//       }
+  
+//       // Extract user animal's properties
+//       const { age, animal_type, breed, acceptedVaccines, rejectedVaccines } = userAnimal;
+  
+//       // Fetch vaccines matching the user's animal type and breed
+//       const vaccines = await Vaccine.find({
+//         animal_type: animal_type._id,
+//         breed: breed._id,
+//         _id: { $nin: [...acceptedVaccines, ...rejectedVaccines] }, // Exclude previously accepted/rejected
+//       });
+  
+//       // Calculate similarity scores
+//       const vaccineScores = vaccines.map((vaccine) => {
+//         const effectivenessVector = Object.keys(vaccine.effectiveness).map((range) => {
+//           const [minAge, maxAge] = range.split("-").map(Number);
+//           return age >= minAge && age <= maxAge ? vaccine.effectiveness[range] : 0;
+//         });
+  
+//         // Normalize user age effectiveness vector (same length as vaccine effectiveness)
+//         const userEffectivenessVector = effectivenessVector.map(() => 1);
+  
+//         // Compute cosine similarity
+//         const similarity = calculateCosineSimilarity(effectivenessVector, userEffectivenessVector);
+  
+//         return { vaccine, similarity };
+//       });
+  
+//       // Sort vaccines by highest similarity
+//       vaccineScores.sort((a, b) => b.similarity - a.similarity);
+  
+//       res.status(200).json({ recommendedVaccines: vaccineScores.map((v) => v.vaccine) });
+//     } catch (error) {
+//       res.status(500).json({ message: "Error recommending vaccines", error: error.message });
 //     }
-//     res.json(vaccine);
-// };
+//   };
+  
 
-// // Fetch vaccine by Name
-// export const getVaccineByName = (req, res) => {
-//     // Capture the vaccine name from the URL, spaces and all.
-//     const vaccineName = req.params.name.replace(/%20/g, ' ').toLowerCase();  // Replace any encoded %20 back to spaces and normalize
+const calculateCosineSimilarity = (vectorA, vectorB) => {
+    const dotProduct = vectorA.reduce((sum, val, i) => sum + val * vectorB[i], 0);
+    const magnitudeA = Math.sqrt(vectorA.reduce((sum, val) => sum + val * val, 0));
+    const magnitudeB = Math.sqrt(vectorB.reduce((sum, val) => sum + val * val, 0));
 
-//     const vaccine = vaccineData.find(v => v.vaccine_name.toLowerCase() === vaccineName);
-
-//     if (!vaccine) {
-//         return res.status(404).send('Vaccine not found');
-//     }
-
-//     res.json(vaccine);
-// };
-// const yearsToMonths = (years) => years * 12;
-
-// // Function to calculate the next vaccination date based on the age and animal type
-// export function recommendVaccines(req, res) {
-//     const { animal_type, age } = req.query;
-
-//     // Validate input parameters
-//     if (!animal_type || !age) {
-//         return res.status(400).json({ error: 'Missing required parameters (animal_type, age)' });
-//     }
-
-//     const animalAgeInMonths = yearsToMonths(parseInt(age));
-
-//     // Filter vaccines based on the animal's age and type
-//     const applicableVaccines = vaccineData.filter(vaccine => {
-//         const minAgeInMonths = yearsToMonths(vaccine.age_range.min);
-//         const maxAgeInMonths = yearsToMonths(vaccine.age_range.max);
-//         return vaccine.animal_type.toLowerCase() === animal_type.toLowerCase() && animalAgeInMonths >= minAgeInMonths && animalAgeInMonths <= maxAgeInMonths;
-//     });
-
-//     // If no vaccines are found for this age and animal type
-//     if (applicableVaccines.length === 0) {
-//         return res.status(404).json({ error: 'No vaccines found for this animal type and age' });
-//     }
-
-//     // Calculate the next vaccination date for each vaccine
-//     const vaccinesWithNextDate = applicableVaccines.map(vaccine => {
-//         const nextVaccinationDate = calculateNextVaccinationDate(vaccine, age);
-//         return {
-//             vaccine_name: vaccine.vaccine_name,
-//             next_vaccination_date: nextVaccinationDate
-//         };
-//     });
-
-//     return res.json(vaccinesWithNextDate);
-// }
-
-// // Function to calculate the next vaccination date based on the vaccine's frequency and duration
-// function calculateNextVaccinationDate(vaccine, age) {
-//     const frequency = vaccine.frequency.toLowerCase(); // Handle case insensitivity
-//     const durationParts = vaccine.duration.split(' '); // Split duration into value and unit
-//     const durationValue = parseFloat(durationParts[0]); // Extract the numeric value
-//     const durationUnit = durationParts[1].toLowerCase();
-
-//     const currentDate = new Date();
-
-//     // Calculate DOB using animal age
-//     const dob = new Date();
-//     dob.setFullYear(currentDate.getFullYear() - age);
-//     console.log("Date of Birth:", dob);
-
-//     const nextVaccinationDate = new Date(dob)
-
-//     console.log("Current Date:", currentDate);
-//     if (durationUnit.includes('year')) {
-//         nextVaccinationDate.setFullYear(nextVaccinationDate.getFullYear() + Math.floor(durationValue));
-//         console.log("After Adding Full Years:", nextVaccinationDate);
-//     } else if (durationUnit.includes('months')) {
-//         nextVaccinationDate.setMonth(nextVaccinationDate.getMonth() + durationValue);
-//         console.log(`After Adding Months (${durationValue}):`, nextVaccinationDate);
-//     }
-
-//     // if (frequency === "every") {
-//     //     // Assuming recurring frequency adds the same duration repeatedly
-//     //     if (durationUnit.includes('year')) {
-//     //         nextVaccinationDate.setFullYear(currentDate.getFullYear() + + Math.floor(durationValue));
-//     //     } else if (durationUnit.includes('months')) {
-//     //         nextVaccinationDate.setMonth(currentDate.getMonth() + durationValue);
-//     //     }
-//     // }
-
-//     // if (frequency === "every") {
-//     //     const currentYear = currentDate.getFullYear();
-//     //     while (nextVaccinationDate <= currentDate) {
-//     //         if (durationUnit.includes('year')) {
-//     //             nextVaccinationDate.setFullYear(nextVaccinationDate.getFullYear() + Math.floor(durationValue));
-//     //         } else if (durationUnit.includes('month')) {
-//     //             nextVaccinationDate.setMonth(nextVaccinationDate.getMonth() + durationValue);
-//     //         }
-//     //     }
-//     // }
-//     return nextVaccinationDate.toISOString().split('T')[0]; // Return the next vaccination date in YYYY-MM-DD format
-// }
-
-
-
-
-
-import vaccineData from '../data/vaccine_data.js';
-import { Vaccine } from '../models/vaccine.model.js';
-
-// Fetch all vaccines
-export const getAllVaccines = (req, res) => {
-    res.json(vaccineData);
+    return magnitudeA && magnitudeB ? dotProduct / (magnitudeA * magnitudeB) : 0;
 };
 
-// Fetch vaccine by ID
-export const getVaccineById = (req, res) => {
-    const vaccine = vaccineData.find(v => v.id === parseInt(req.params.id));
-    if (!vaccine) {
-        return res.status(404).send('Vaccine not found');
+export const recommendVaccines = async (req, res) => {
+  try {
+    const { userAnimalId } = req.params;
+
+    // Find the user's animal profile
+    const userAnimal = await UserAnimal.findById(userAnimalId)
+      .populate("animal_type")
+      .populate("breed");
+
+    if (!userAnimal) {
+      return res.status(404).json({ message: "User animal not found" });
     }
-    res.json(vaccine);
+
+    // Extract user animal's properties
+    const { age, animal_type, breed, acceptedVaccines, rejectedVaccines } = userAnimal;
+
+    // Fetch vaccines matching the user's animal type and breed
+    const vaccines = await Vaccine.find({
+      animal_type: animal_type._id,
+      breeds: breed._id,  // Modify to match breeds as an array
+      _id: { $nin: [...acceptedVaccines, ...rejectedVaccines] }, // Exclude previously accepted/rejected
+    });
+
+    // Calculate similarity scores
+    const vaccineScores = vaccines.map((vaccine) => {
+      // Create the effectiveness vector for the vaccine based on the user's age
+      const effectivenessVector = vaccine.effectiveness.map((effect) => {
+        // Check if the user's age falls within the min/max range for this effectiveness
+        if (age >= effect.minAge && age <= effect.maxAge) {
+          return effect.effectivenessPercentage;  // Use the effectiveness percentage for this age range
+        }
+        return 0;  // If not in range, set to 0
+      });
+
+      // User's effectiveness vector will have a 1 for each effectiveness value
+      const userEffectivenessVector = effectivenessVector.map(() => 1);
+
+      // Compute cosine similarity
+      const similarity = calculateCosineSimilarity(effectivenessVector, userEffectivenessVector);
+
+      return { vaccine, similarity };
+    });
+
+    // Sort vaccines by highest similarity
+    vaccineScores.sort((a, b) => b.similarity - a.similarity);
+
+    res.status(200).json({ recommendedVaccines: vaccineScores.map((v) => v.vaccine) });
+  } catch (error) {
+    res.status(500).json({ message: "Error recommending vaccines", error: error.message });
+  }
 };
 
-// Fetch vaccine by Name
-export const getVaccineByName = (req, res) => {
-    const vaccineName = req.params.name.replace(/%20/g, ' ').toLowerCase();
-    const vaccine = vaccineData.find(v => v.vaccine_name.toLowerCase() === vaccineName);
-
-    if (!vaccine) {
-        return res.status(404).send('Vaccine not found');
+  export const acceptVaccine = async (req, res) => {
+    try {
+      const { userAnimalId, vaccineId } = req.body;
+  
+      // Update user animal record
+      const updatedAnimal = await UserAnimal.findByIdAndUpdate(
+        userAnimalId,
+        {
+          $addToSet: { acceptedVaccines: vaccineId }, // Prevent duplicates
+          $pull: { rejectedVaccines: vaccineId, missedVaccines: vaccineId }, // Remove if previously rejected/missed
+        },
+        { new: true }
+      );
+  
+      res.status(200).json({ message: "Vaccine accepted", animal: updatedAnimal });
+    } catch (error) {
+      res.status(500).json({ message: "Error accepting vaccine", error: error.message });
     }
-
-    res.json(vaccine);
-};
-
-// Add a new vaccine
-export const addVaccine =async (req, res) => {
-    const {  vaccine_name, animal_type, age_range, frequency, duration } = req.body;
-
-    // Validate input
-    if ( !vaccine_name || !animal_type || !age_range || !frequency || !duration) {
-        return res.status(400).json({ error: 'All fields are required' });
+  };
+  
+  export const rejectVaccine = async (req, res) => {
+    try {
+      const { userAnimalId, vaccineId } = req.body;
+  
+      // Update user animal record
+      const updatedAnimal = await UserAnimal.findByIdAndUpdate(
+        userAnimalId,
+        {
+          $addToSet: { rejectedVaccines: vaccineId }, // Prevent duplicates
+          $pull: { acceptedVaccines: vaccineId, missedVaccines: vaccineId }, // Remove if previously accepted/missed
+        },
+        { new: true }
+      );
+  
+      res.status(200).json({ message: "Vaccine rejected", animal: updatedAnimal });
+    } catch (error) {
+      res.status(500).json({ message: "Error rejecting vaccine", error: error.message });
     }
+  };
+  
 
-    // Check if vaccine with the same ID already exists
-    const existingVaccine = vaccineData.find(v => v.vaccine_name === vaccine_name);
-    if (existingVaccine) {
-        return res.status(400).json({ error: 'Vaccine with this ID already exists' });
+  export const markMissedVaccine = async (userAnimalId, vaccineId) => {
+    try {
+      await UserAnimal.findByIdAndUpdate(userAnimalId, {
+        $addToSet: { missedVaccines: vaccineId },
+      });
+    } catch (error) {
+      console.error("Error marking vaccine as missed:", error);
     }
+  };
 
-    // Add the new vaccine to the vaccineData array
-    const newVaccine = new Vaccine({
-        
-        vaccine_name,
+//   ----------------------------------------------
+
+  export const createVaccine = async (req, res) => {
+    try {
+      const { name, animal_type, breeds, effectiveness } = req.body;
+  
+      if (!name || !animal_type || !breeds || !effectiveness) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+  
+      const newVaccine = new Vaccine({
+        name,
         animal_type,
-        age_range, // Expecting { min: number, max: number }
-        frequency,
-        duration,
-    });
-    await newVaccine.save();
-    // vaccineData.push(newVaccine);
-
-    res.status(201).json({
-        message: 'Vaccine added successfully',
-        vaccine: newVaccine,
-    });
-};
-
-// Helper function to convert years to months
-const yearsToMonths = (years) => years * 12;
-
-// Function to recommend vaccines
-export const recommendVaccines = (req, res) => {
-    const { animal_type, age } = req.query;
-
-    if (!animal_type || !age) {
-        return res.status(400).json({ error: 'Missing required parameters (animal_type, age)' });
+        breeds,
+        effectiveness,
+      });
+  
+      const savedVaccine = await newVaccine.save();
+      res.status(201).json(savedVaccine);
+    } catch (error) {
+      res.status(500).json({ message: "Server Error", error: error.message });
     }
-
-    const animalAgeInMonths = yearsToMonths(parseInt(age));
-
-    const applicableVaccines = vaccineData.filter(vaccine => {
-        const minAgeInMonths = yearsToMonths(vaccine.age_range.min);
-        const maxAgeInMonths = yearsToMonths(vaccine.age_range.max);
-        return (
-            vaccine.animal_type.toLowerCase() === animal_type.toLowerCase() &&
-            animalAgeInMonths >= minAgeInMonths &&
-            animalAgeInMonths <= maxAgeInMonths
-        );
-    });
-
-    if (applicableVaccines.length === 0) {
-        return res.status(404).json({ error: 'No vaccines found for this animal type and age' });
+  };
+  
+  /**
+   * @desc Get all vaccines
+   * @route GET /api/vaccines
+   */
+  export const getAllVaccines = async (req, res) => {
+    try {
+      const vaccines = await Vaccine.find()
+        .populate("animal_type", "animal_type") // Populate animal type
+        .populate("breeds", "breed_name"); // Populate breed name
+  
+      res.status(200).json(vaccines);
+    } catch (error) {
+      res.status(500).json({ message: "Server Error", error: error.message });
     }
-
-    const vaccinesWithNextDate = applicableVaccines.map(vaccine => {
-        const nextVaccinationDate = calculateNextVaccinationDate(vaccine, age);
-        return {
-            vaccine_name: vaccine.vaccine_name,
-            next_vaccination_date: nextVaccinationDate,
-        };
-    });
-
-    return res.json(vaccinesWithNextDate);
-};
-
-// Function to calculate the next vaccination date
-function calculateNextVaccinationDate(vaccine, age) {
-    const durationParts = vaccine.duration.split(' ');
-    const durationValue = parseFloat(durationParts[0]);
-    const durationUnit = durationParts[1].toLowerCase();
-
-    const currentDate = new Date();
-    const dob = new Date();
-    dob.setFullYear(currentDate.getFullYear() - age);
-    // dob.setFullYear(currentDate.getFullYear() - Math.floor(age));
-    // dob.setMonth(dob.getMonth() - Math.round((age % 1) * 12));
-
-    console.log("Date of Birth:", dob);
-
-    let nextVaccinationDate = new Date(dob)
-
-    if (durationUnit.includes('year')) {
-        nextVaccinationDate.setFullYear(nextVaccinationDate.getFullYear() + Math.floor(durationValue));
-    } else if (durationUnit.includes('months')) {
-        nextVaccinationDate.setMonth(nextVaccinationDate.getMonth() + durationValue);
+  };
+  
+  /**
+   * @desc Get a single vaccine by ID
+   * @route GET /api/vaccines/:id
+   */
+  export const getVaccineById = async (req, res) => {
+    try {
+      const vaccine = await Vaccine.findById(req.params.id)
+        .populate("animal_type", "animal_type")
+        .populate("breeds", "breed_name");
+  
+      if (!vaccine) {
+        return res.status(404).json({ message: "Vaccine not found" });
+      }
+  
+      res.status(200).json(vaccine);
+    } catch (error) {
+      res.status(500).json({ message: "Server Error", error: error.message });
     }
-
-    // if (frequency === "every") {
-    //     // Assuming recurring frequency adds the same duration repeatedly
-    //     if (durationUnit.includes('year')) {
-    //         nextVaccinationDate.setFullYear(currentDate.getFullYear() + + Math.floor(durationValue));
-    //     } else if (durationUnit.includes('months')) {
-    //         nextVaccinationDate.setMonth(currentDate.getMonth() + durationValue);
-    //     }
-    // }
-
-    // if (frequency === "every") {
-    //     const currentYear = currentDate.getFullYear();
-    //     while (nextVaccinationDate <= currentDate) {
-    //         if (durationUnit.includes('year')) {
-    //             nextVaccinationDate.setFullYear(nextVaccinationDate.getFullYear() + Math.floor(durationValue));
-    //         } else if (durationUnit.includes('month')) {
-    //             nextVaccinationDate.setMonth(nextVaccinationDate.getMonth() + durationValue);
-    //         }
-    //     }
-    // }
-
-    //   // Handle recurring frequency if specified
-    //   if (frequency.includes("every")) {
-    //     while (nextVaccinationDate <= currentDate) {
-    //         if (durationUnit.includes('year')) {
-    //             nextVaccinationDate.setFullYear(nextVaccinationDate.getFullYear() + Math.floor(durationValue));
-    //         } else if (durationUnit.includes('month')) {
-    //             nextVaccinationDate.setMonth(nextVaccinationDate.getMonth() + Math.floor(durationValue));
-    //         }
-    //     }
-    // }
-
-    return nextVaccinationDate.toISOString().split('T')[0]; // Return the next vaccination date in YYYY-MM-DD format
-}
+  };
+  
+  /**
+   * @desc Update a vaccine
+   * @route PUT /api/vaccines/:id
+   */
+  export const updateVaccine = async (req, res) => {
+    try {
+      const { name, animal_type, breeds, effectiveness } = req.body;
+  
+      const updatedVaccine = await Vaccine.findByIdAndUpdate(
+        req.params.id,
+        { name, animal_type, breeds, effectiveness },
+        { new: true, runValidators: true }
+      );
+  
+      if (!updatedVaccine) {
+        return res.status(404).json({ message: "Vaccine not found" });
+      }
+  
+      res.status(200).json(updatedVaccine);
+    } catch (error) {
+      res.status(500).json({ message: "Server Error", error: error.message });
+    }
+  };
+  
+  /**
+   * @desc Delete a vaccine
+   * @route DELETE /api/vaccines/:id
+   */
+  export const deleteVaccine = async (req, res) => {
+    try {
+      const deletedVaccine = await Vaccine.findByIdAndDelete(req.params.id);
+  
+      if (!deletedVaccine) {
+        return res.status(404).json({ message: "Vaccine not found" });
+      }
+  
+      res.status(200).json({ message: "Vaccine deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Server Error", error: error.message });
+    }
+  };

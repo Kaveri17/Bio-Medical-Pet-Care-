@@ -25,6 +25,9 @@ const userAnimalSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    acceptedVaccines: [{ type: ObjectId, ref: "Vaccine" }], // Stores vaccines accepted by the user
+    rejectedVaccines: [{ type: ObjectId, ref: "Vaccine" }], // Stores vaccines rejected by the user
+    missedVaccines: [{ type: ObjectId, ref: "Vaccine" }], // Stores missed vaccines
   },
   { timestamps: true }
 );
