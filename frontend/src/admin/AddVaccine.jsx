@@ -70,10 +70,16 @@ const AddVaccine = () => {
       return;
     }
 
-    // Simulate vaccine addition
+    // Duration validation
+    if (duration < 1 || duration > 30) {
+      alert("Duration must be between 1 and 30 months.");
+      return;
+    }
+
+    // If all validations pass, show success message
     setSuccessMessage("Vaccine added successfully!");
 
-    // Reset form
+    // Reset form after successful submission
     setFormData({
       vaccineName: "",
       animalType: "",
@@ -107,122 +113,54 @@ const AddVaccine = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Vaccine Name */}
             <div>
-              <label htmlFor="vaccineName" className="block text-sm font-medium text-gray-700 mb-2">
-                Vaccine Name 
-              </label>
-              <input
-                type="text"
-                id="vaccineName"
-                name="vaccineName"
-                value={formData.vaccineName}
-                onChange={handleChange}
-                maxLength={30}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                placeholder="Enter vaccine name"
-              />
+              <label className="block text-sm font-medium text-gray-700">Vaccine Name</label>
+              <input type="text" name="vaccineName" value={formData.vaccineName} onChange={handleChange} className="w-full px-4 py-3 border rounded-lg" placeholder="Enter vaccine name" />
             </div>
 
             {/* Animal Type */}
             <div>
-              <label htmlFor="animalType" className="block text-sm font-medium text-gray-700 mb-2">
-                Animal Type
-              </label>
-              <select
-                id="animalType"
-                name="animalType"
-                value={formData.animalType}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              >
+              <label className="block text-sm font-medium text-gray-700">Animal Type</label>
+              <select name="animalType" value={formData.animalType} onChange={handleChange} className="w-full px-4 py-3 border rounded-lg">
                 <option value="">Select Animal Type</option>
-                <option value="dog">Dog</option>
-                <option value="cow">Cow</option>
-                <option value="hen">Hen</option>
+                {Object.keys(breedOptions).map((type) => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
               </select>
             </div>
 
-            {/* Breed (Changes dynamically based on Animal Type) */}
+            {/* Breed */}
             <div>
-              <label htmlFor="breed" className="block text-sm font-medium text-gray-700 mb-2">
-                Breed
-              </label>
-              <select
-                id="breed"
-                name="breed"
-                value={formData.breed}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                disabled={!formData.animalType} // Disable if no animal type is selected
-              >
+              <label className="block text-sm font-medium text-gray-700">Breed</label>
+              <select name="breed" value={formData.breed} onChange={handleChange} className="w-full px-4 py-3 border rounded-lg">
                 <option value="">Select Breed</option>
-                {formData.animalType &&
-                  breedOptions[formData.animalType].map((breed) => (
-                    <option key={breed} value={breed}>{breed}</option>
-                  ))}
+                {formData.animalType && breedOptions[formData.animalType]?.map((breed) => (
+                  <option key={breed} value={breed}>{breed}</option>
+                ))}
               </select>
             </div>
+
+            {/* Frequency */}
             <div>
-              <label htmlFor="frequency" className="block text-sm font-medium text-gray-700 mb-2">
-                Frequency
-              </label>
-              <select
-                id="frequency"
-                name="frequency"
-                value={formData.frequency}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              >
-                <option value="">Select Frequency</option>
-                <option value="weekly">Weekly</option>
-                <option value="6-months">Every 6 Months</option>
-                <option value="yearly">Yearly</option>
-              </select>
+              <label className="block text-sm font-medium text-gray-700">Frequency</label>
+              <input type="text" name="frequency" value={formData.frequency} onChange={handleChange} className="w-full px-4 py-3 border rounded-lg" placeholder="Enter frequency" />
+            </div>
+
+            {/* Age Range */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Min Age</label>
+                <input type="number" name="ageRangeMin" value={formData.ageRangeMin} onChange={handleChange} className="w-full px-4 py-3 border rounded-lg" placeholder="Min age" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Max Age</label>
+                <input type="number" name="ageRangeMax" value={formData.ageRangeMax} onChange={handleChange} className="w-full px-4 py-3 border rounded-lg" placeholder="Max age" />
+              </div>
             </div>
 
             {/* Duration */}
             <div>
-              <label htmlFor="duration" className="block text-sm font-medium text-gray-700 mb-2">
-                Duration 
-              </label>
-              <input
-                type="number"
-                id="duration"
-                name="duration"
-                value={formData.duration}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                placeholder="Enter duration"
-              />
-            </div>
-
-            {/* Age Range Minimum */}
-            <div>
-              <label htmlFor="ageRangeMin" className="block text-sm font-medium text-gray-700 mb-2">
-                Age Range Minimum 
-              </label>
-              <input
-                type="number"
-                id="ageRangeMin"
-                name="ageRangeMin"
-                value={formData.ageRangeMin}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              />
-            </div>
-
-            {/* Age Range Maximum */}
-            <div>
-              <label htmlFor="ageRangeMax" className="block text-sm font-medium text-gray-700 mb-2">
-                Age Range Maximum 
-              </label>
-              <input
-                type="number"
-                id="ageRangeMax"
-                name="ageRangeMax"
-                value={formData.ageRangeMax}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              />
+              <label className="block text-sm font-medium text-gray-700">Duration (In months)</label>
+              <input type="number" name="duration" value={formData.duration} onChange={handleChange} className="w-full px-4 py-3 border rounded-lg" placeholder="Enter duration" />
             </div>
 
             <button type="submit" className="w-full bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 transition-all">
