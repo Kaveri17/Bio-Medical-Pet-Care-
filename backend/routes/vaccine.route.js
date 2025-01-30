@@ -1,0 +1,33 @@
+import express from 'express';
+// import { getAllVaccines, getVaccineById, getVaccineByName, recommendVaccines,addVaccine } from '../controllers/vaccine.controller.js';
+import {
+  createVaccine,
+  getAllVaccines,
+  getVaccineById,
+  updateVaccine,
+  deleteVaccine,
+  recommendVaccines
+} from "../controllers/vaccine.controller.js";
+import { verifyToken } from "../middleware/verifyToken.js"
+
+const router = express.Router();
+
+// Routes for vaccines
+// router.get('/getallvaccines',getAllVaccines);
+// router.post('/addvaccine', addVaccine);
+
+// // router.get('/getvaccine/:id',verifyToken, getVaccineById);
+// router.get('/getvaccine/:id', getVaccineById);
+// router.get('/getvaccinename/:name', verifyToken,getVaccineByName); 
+// router.get('/recommend', recommendVaccines);
+
+router.get('/recommend/:animalId',verifyToken, recommendVaccines);
+
+
+router.post("/", createVaccine); // Create a new vaccine
+router.get("/", getAllVaccines); // Get all vaccines
+router.get("/:id", getVaccineById); // Get a specific vaccine by ID
+router.put("/:id", updateVaccine); // Update a vaccine by ID
+router.delete("/:id", deleteVaccine); // Delete a vaccine by ID
+
+export default router;

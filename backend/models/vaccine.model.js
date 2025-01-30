@@ -10,7 +10,7 @@ const vaccineSchema = new mongoose.Schema(
         },
         animal_type: {
             type: ObjectId,
-            ref: "Breed",
+            ref: "AnimalCategory",
             required:true
         },
         breeds: {
@@ -18,39 +18,25 @@ const vaccineSchema = new mongoose.Schema(
             ref: "Breed",
             required:true
         },
-        frequency: {
-            type:String,
-            required: true,
-        },
-        duration: {
-            type: Number,
-            required:true
-        },
+        // frequency: {
+        //     type:String,
+        //     required: true,
+        // },
+        // duration: {
+        //     type: String,
+        //     required:true
+        // },
         // age_range: {
-        //     type: Number,
-        //     required: true
-        // }
-
-        age_range: {
-            min: {
-              type: Number,
-              required: true,
-              validate: {
-                validator: (value) => value >= 0,
-                message: 'Minimum age must be a non-negative number.',
-              },
-            },
-            max: {
-              type: Number,
-              required: true,
-              validate: {
-                validator: function (value) {
-                  return value >= this.age_range.min;
-                },
-                message: 'Maximum age must be greater than or equal to minimum age.',
-              },
-            },
-          },
+        //   min: { type: Number, required: true },
+        //   max: { type: Number, required: true },
+        // },
+        effectiveness: [
+          {
+            minAge: { type: Number, required: true }, // Minimum age for effectiveness
+            maxAge: { type: Number, required: true }, // Maximum age for effectiveness
+            effectivenessPercentage: { type: Number, required: true } // Effectiveness %
+          }
+        ]
     },
 {
     timestamps:true

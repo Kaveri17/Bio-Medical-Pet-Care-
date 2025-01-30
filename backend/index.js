@@ -7,7 +7,7 @@ import { connectDB } from "./config/db.js";
 import userRouter from "./routes/user.route.js";
 import contactRouter from "./routes/contactroute.js"
 import animalRouter from "./routes/animalroute.js"
-import vaccineRouter from "./routes/vaccineroute.js"
+import vaccineRouter from "./routes/vaccine.route.js"
 import userAnimalRouter from "./routes/userAnimal.route.js"
 import breedRouter from "./routes/breedroute.js"
 import dailyrecordRouter from "./routes/dailyrecord.route.js"

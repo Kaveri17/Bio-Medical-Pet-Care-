@@ -17,8 +17,8 @@ export const createDailyRecord = async (req, res) => {
     const { animal_type } = userAnimal;
     // Check if a daily record already exists for today
     const today = new Date();
-    const startOfDay = new Date(today.setHours(0, 0, 0, 0));
-    const endOfDay = new Date(new Date().setHours(23, 59, 59, 999));
+    const startOfDay = new Date(today.setUTCHours(0, 0, 0, 0)); // Set UTC start of the day
+    const endOfDay = new Date(today.setUTCHours(23, 59, 59, 999)); 
 
     const existingRecord = await Dailyrecord.findOne({
       useranimal: id,
@@ -114,24 +114,24 @@ export const getDailyRecordsByUserAnimalId = async (req, res) => {
 
   try {
     // Get today's date
-    // const today = new Date();
+    const today = new Date();
 
-    // // Get the current day (0 is Sunday, 1 is Monday, etc.)
-    // const currentDay = today.getDay();
+    // Get the current day (0 is Sunday, 1 is Monday, etc.)
+    const currentDay = today.getDay();
 
-    // // Calculate the start of the week (Sunday)
-    // const startOfWeek = new Date(today);
-    // startOfWeek.setDate(today.getDate() - currentDay); // Set to Sunday
+    // Calculate the start of the week (Sunday)
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - currentDay); // Set to Sunday
 
-    // // Set time to midnight for the start of the week
-    // startOfWeek.setHours(0, 0, 0, 0);
+    // Set time to midnight for the start of the week
+    startOfWeek.setHours(0, 0, 0, 0);
 
-    // // Calculate the end of the week (Saturday)
-    // const endOfWeek = new Date(startOfWeek);
-    // endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to Saturday
+    // Calculate the end of the week (Saturday)
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Set to Saturday
 
-    // // Set time to just before midnight for the end of the week
-    // endOfWeek.setHours(23, 59, 59, 999);
+    // Set time to just before midnight for the end of the week
+    endOfWeek.setHours(23, 59, 59, 999);
 
     // Fetch records for the current week (from Sunday to Saturday)
     const dailyRecords = await Dailyrecord.find({
