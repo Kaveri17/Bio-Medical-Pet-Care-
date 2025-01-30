@@ -4,63 +4,6 @@ import { UserAnimal } from "../models/userAnimal.model.js";
 import { Vaccine } from "../models/vaccine.model.js";
 
 
-// const calculateCosineSimilarity = (vectorA, vectorB) => {
-//     const dotProduct = vectorA.reduce((sum, val, i) => sum + val * vectorB[i], 0);
-//     const magnitudeA = Math.sqrt(vectorA.reduce((sum, val) => sum + val * val, 0));
-//     const magnitudeB = Math.sqrt(vectorB.reduce((sum, val) => sum + val * val, 0));
-  
-//     return magnitudeA && magnitudeB ? dotProduct / (magnitudeA * magnitudeB) : 0;
-//   };
-  
-//   export const recommendVaccines = async (req, res) => {
-//     try {
-//       const { userAnimalId } = req.params;
-  
-//       // Find the user's animal profile
-//       const userAnimal = await UserAnimal.findById(userAnimalId)
-//         .populate("animal_type")
-//         .populate("breed");
-  
-//       if (!userAnimal) {
-//         return res.status(404).json({ message: "User animal not found" });
-//       }
-  
-//       // Extract user animal's properties
-//       const { age, animal_type, breed, acceptedVaccines, rejectedVaccines } = userAnimal;
-  
-//       // Fetch vaccines matching the user's animal type and breed
-//       const vaccines = await Vaccine.find({
-//         animal_type: animal_type._id,
-//         breed: breed._id,
-//         _id: { $nin: [...acceptedVaccines, ...rejectedVaccines] }, // Exclude previously accepted/rejected
-//       });
-  
-//       // Calculate similarity scores
-//       const vaccineScores = vaccines.map((vaccine) => {
-//         const effectivenessVector = Object.keys(vaccine.effectiveness).map((range) => {
-//           const [minAge, maxAge] = range.split("-").map(Number);
-//           return age >= minAge && age <= maxAge ? vaccine.effectiveness[range] : 0;
-//         });
-  
-//         // Normalize user age effectiveness vector (same length as vaccine effectiveness)
-//         const userEffectivenessVector = effectivenessVector.map(() => 1);
-  
-//         // Compute cosine similarity
-//         const similarity = calculateCosineSimilarity(effectivenessVector, userEffectivenessVector);
-  
-//         return { vaccine, similarity };
-//       });
-  
-//       // Sort vaccines by highest similarity
-//       vaccineScores.sort((a, b) => b.similarity - a.similarity);
-  
-//       res.status(200).json({ recommendedVaccines: vaccineScores.map((v) => v.vaccine) });
-//     } catch (error) {
-//       res.status(500).json({ message: "Error recommending vaccines", error: error.message });
-//     }
-//   };
-  
-
 const calculateCosineSimilarity = (vectorA, vectorB) => {
     const dotProduct = vectorA.reduce((sum, val, i) => sum + val * vectorB[i], 0);
     const magnitudeA = Math.sqrt(vectorA.reduce((sum, val) => sum + val * val, 0));
@@ -70,56 +13,88 @@ const calculateCosineSimilarity = (vectorA, vectorB) => {
 };
 
 export const recommendVaccines = async (req, res) => {
-  try {
-    const { userAnimalId } = req.params;
+    try {
+        const { userAnimalId } = req.params;
 
-    // Find the user's animal profile
-    const userAnimal = await UserAnimal.findById(userAnimalId)
-      .populate("animal_type")
-      .populate("breed");
+        // Fetch the user's animal profile
+        const userAnimal = await UserAnimal.findById(userAnimalId)
+            .populate("animal_type")
+            .populate("breed");
 
-    if (!userAnimal) {
-      return res.status(404).json({ message: "User animal not found" });
-    }
-
-    // Extract user animal's properties
-    const { age, animal_type, breed, acceptedVaccines, rejectedVaccines } = userAnimal;
-
-    // Fetch vaccines matching the user's animal type and breed
-    const vaccines = await Vaccine.find({
-      animal_type: animal_type._id,
-      breeds: breed._id,  // Modify to match breeds as an array
-      _id: { $nin: [...acceptedVaccines, ...rejectedVaccines] }, // Exclude previously accepted/rejected
-    });
-
-    // Calculate similarity scores
-    const vaccineScores = vaccines.map((vaccine) => {
-      // Create the effectiveness vector for the vaccine based on the user's age
-      const effectivenessVector = vaccine.effectiveness.map((effect) => {
-        // Check if the user's age falls within the min/max range for this effectiveness
-        if (age >= effect.minAge && age <= effect.maxAge) {
-          return effect.effectivenessPercentage;  // Use the effectiveness percentage for this age range
+        if (!userAnimal) {
+            return res.status(404).json({ message: "User animal not found" });
         }
-        return 0;  // If not in range, set to 0
-      });
 
-      // User's effectiveness vector will have a 1 for each effectiveness value
-      const userEffectivenessVector = effectivenessVector.map(() => 1);
+        const { age, animal_type, breed, acceptedVaccines, rejectedVaccines } = userAnimal;
 
-      // Compute cosine similarity
-      const similarity = calculateCosineSimilarity(effectivenessVector, userEffectivenessVector);
+        // Fetch vaccines matching the animal type
+        const vaccines = await Vaccine.find({
+            animal_type: animal_type._id,
+            _id: { $nin: [...acceptedVaccines, ...rejectedVaccines] }, // Exclude accepted/rejected
+        });
 
-      return { vaccine, similarity };
-    });
+        // Normalize age (assuming max age is 20 for now)
+        const normalizedUserAge = age / 20;  
 
-    // Sort vaccines by highest similarity
-    vaccineScores.sort((a, b) => b.similarity - a.similarity);
+        const vaccineScores = vaccines.map((vaccine) => {
+            let ageMatch = 0, effectivenessScore = 0, breedMatch = 0;
 
-    res.status(200).json({ recommendedVaccines: vaccineScores.map((v) => v.vaccine) });
-  } catch (error) {
-    res.status(500).json({ message: "Error recommending vaccines", error: error.message });
-  }
+            // Convert vaccine attributes into a vector
+            vaccine.effectiveness.forEach((effect) => {
+                if (age >= effect.minAge && age <= effect.maxAge) {
+                    const normalizedVaccineAge = ((effect.minAge + effect.maxAge) / 2) / 20;
+                    ageMatch = 1 - Math.abs(normalizedUserAge - normalizedVaccineAge);
+                    effectivenessScore = effect.effectivenessPercentage / 100;
+                }
+            });
+
+            // Check if the breed is supported
+            if (vaccine.breeds.includes(breed._id)) {
+                breedMatch = 1;
+            }
+
+            // Create vectors
+            // const userVector = [normalizedUserAge, 1, breedMatch]; // User always has 100% effectiveness for itself
+            // const vaccineVector = [ageMatch, effectivenessScore, breedMatch];
+
+            // adding weightage 
+            const ageWeight = 0.6;
+            const effectivenessWeight = 0.3;
+            const breedWeight = 0.1;
+            
+            const userVector = [
+                normalizedUserAge * ageWeight,
+                1 * effectivenessWeight, // User effectiveness is always 100%
+                breedMatch * breedWeight
+            ];
+            
+            const vaccineVector = [
+                ageMatch * ageWeight,
+                effectivenessScore * effectivenessWeight,
+                breedMatch * breedWeight
+            ];
+            
+
+            // Compute cosine similarity
+            const similarity = calculateCosineSimilarity(userVector, vaccineVector);
+
+            console.log(`Vaccine: ${vaccine.vaccine_name}`);
+            console.log(`User Vector:`, userVector);
+            console.log(`Vaccine Vector:`, vaccineVector);
+            console.log(`Cosine Similarity:`, similarity);
+        
+            return { vaccine, similarity };
+        });
+
+        // Sort vaccines by highest similarity
+        vaccineScores.sort((a, b) => b.similarity - a.similarity);
+
+        res.status(200).json({ recommendedVaccines: vaccineScores.map((v) => v.vaccine) });
+    } catch (error) {
+        res.status(500).json({ message: "Error recommending vaccines", error: error.message });
+    }
 };
+
 
   export const acceptVaccine = async (req, res) => {
     try {

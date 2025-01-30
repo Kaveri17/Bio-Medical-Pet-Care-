@@ -21,7 +21,7 @@ const router = express.Router();
 // router.get('/getvaccinename/:name', verifyToken,getVaccineByName); 
 // router.get('/recommend', recommendVaccines);
 
-router.get('/recommend/:animalId',verifyToken, recommendVaccines);
+router.get('/recommend/:userAnimalId',verifyToken, recommendVaccines);
 
 
 router.post("/addvaccine", createVaccine); // Create a new vaccine
