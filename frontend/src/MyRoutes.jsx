@@ -20,7 +20,6 @@ import AdminDashboard from './admin/AdminDashboard';
 
 import MessageView from './layout/MessageView';
 import AdminMessage from './admin/AdminMessage';
-import Dashboard from './admin/Dashboard';
 import VaccinesList from './admin/VaccinesList';
 import AddVaccine from './admin/AddVaccine';
 import Reports from './pages/Reports';
@@ -33,6 +32,7 @@ import UpdateCategory from './admin/UpdateCategory';
 import FileUpload from './admin/FileUpload';
 import ExcelUpload from './admin/ExcelUpload';
 import AdminRoute from './auth/AdminRoute';
+import UploadForm from './admin/UploadForm';
 // import SendVaccineReminder from './pages/SendVaccineReminder';
 // import AdminRoute from './auth/AdminRoute'
 // import AdminSidebar from './layout/AdminSidebar';
@@ -64,6 +64,7 @@ const MyRoutes = () => {
           <Route path='/reports/:id' element={<Reports/>}/>
           {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
           {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
+         <Route path="/benchmark" element={<UploadForm/>}/>
         </Route>
 
          {/* Admin */}
@@ -80,7 +81,7 @@ const MyRoutes = () => {
          <Route path="add-vaccine" element={<AddVaccine />} />
           <Route path="adminmessage" element={<AdminMessage/>}/>
           <Route path="dashboards" element={<AdminDashboard/>}/>
-         <Route path="messageview/:id" element={<MessageView/>}/> 
+         <Route path="messageview/:id" element={<MessageView/>}/>
          
          </Route>
 {/*           
