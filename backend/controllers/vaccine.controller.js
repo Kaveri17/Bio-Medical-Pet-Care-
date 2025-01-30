@@ -176,14 +176,14 @@ export const recommendVaccines = async (req, res) => {
 
   export const createVaccine = async (req, res) => {
     try {
-      const { name, animal_type, breeds, effectiveness } = req.body;
+      const { vaccine_name, animal_type, breeds, effectiveness } = req.body;
   
-      if (!name || !animal_type || !breeds || !effectiveness) {
+      if (!vaccine_name || !animal_type || !breeds || !effectiveness) {
         return res.status(400).json({ message: "All fields are required" });
       }
   
       const newVaccine = new Vaccine({
-        name,
+        vaccine_name,
         animal_type,
         breeds,
         effectiveness,

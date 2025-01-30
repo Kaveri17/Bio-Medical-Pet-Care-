@@ -13,11 +13,11 @@ const vaccineSchema = new mongoose.Schema(
             ref: "AnimalCategory",
             required:true
         },
-        breeds: {
+        breeds: [{
             type: ObjectId,
             ref: "Breed",
             required:true
-        },
+    }],
         // frequency: {
         //     type:String,
         //     required: true,
