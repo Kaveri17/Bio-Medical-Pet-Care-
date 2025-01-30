@@ -1,19 +1,39 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import AdminSidebar from "../layout/AdminSidebar";  // Import your Sidebar component
+import AdminSidebar from "../layout/AdminSidebar"; // Import your Sidebar component
+import Select from "react-select"; // Import react-select
 
-const API = "http://localhost:5001/api";  
+const API = "http://localhost:5001/api";
 
 const AdminAnimal = () => {
   const [showModal, setShowModal] = useState(false);
   const [animals, setAnimals] = useState([]);
   const [newAnimal, setNewAnimal] = useState({
     animal_type: "",
-    breeds: "", // This will hold comma-separated breed names
+    breeds: [],
   });
-  const [editAnimal, setEditAnimal] = useState(null); // For handling edit
+  const [editAnimal, setEditAnimal] = useState(null);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const breedOptions = {
+    cow: [
+      { label: "Jersey", value: "jersey" },
+      { label: "Holstein", value: "holstein" },
+      { label: "Sahiwal", value: "sahiwal" },
+    ],
+    dog: [
+      { label: "Labrador", value: "labrador" },
+      { label: "Beagle", value: "beagle" },
+      { label: "German Shepherd", value: "german_shepherd" },
+    ],
+    hen: [
+      { label: "Rhode Island Red", value: "rhode_island_red" },
+      { label: "Leghorn", value: "leghorn" },
+      { label: "Plymouth Rock", value: "plymouth_rock" },
+    ],
+  };
 
   // Fetch animals from the backend
   useEffect(() => {
@@ -29,7 +49,8 @@ const AdminAnimal = () => {
 
   const handleModalClose = () => {
     setShowModal(false);
-    setEditAnimal(null); // Reset edit mode
+    setEditAnimal(null);
+    setError("");
   };
 
   const handleInputChange = (e) => {
@@ -40,86 +61,47 @@ const AdminAnimal = () => {
     }));
   };
 
-  // Handle adding a new animal (purely frontend)
+  const handleBreedChange = (selectedOptions) => {
+    setNewAnimal((prevState) => ({
+      ...prevState,
+      breeds: selectedOptions || [],
+    }));
+  };
+
+  const isValidAnimalType = (type) => {
+    return Object.keys(breedOptions).includes(type.toLowerCase());
+  };
+
   const handleAddAnimal = () => {
-    if (!newAnimal.animal_type || !newAnimal.breeds) {
-      alert("Please fill out all fields");
+    if (!newAnimal.animal_type || !newAnimal.breeds.length) {
+      setError("All fields are required.");
       return;
     }
 
-    const breedList = newAnimal.breeds
-      .split(",")
-      .map((breed) => breed.trim()) 
-      .map((breed) => ({ breed_name: breed })); 
+    if (!isValidAnimalType(newAnimal.animal_type)) {
+      setError("Please select a valid animal type.");
+      return;
+    }
+
     const animalData = {
       animal_type: newAnimal.animal_type,
-      breeds: breedList,
-      _id: Date.now(), 
+      breeds: newAnimal.breeds.map((breed) => ({ breed_name: breed.label })),
+      _id: Date.now(), // Temporary unique ID
     };
 
     setAnimals((prevAnimals) => [...prevAnimals, animalData]);
-    setShowModal(false); 
-    setNewAnimal({ animal_type: "", breeds: "" }); 
-  };
-
-  const handleEdit = (animal) => {
-    setNewAnimal({
-      animal_type: animal.animal_type,
-      breeds: animal.breeds.map((breed) => breed.breed_name).join(", "), // Join breed names for edit
-    });
-    setEditAnimal(animal); // Set animal to be edited
-    setShowModal(true); // Open the modal in edit mode
-  };
-
-  // Handle updating the animal (purely frontend)
-  const handleUpdateAnimal = () => {
-    if (!newAnimal.animal_type || !newAnimal.breeds) {
-      alert("Please fill out all fields");
-      return;
-    }
-
-    const breedList = newAnimal.breeds
-      .split(",")
-      .map((breed) => breed.trim()) // Split and trim breed names
-      .map((breed) => ({ breed_name: breed })); // Structure as breed objects
-
-    const updatedAnimal = {
-      ...editAnimal,
-      animal_type: newAnimal.animal_type,
-      breeds: breedList,
-    };
-
-    // Update the animal in the state
-    setAnimals((prevAnimals) =>
-      prevAnimals.map((animal) =>
-        animal._id === updatedAnimal._id ? updatedAnimal : animal
-      )
-    );
-    setShowModal(false); // Close the modal
-    setEditAnimal(null); // Reset edit mode
-    setNewAnimal({ animal_type: "", breeds: "" }); // Reset form
-  };
-
-  // Handle deleting an animal (purely frontend)
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this animal?")) {
-      setAnimals((prevAnimals) =>
-        prevAnimals.filter((animal) => animal._id !== id)
-      );
-      alert("Animal deleted successfully!");
-    }
+    setShowModal(false);
+    setNewAnimal({ animal_type: "", breeds: [] });
+    setError("");
   };
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
       <AdminSidebar />
 
-      {/* Main Content */}
-      <div className="flex-1 p-4 ml-[250px]"> {/* ml-[250px] to leave space for sidebar */}
+      <div className="flex-1 p-4 ml-[250px]">
         <h2 className="text-2xl font-semibold mb-4">Animals</h2>
 
-        {/* Add Animal Button */}
         <button
           onClick={() => setShowModal(true)}
           className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 mb-4"
@@ -127,7 +109,6 @@ const AdminAnimal = () => {
           Add Animal
         </button>
 
-        {/* Animal List Table */}
         <div className="overflow-x-auto">
           <table className="w-full border-collapse border border-gray-200">
             <thead>
@@ -144,7 +125,6 @@ const AdminAnimal = () => {
                   <td className="px-4 py-2">{index + 1}</td>
                   <td className="px-4 py-2">{animal.animal_type}</td>
                   <td className="px-4 py-2">
-                    {/* Join breed names with a comma separator */}
                     {animal.breeds.map((breed) => breed.breed_name).join(", ")}
                   </td>
                   <td className="px-4 py-2">
@@ -167,13 +147,13 @@ const AdminAnimal = () => {
           </table>
         </div>
 
-        {/* Modal for Adding/Editing Animal */}
         {showModal && (
           <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
               <h3 className="text-xl font-semibold mb-4">
                 {editAnimal ? "Edit Animal" : "Add New Animal"}
               </h3>
+              {error && <p className="text-red-500 mb-4">{error}</p>}
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -187,29 +167,36 @@ const AdminAnimal = () => {
                   >
                     Animal Type
                   </label>
-                  <input
-                    type="text"
+                  <select
                     id="animal_type"
                     name="animal_type"
                     value={newAnimal.animal_type}
                     onChange={handleInputChange}
                     className="w-full border border-gray-300 rounded-lg px-4 py-2"
                     required
-                  />
+                  >
+                    <option value="" disabled>
+                      Select an animal type
+                    </option>
+                    {Object.keys(breedOptions).map((type) => (
+                      <option key={type} value={type}>
+                        {type.charAt(0).toUpperCase() + type.slice(1)}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="mb-4">
                   <label htmlFor="breeds" className="block text-gray-700 mb-2">
-                    Breeds (comma separated)
+                    Breeds
                   </label>
-                  <input
-                    type="text"
+                  <Select
+                    isMulti
                     id="breeds"
-                    name="breeds"
+                    options={breedOptions[newAnimal.animal_type] || []}
                     value={newAnimal.breeds}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-lg px-4 py-2"
-                    required
+                    onChange={handleBreedChange}
+                    className="w-full"
                   />
                 </div>
 
