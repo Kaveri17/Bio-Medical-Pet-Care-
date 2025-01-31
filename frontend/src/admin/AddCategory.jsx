@@ -56,7 +56,8 @@ const AdminAnimal = () => {
       value: breed.breed_name.toLowerCase(),
     }));
     
-    // Filter out already selected breeds from the dropdown options
+
+    
     const filteredBreeds = availableBreeds.filter(
       (breed) => !selectedBreeds.some((selected) => selected.value === breed.value)
     );
