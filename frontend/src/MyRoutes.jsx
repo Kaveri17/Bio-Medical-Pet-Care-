@@ -33,6 +33,7 @@ import FileUpload from './admin/FileUpload';
 import ExcelUpload from './admin/ExcelUpload';
 import AdminRoute from './auth/AdminRoute';
 import UploadForm from './admin/UploadForm';
+import DatePicker from './pages/CustomDatePicker';
 // import SendVaccineReminder from './pages/SendVaccineReminder';
 // import AdminRoute from './auth/AdminRoute'
 // import AdminSidebar from './layout/AdminSidebar';
@@ -65,6 +66,7 @@ const MyRoutes = () => {
           {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
           {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
          <Route path="/benchmark" element={<UploadForm/>}/>
+         <Route path='/date' element={<DatePicker/>}/>
         </Route>
 
          {/* Admin */}
