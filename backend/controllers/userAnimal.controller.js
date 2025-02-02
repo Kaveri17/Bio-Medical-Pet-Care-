@@ -6,13 +6,11 @@ export const addUsersAnimal = async (req, res) => {
   const { animal_type, breed, age, gender } = req.body;
   const userId = req.userId;
   try {
-    const animalCategory = await AnimalCategory.findById(
-      animal_type
-    ).populate("breeds");
+    const animalCategory = await AnimalCategory.findById(animal_type)
+    .populate("breeds");
     if (!animalCategory) {
       return res.status(400).json({ error: "Invalid animal type" });
     }
-
     // Check if the breed exists within the selected animal type
     // const breedData = animalCategory?.breeds.find(
     //     (breedItem) => breedItem.breed_name.toString() === breed.toString()
@@ -29,7 +27,6 @@ export const addUsersAnimal = async (req, res) => {
       age,
       gender,
     });
-    
     res.status(201).json(newUserAnimal);
   } catch (error) {
     console.error(error);

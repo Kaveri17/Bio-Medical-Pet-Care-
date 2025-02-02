@@ -133,44 +133,34 @@ const calculateCosineSimilarity = (vectorA, vectorB) => {
 export const recommendVaccines = async (req, res) => {
   try {
     const { userAnimalId } = req.params;
-
     // Fetch the user's animal profile
     const userAnimal = await UserAnimal.findById(userAnimalId)
       .populate("animal_type")
       .populate("breed");
-
     if (!userAnimal) {
       return res.status(404).json({ message: "User animal not found" });
     }
-
     const { age, animal_type, breed, acceptedVaccines, rejectedVaccines } =
       userAnimal;
-
     // Convert user age from years to months
     const userAgeInMonths = age * 12;
     console.log("user animal age", userAgeInMonths);
     console.log("user animal type", animal_type._id);
-
     // Fetch vaccines matching the animal type
     const vaccinesByTpe = await Vaccine.find({
       animal_type: animal_type._id,
       _id: { $nin: [...acceptedVaccines, ...rejectedVaccines] }, // Exclude accepted/rejected
     });
-
     // Filter by breed
     const vaccines = vaccinesByTpe.filter((vaccine) =>
       vaccine.breeds.some((vaccineBreed) => vaccineBreed._id.equals(breed._id))
     );
-
     console.log("Filtered vaccines:", vaccines);
-
     // // Normalize age
     const normalizedUserAge = userAgeInMonths / (15 * 12);
-
     const vaccineScores = vaccines.map((vaccine) => {
       let ageMatch = 0,
         effectivenessScore = 0;
-
       // Convert vaccine attributes into a vector
       vaccine.effectiveness.forEach((effect) => {
         if (
@@ -183,60 +173,39 @@ export const recommendVaccines = async (req, res) => {
           effectivenessScore = effect.effectivenessPercentage / 100;
         }
       });
-
       // If no effectiveness score is found, use a default
       if (effectivenessScore === 0) {
-        effectivenessScore = 0.2; // Adjust this based on your preference
+        effectivenessScore = 0.2; 
       }
-
-      console.log("User Breed ID:", breed._id);
-      console.log(
-        "Vaccine Breeds:",
-        vaccine.breeds.map((b) => b._id)
-      );
-
       // Assign weights
       const ageWeight = 0.5;
       const effectivenessWeight = 0.5;
-
       // Create vectors
-      const userVector = [
-        normalizedUserAge * ageWeight,
+      const userVector = [normalizedUserAge * ageWeight,
         1 * effectivenessWeight, // User effectiveness is always 100%
       ];
-
-      const vaccineVector = [
-        ageMatch * ageWeight,
+      const vaccineVector = [ageMatch * ageWeight,
         effectivenessScore * effectivenessWeight
       ];
-
       // Compute cosine similarity
       const similarity = calculateCosineSimilarity(userVector, vaccineVector);
-
       console.log(`Vaccine: ${vaccine.vaccine_name}`);
       console.log(`User Vector:`, userVector);
       console.log(`Vaccine Vector:`, vaccineVector);
       console.log(`Cosine Similarity:`, similarity);
-
       return { vaccine, similarity };
-
     });
-
     // Sort vaccines by highest similarity
     vaccineScores.sort((a, b) => b.similarity - a.similarity);
-
     // Applying threshold filtering to exclude vaccines with low similarity
     const threshold = 0.7;
     const recommendedVaccines = vaccineScores.filter(
       (v) => v.similarity > threshold
     );
-
-    res
-      .status(200)
+    res.status(200)
       .json({ recommendedVaccines: recommendedVaccines.map((v) => v.vaccine) });
   } catch (error) {
-    res
-      .status(500)
+    res.status(500)
       .json({ message: "Error recommending vaccines", error: error.message });
   }
 };

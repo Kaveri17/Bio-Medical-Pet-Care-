@@ -6,31 +6,23 @@ import { UserAnimal } from "../models/userAnimal.model.js";
 export const createDailyRecord = async (req, res) => {
   const { id } = req.params;
   const { weight, production, temperature } = req.body;
-
   try {
     const userAnimal = await UserAnimal.findById(id).populate("animal_type");
-
     if (!userAnimal) {
       return res.status(404).json({ error: "Animal not found" });
     }
-
     const { animal_type } = userAnimal;
     // Check if a daily record already exists for today
     const today = new Date();
     const startOfDay = new Date(today.setUTCHours(0, 0, 0, 0)); // Set UTC start of the day
     const endOfDay = new Date(today.setUTCHours(23, 59, 59, 999)); 
-
     const existingRecord = await Dailyrecord.findOne({
       useranimal: id,
       createdAt: { $gte: startOfDay, $lte: endOfDay },
     });
-
     if (existingRecord) {
-      return res
-        .status(400)
-        .json({ error: "You have already entered data for today." });
+      return res.status(400).json({ error: "You have already entered data for today." });
     }
-
     // Validate production field for cow and chicken
     if (
       (animal_type?.animal_type === "Cow" ||
@@ -41,7 +33,6 @@ export const createDailyRecord = async (req, res) => {
         .status(400)
         .json({ error: `Production data is required for ${type}.` });
     }
-
     const newDailyRecord = new Dailyrecord({
       useranimal: id,
       weight,
@@ -49,7 +40,6 @@ export const createDailyRecord = async (req, res) => {
       temperature,
     });
     const savedRecord = await newDailyRecord.save();
-
     return res
       .status(201)
       .json({ message: "Daily record created", data: savedRecord });

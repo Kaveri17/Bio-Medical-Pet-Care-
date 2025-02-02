@@ -15,21 +15,9 @@ import { fail } from "assert";
 
 export const signup = async (req, res) => {
   const {
-    email,
-    password,
-    username,
-    firstname,
-    lastname,
-  } = req.body;
-
+    email,password,username,firstname,lastname,} = req.body;
   try {
-    if (
-      !email ||
-      !password ||
-      !username ||
-      !firstname ||
-      !lastname
-    ) {
+    if (!email ||!password ||!username ||!firstname ||!lastname) {
       throw new Error("All the fields are required");
     }
     const userAlreadyExists = await User.findOne({ email });
@@ -38,12 +26,10 @@ export const signup = async (req, res) => {
         .status(400)
         .json({ success: false, message: "User Already Exists" });
     }
-
     const hashedPassword = await bcryptjs.hash(password, 10); //hashing the password
     const verificationToken = Math.floor(
       1000 + Math.random() * 900000
     ).toString(); // created a verification digit token betn 1000-999999
-
     //created a user
     const user = new User({
       email,
@@ -79,25 +65,18 @@ export const verifyEmail = async (req, res) => {
       verificationToken: code,
       verificationTokenExpiresAt: { $gt: Date.now() },
     });
-
     if (!user) {
-      return res
-        .status(400)
-        .json({
-          success: false,
+      return res.status(400).json({success: false,
           message: "Invalid or expired verification code",
         });
     }
-
     user.isVerified = true;
     user.verificationToken = undefined;
     user.verificationTokenExpiresAt = undefined;
     await user.save();
-
     await sendWelcomeEmail(user.email, user.name);
     return res.status(200).json({
-      success: true,
-      message: "Email Verified Succesfully",
+      success: true, message: "Email Verified Succesfully",
       user: {
         ...user._doc,
         password: undefined,
@@ -114,14 +93,12 @@ export const login = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res
-        .status(400)
+      return res.status(400)
         .json({ success: false, message: "User Not Found. Please register" });
     }
     const isPasswordValid = await bcryptjs.compare(password, user.password);
     if (!isPasswordValid) {
-      return res
-        .status(400)
+      return res.status(400)
         .json({ success: false, message: "Invalid password" });
     }
     generateTokenAndSetCookie(res,user._id);

@@ -6,7 +6,8 @@ import {
   getVaccineById,
   updateVaccine,
   deleteVaccine,
-  recommendVaccines
+  recommendVaccines,
+  acceptVaccine
 } from "../controllers/vaccine.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js"
 
@@ -30,4 +31,6 @@ router.get("/getbyid/:id", getVaccineById); // Get a specific vaccine by ID
 router.put("/update/:id", updateVaccine); // Update a vaccine by ID
 router.delete("/delete/:id", deleteVaccine); // Delete a vaccine by ID
 
+// vaccine accept
+router.post("/accept-vaccine", acceptVaccine);
 export default router;
