@@ -6,7 +6,7 @@ import {
   FaTimes,
   FaSignOutAlt,
   FaInbox,
-  FaUserInjured,
+
 } from "react-icons/fa";
 import { FaCashRegister } from "react-icons/fa6";
 import { Link, Navigate, useNavigate } from "react-router-dom";

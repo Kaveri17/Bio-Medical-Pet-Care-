@@ -117,7 +117,7 @@ const VaccinationReport = () => {
                       {vaccine.next_vaccination_date}
                     </td>
                     <td className="border py-2 px-4">
-                      <Link to="/vaccinenoti">{vaccinationStatus}</Link>
+                      {/* <Link to="/vaccinenoti">{vaccinationStatus}</Link> */}
                     </td>
                   </tr>
                 );

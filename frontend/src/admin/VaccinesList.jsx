@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaSyringe } from "react-icons/fa";
 import AdminSidebar from "../layout/AdminSidebar";  // Import your Sidebar component
+import { Navigate } from "react-router-dom";
 
 const API = "http://localhost:5001/api";
 
@@ -24,6 +25,9 @@ const VaccinePage = () => {
 
     fetchVaccines();
   }, []);
+  const handleBack = () => {
+    Navigate("/admin/dashboards");
+  };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">

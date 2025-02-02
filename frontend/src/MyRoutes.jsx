@@ -29,6 +29,11 @@ import AddVaccine from './admin/AddVaccine';
 import AdminMessage from './admin/AdminMessage';
 import MessageView from './layout/MessageView';
 import UploadForm from './admin/UploadForm';
+import DatePicker from './pages/CustomDatePicker';
+// import SendVaccineReminder from './pages/SendVaccineReminder';
+// import AdminRoute from './auth/AdminRoute'
+// import AdminSidebar from './layout/AdminSidebar';
+
 
 const MyRoutes = () => {
   return (
@@ -37,20 +42,28 @@ const MyRoutes = () => {
       
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
-          <Route path="verify-email" element={<VerifyEmail />} />
-          <Route path="reset-password/:token" element={<ResetPassword />} />
-          <Route path="animals" element={<Animals />} />
-          <Route path="animal-detail" element={<AnimalDetail />} />
-          <Route path="healthtrack/:id" element={<HealthTrack />} />
-          <Route path="summaryreport" element={<SummaryReport />} />
-          <Route path="reporttrack/:id" element={<ReportTrack />} />
-          <Route path="vaccinationreport/:id" element={<VaccinationReport />} />
-          <Route path="reports/:id" element={<Reports />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/animals" element={<Animals />} />
+          <Route path="/animal-detail" element={<AnimalDetail />} />
+          <Route path="/healthtrack/:id" element={<HealthTrack />} />
+          
+          <Route path="/summaryreport" element={<SummaryReport />} />
+          <Route path="/reporttrack/:id" element={<ReportTrack />} />
+        
+          <Route path="/vaccinationreport/:id" element={<VaccinationReport />} />
+          <Route path="/animaldetail" element={<AnimalDetail />} />
+          {/* <Route path='/vaccinenoti' element={<VaccineReminderNotification/>}/> */}
+          <Route path='/reports/:id' element={<Reports/>}/>
+          {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
+          {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
+         <Route path="/benchmark" element={<UploadForm/>}/>
+         <Route path='/date' element={<DatePicker/>}/>
         </Route>
 
         <Route path="/admin/dashboard" element={<AdminDashboard />} />

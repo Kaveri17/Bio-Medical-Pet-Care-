@@ -29,7 +29,7 @@ const MessageView = () => {
         <div className="pt-12">
             {message && (
                 <>
-                <h1 className='font-semibold text-2xl'>
+                <h1 className='font-semibold text-2xl w-1/2'>
                     <span className='text-xl font-bold'>From: </span>{message.contact_name}
 
                 </h1>
