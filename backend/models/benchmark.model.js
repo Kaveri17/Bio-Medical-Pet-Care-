@@ -27,9 +27,13 @@ const benchmarkSchema = new mongoose.Schema(
           max: { type: Number, required: true },
         },
         milk_per_day: {
-          min: { type: Number, required: true },
-          max: { type: Number, required: true },
+          min: { type: Number },
+          max: { type: Number},
         },
+        egg_per_week:{
+            min: { type: Number },
+            max: { type: Number},
+        }
       },
     ],
   },

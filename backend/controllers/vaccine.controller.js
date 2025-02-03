@@ -428,3 +428,35 @@ export const deleteVaccine = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
+
+// get accepted vaccine
+export const getAcceptedVaccines = async (req,res) => {
+  const {userAnimalId} = req.params;
+    try {
+      const acceptedVaccines = await UserAnimal.findById(userAnimalId)
+        .populate("acceptedVaccines") // Populate vaccine details
+        .select("acceptedVaccines"); // Select only the acceptedVaccines field
+
+      res.status(200).json(acceptedVaccines) 
+
+    } catch (error) {
+      console.error("Error fetching accepted vaccines:", error);
+      throw error;
+    }
+  };
+
+  // get rejected vaccine
+export const getRejectedVaccines = async (req,res) => {
+  const {userAnimalId} = req.params;
+  try {
+    const rejectedVaccines = await UserAnimal.findById(userAnimalId)
+      .populate("rejectedVaccines") // Populate vaccine details
+      .select("rejectedVaccines"); // Select only the acceptedVaccines field
+
+    res.status(200).json(rejectedVaccines) 
+
+  } catch (error) {
+    console.error("Error fetching accepted vaccines:", error);
+    throw error;
+  }
+};

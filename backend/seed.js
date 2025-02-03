@@ -33,8 +33,10 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js'; // Import your existing connection function
-import Benchmark from './models/benchmarkModel.js'; // Adjust path if needed
-import { benchmarkData } from './benchmarkData.js'; // Import benchmark data
+// import { benchmarkData } from './data/animal_data.js';
+// import { Benchmark } from './models/benchmark.model.js';
+import benchmarkData from './data/animal_data.js';
+import { Benchmark } from './models/benchmark.model.js';
 
 dotenv.config(); // Load environment variables
 
