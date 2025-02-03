@@ -1,6 +1,8 @@
 // ----------------------------------------------------------------------------------------------------------------------
+import { sendVaccineAcceptanceEmail, sendVaccineRejectionEmail } from "../mailtrap/accept.js";
 import { UserAnimal } from "../models/userAnimal.model.js";
 import { Vaccine } from "../models/vaccine.model.js";
+
 
 // const calculateCosineSimilarity = (vectorA, vectorB) => {
 //     const dotProduct = vectorA.reduce((sum, val, i) => sum + val * vectorB[i], 0);
@@ -175,19 +177,17 @@ export const recommendVaccines = async (req, res) => {
       });
       // If no effectiveness score is found, use a default
       if (effectivenessScore === 0) {
-        effectivenessScore = 0.2;
+        effectivenessScore = 0.2; 
       }
       // Assign weights
       const ageWeight = 0.5;
       const effectivenessWeight = 0.5;
       // Create vectors
-      const userVector = [
-        normalizedUserAge * ageWeight,
+      const userVector = [normalizedUserAge * ageWeight,
         1 * effectivenessWeight, // User effectiveness is always 100%
       ];
-      const vaccineVector = [
-        ageMatch * ageWeight,
-        effectivenessScore * effectivenessWeight,
+      const vaccineVector = [ageMatch * ageWeight,
+        effectivenessScore * effectivenessWeight
       ];
       // Compute cosine similarity
       const similarity = calculateCosineSimilarity(userVector, vaccineVector);
@@ -204,24 +204,47 @@ export const recommendVaccines = async (req, res) => {
     const recommendedVaccines = vaccineScores.filter(
       (v) => v.similarity > threshold
     );
-    res
-      .status(200)
+    res.status(200)
       .json({ recommendedVaccines: recommendedVaccines.map((v) => v.vaccine) });
   } catch (error) {
-    res
-      .status(500)
+    res.status(500)
       .json({ message: "Error recommending vaccines", error: error.message });
   }
 };
 
+// export const acceptVaccine = async (req, res) => {
+//   try {
+//     const { userAnimalId, vaccineId } = req.body;
+
+//     // Update user animal record
+//     const updatedAnimal = await UserAnimal.findByIdAndUpdate(
+//       userAnimalId,
+//       {
+//         $addToSet: { acceptedVaccines: vaccineId }, // Prevent duplicates
+//         $pull: { rejectedVaccines: vaccineId, missedVaccines: vaccineId }, // Remove if previously rejected/missed
+//       },
+//       { new: true }
+//     );
+
+//     res
+//       .status(200)
+//       .json({ message: "Vaccine accepted", animal: updatedAnimal });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Error accepting vaccine", error: error.message });
+//   }
+// };
+
+
 export const acceptVaccine = async (req, res) => {
   try {
-    const { userAnimalId, vaccineId } = req.body;
+    const { id, vaccineId } = req.body;
 
     console.log("Received data:", req.body); // Debugging: Ensure data is coming correctly
 
     // Fetch user animal and populate the animal_type field
-    const userAnimal = await UserAnimal.findById(userAnimalId)
+    const userAnimal = await UserAnimal.findById(id)
       .populate("animal_type")
       .populate("user");
 
@@ -250,7 +273,7 @@ export const acceptVaccine = async (req, res) => {
 
     // Update user animal record
     const updatedAnimal = await UserAnimal.findByIdAndUpdate(
-      userAnimalId,
+     id,
       {
         $addToSet: { acceptedVaccines: vaccineId }, // Prevent duplicates
         $pull: { rejectedVaccines: vaccineId, missedVaccines: vaccineId }, // Remove if previously rejected/missed
@@ -273,12 +296,36 @@ export const acceptVaccine = async (req, res) => {
   }
 };
 
+
+// export const rejectVaccine = async (req, res) => {
+//   try {
+//     const { userAnimalId, vaccineId } = req.body;
+
+//     // Update user animal record
+//     const updatedAnimal = await UserAnimal.findByIdAndUpdate(
+//       userAnimalId,
+//       {
+//         $addToSet: { rejectedVaccines: vaccineId }, // Prevent duplicates
+//         $pull: { acceptedVaccines: vaccineId, missedVaccines: vaccineId }, // Remove if previously accepted/missed
+//       },
+//       { new: true }
+//     );
+
+//     res
+//       .status(200)
+//       .json({ message: "Vaccine rejected", animal: updatedAnimal });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Error rejecting vaccine", error: error.message });
+//   }
+// };
 export const rejectVaccine = async (req, res) => {
   try {
-    const { userAnimalId, vaccineId } = req.body;
+    const { id, vaccineId } = req.body;
 
      // Fetch user animal and populate the animal_type field
-     const userAnimal = await UserAnimal.findById(userAnimalId)
+     const userAnimal = await UserAnimal.findById(id)
      .populate("animal_type")
      .populate("user");
 
@@ -296,10 +343,10 @@ export const rejectVaccine = async (req, res) => {
    const animalName = userAnimal.animal_type.animal_type;
    const vaccineName = vaccine.vaccine_name;
    const userEmail = userAnimal.user.email;
-
+   
     // Update user animal record
     const updatedAnimal = await UserAnimal.findByIdAndUpdate(
-      userAnimalId,
+      id,
       {
         $addToSet: { rejectedVaccines: vaccineId }, // Prevent duplicates
         $pull: { acceptedVaccines: vaccineId, missedVaccines: vaccineId }, // Remove if previously accepted/missed
@@ -316,7 +363,6 @@ export const rejectVaccine = async (req, res) => {
   }
 };
 
-
 export const markMissedVaccine = async (userAnimalId, vaccineId) => {
   try {
     await UserAnimal.findByIdAndUpdate(userAnimalId, {
@@ -327,7 +373,7 @@ export const markMissedVaccine = async (userAnimalId, vaccineId) => {
   }
 };
 
-//   ----------------------------------------------
+
 
 export const createVaccine = async (req, res) => {
   try {

@@ -157,10 +157,8 @@ const getStartAndEndOfCurrentWeek = () => {
   const currentDay = currentDate.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
   const startOfWeek = new Date(currentDate);
   startOfWeek.setDate(currentDate.getDate() - currentDay);
-  startOfWeek.setUTCHours(0, 0, 0, 0); // Reset to the start of the day in UTC
   const endOfWeek = new Date(startOfWeek);
   endOfWeek.setDate(startOfWeek.getDate() + 6);
-  endOfWeek.setUTCHours(23, 59, 59, 999);
   return { start: startOfWeek, end: endOfWeek };
 };
 
@@ -231,13 +229,11 @@ const generateWeeklyReport = (dailyRecords, benchmarkData) => {
 
 // Function to generate weekly health reports for the current week
 export const generateWeeklyHealthReport = async (req, res) => {
-  const { animalId } = req.params; // User Animal ID
+  const { animalId } = req.params; // User Animal ID 
   try {
     // Calculates the start and end of the current week
     const { start: startOfWeek, end: endOfWeek } =
       getStartAndEndOfCurrentWeek();
-    console.log("Start of Week:", startOfWeek.toISOString());
-    console.log("End of Week:", endOfWeek.toISOString());
     // Fetch records for the current week
     const dailyRecords = await Dailyrecord.find({
       useranimal: animalId,
@@ -251,7 +247,7 @@ export const generateWeeklyHealthReport = async (req, res) => {
         },
         {
           path: "breed",
-          select: "breed_name",
+          select: "breed_name", 
         },
       ],
     });

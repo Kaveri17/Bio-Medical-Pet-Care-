@@ -126,3 +126,26 @@ export const VACCINE_REMINDER_TEMPLATE = "<html>Reminder !!! <br> It's Time To V
 export const VACCINE_CONFIRMATION_TEMPLATE = "<html>Confirmation Template</html>";
 export const VACCINE_FOLLOWUP_TEMPLATE = "<html>Follow-up Template</html>";
 
+// emailTemplates.js
+
+export const VACCINE_ACCEPTANCE_TEMPLATE = `
+    <html>
+        <body>
+            <h1>Vaccine Acceptance Confirmation</h1>
+            <p>The vaccine <strong>{vaccineName}</strong> has been accepted for the animal <strong>{animalType}</strong>.</p>
+            <p>Thank you for ensuring the health of your animal!</p>
+        </body>
+    </html>
+`;
+
+export const VACCINE_REJECTION_TEMPLATE = `
+    <html>
+        <body>
+            <h1>Vaccine Rejection Notification</h1>
+            <p>The vaccine <strong>{vaccineName}</strong> has been rejected for the animal <strong>{animalType}</strong>.</p>
+            <p>Please review the vaccine details and try again if necessary.</p>
+        </body>
+    </html>
+`;
+
+
