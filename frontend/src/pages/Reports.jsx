@@ -242,6 +242,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getUserAnimalById } from "../api/Add";
 import { generateWeeklyReport } from "../api/healthreport";
+import DatePicker from "react-datepicker"; // Import the date picker
+import "react-datepicker/dist/react-datepicker.css"; // Import the styles for the date picker
 
 const DataCard = ({ title, value }) => (
   <div className="bg-blue-200 shadow-md rounded-lg px-6 mb-4 w-full sm:w-1/3 md:w-1/4 lg:w-1/4 py-8">
@@ -258,14 +260,7 @@ const Reports = () => {
   const [animalDetails, setAnimalDetails] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // const thresholds = {
-  //   temperature: { min: 37, max: 40 },
-  //   weight: { min: 80, max: 150 },
-  //   milkProduction: { min: 5, max: 10 },
-  // };
-
-  // const isAbnormal = (value, { min, max }) => value < min || value > max;
+  const [selectedDate, setSelectedDate] = useState(new Date()); // State to hold selected date
 
   useEffect(() => {
     const fetchData = async () => {
@@ -274,7 +269,8 @@ const Reports = () => {
         const animalData = await getUserAnimalById(id);
         setAnimalDetails(animalData);
 
-        const reportData = await generateWeeklyReport(id);
+        // Use selectedDate to fetch data for the selected date
+        const reportData = await generateWeeklyReport(id, selectedDate);
         setReportData(reportData.report);
       } catch (err) {
         setError("Failed to fetch data. Please try again.");
@@ -284,7 +280,7 @@ const Reports = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, selectedDate]); // Add selectedDate as dependency
 
   if (loading) {
     return <p className="text-center text-gray-500">Loading...</p>;
@@ -294,29 +290,37 @@ const Reports = () => {
     return <p className="text-center text-red-500">{error}</p>;
   }
 
-  // const { animal_type: animalType, breeds } = animalDetails;
-
-  // console.log("reportData", reportData);
   return (
     <div className="w-5/6 mx-auto py-5">
       <h1 className="text-3xl font-bold text-center">Summary Report</h1>
+      
+      {/* Date Picker */}
       <div className="pb-7 ps-5">
-        {/* Animal Details */}
+        <h2 className="text-lg font-medium">Select Report Date:</h2>
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date) => setSelectedDate(date)} // Update the selected date
+          dateFormat="yyyy-MM-dd"
+          className="border px-4 py-2 rounded-lg mt-2"
+        />
+      </div>
+
+      {/* Animal Details */}
+      <div className="pb-7 ps-5">
         <h1 className="py-3 text-xl font-medium">
           Animal Type:{" "}
           <span className=" text-lg font-normal">
-            {animalDetails.animal_type.animal_type || "Unknown Animal Type"}
+            {animalDetails.animal_type?.animal_type || "Unknown Animal Type"}
           </span>
         </h1>
         <h1 className=" text-xl font-medium">
           Breed:{" "}
           <span className=" text-lg font-normal">
-            {animalDetails.breed.breed_name}
+            {animalDetails.breed?.breed_name}
           </span>
         </h1>
       </div>
 
-      {/* {reportData ? ( */}
       {/* Weekly Health Report */}
       {reportData ? (
         <div className="mb-10">
@@ -325,12 +329,10 @@ const Reports = () => {
             <DataCard
               title="Temperature"
               value={reportData?.avgTemperature || "N/A"}
-              // isAbnormal={isAbnormal(reportData?.avgTemperature, thresholds.temperature)}
             />
             <DataCard
               title="Weight"
               value={reportData?.avgWeight || "N/A"}
-              // isAbnormal={isAbnormal(reportData?.avgWeight, thresholds.weight)}
             />
             {(animalDetails?.animal_type?.animal_type === "Cow" ||
               animalDetails?.animal_type?.animal_type === "Chicken") && (
@@ -341,21 +343,11 @@ const Reports = () => {
                     : "Egg Production"
                 }`}
                 value={reportData?.avgProduction || "N/A"}
-                // isAbnormal={isAbnormal(reportData?.avgProduction, thresholds.milkProduction)}
               />
             )}
           </div>
           <div className="mt-5">
             <h3 className="text-xl font-semibold">Conclusion:</h3>
-            {/* <p
-     className={`text-lg font-medium`}
-   >
-     {isAbnormal(reportData?.avgTemperature, thresholds.temperature) ||
-     isAbnormal(reportData?.avgWeight, thresholds.weight) ||
-     isAbnormal(reportData?.avgProduction, thresholds.milkProduction)
-       ? 'Abnormality found. Consult a vet immediately.'
-       : 'Your animal is healthy. Continue to monitor their health.'}
-   </p> */}
             {reportData?.healthStatus === "Healthy" ? (
               <p className="text-lg font-medium text-green-400">
                 Your animal is healthy. Continue to monitor their health.

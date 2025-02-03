@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../layout/AdminSidebar";
 import Select from "react-select";
 
-const API = "http://localhost:5001/api";
+const API = "http://localhost:5000/api";
 
 const AdminAnimal = () => {
   const [showModal, setShowModal] = useState(false);

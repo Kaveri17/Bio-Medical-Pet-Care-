@@ -64,7 +64,9 @@ export const getUserAnimalById = async (req, res) => {
   try {
     const userAnimals = await UserAnimal.findById(id)
     .populate("breed")
-    .populate("animal_type");
+    .populate("animal_type")
+    .populate("user")
+
     if(!userAnimals){
       return res.status(404).json({ success: false, message: "No animals found for this user" });
     }

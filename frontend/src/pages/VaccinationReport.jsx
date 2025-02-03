@@ -1,70 +1,100 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getUserAnimalById } from "../api/Add";
-let API = "http://localhost:5000/api";
+import { acceptVaccine, recommendVaccines, rejectVaccine } from "../api/Vaccine";
+import { getAcceptedVaccines, getRejectedVaccines } from "../api/Vaccine";
 
 const VaccinationReport = () => {
-  const [vaccinationData, setVaccinationData] = useState([]);
   const [animal, setAnimal] = useState(null);
+  const [recommendedVaccines, setRecommendedVaccines] = useState([]);
+  const [acceptedVaccines, setAcceptedVaccines] = useState([]);
+  const [rejectedVaccines, setRejectedVaccines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // const animalType = 'cow';  // This could come from a state or user input
-  // const age = 1;
-  const currentDate = new Date();
   let { id } = useParams();
 
-  const animalDetail = () => {
-    setLoading(true);
-    getUserAnimalById(id).then((data) => {
+  // Fetch Animal Details
+  const fetchAnimalDetails = async () => {
+    try {
+      setLoading(true);
+      const data = await getUserAnimalById(id);
       if (data?.error) {
-        console.log(data.error);
         setError(data.error);
       } else {
         setAnimal(data);
-        // console.log("data", data);
       }
-      setLoading(false);
-    });
-  };
-
-  const fetchVaccinationData = async (animalType,age) => {
-    // console.log("type",animalType)
-    // console.log("age",age)
-    try {
-      const response = await fetch(
-        `${API}/vaccine/recommend?animal_type=${animalType}&age=${age}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch vaccination data");
-      }
-      const data = await response.json();
-      // console.log(data)
-      setVaccinationData(data);
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
+    } catch (error) {
+      setError("Failed to fetch animal details.");
+    } finally {
       setLoading(false);
     }
   };
 
+  // Fetch Recommended Vaccines
+  const fetchRecommendedVaccines = async () => {
+    try {
+      const vaccines = await recommendVaccines(id);
+      setRecommendedVaccines(vaccines || []);
+    } catch (error) {
+      setError("Failed to fetch recommended vaccines.");
+    }
+  };
+
+  // Fetch Accepted Vaccines
+  const fetchAcceptedVaccines = async () => {
+    try {
+      const vaccines = await getAcceptedVaccines(id);
+      fetchRecommendedVaccines();
+      setAcceptedVaccines(vaccines || []);
+    } catch (error) {
+      setError("Failed to fetch accepted vaccines.");
+    }
+  };
+
+  // Fetch Rejected Vaccines
+  const fetchRejectedVaccines = async () => {
+    try {
+      const vaccines = await getRejectedVaccines(id);
+      setRejectedVaccines(vaccines || []);
+    } catch (error) {
+      setError("Failed to fetch rejected vaccines.");
+    }
+  };
+
   useEffect(() => {
-    animalDetail(); // Fetch animal details on mount
+    fetchAnimalDetails();
+    fetchRecommendedVaccines();
+    fetchAcceptedVaccines();
+    fetchRejectedVaccines();
   }, [id]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (animal) {
-        console.log(animal?.animal_type?.animal_type)
-        if (animal?.animal_type?.animal_type && animal?.age) {
-          await fetchVaccinationData(animal.animal_type.animal_type, animal.age);
-        } else {
-          setError("Incomplete animal details for fetching vaccination data.");
-        }
-      }
-    };
+  // Accept Vaccine
+  const handleAcceptVaccine = async (vaccineId) => {
+    try {
+      // Accept vaccine via API call
+      await acceptVaccine(id, vaccineId);
 
-    fetchData();
-  }, [animal]);
+      // Fetch updated lists of accepted and rejected vaccines
+      fetchAcceptedVaccines();
+      fetchRejectedVaccines();
+    } catch (error) {
+      setError("Failed to accept vaccine.");
+    }
+  };
+
+  // Reject Vaccine
+  const handleRejectVaccine = async (vaccineId) => {
+    try {
+      // Reject vaccine via API call
+      await rejectVaccine(id, vaccineId);
+
+      // Fetch updated lists of accepted and rejected vaccines
+      fetchAcceptedVaccines();
+      fetchRejectedVaccines();
+    } catch (error) {
+      setError("Failed to reject vaccine.");
+    }
+  };
 
   if (loading) {
     return <p className="text-center text-gray-600">Loading...</p>;
@@ -74,95 +104,315 @@ const VaccinationReport = () => {
     return <p className="text-center text-red-600">Error: {error}</p>;
   }
 
-  // const totalVaccines = vaccinationData.length;
-  // const stableWeightCount = vaccinationData.filter(
-  //   (vaccine) => vaccine.weight === "Stable"
-  // ).length;
-  // const raisedTemperatureCount = vaccinationData.filter(
-  //   (vaccine) => vaccine.temperature === "Slightly Raised"
-  // ).length;
-  // const normalProductionCount = vaccinationData.filter(
-  //   (vaccine) => vaccine.production === "Normal"
-  // ).length;
-
   return (
     <div className="min-h-[85vh] bg-gray-50 flex flex-col items-center justify-center p-6">
       <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">
-          Vaccine Report
+          Vaccination Report
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm sm:text-base bg-white rounded-lg shadow-md">
             <thead className="bg-blue-500 text-white">
               <tr>
                 <th className="border py-3 px-4 text-left">Vaccine</th>
-                <th className="border py-3 px-4 text-left">Vaccination Date</th>
-                <th className="border py-3 px-4 text-left">Completed</th>
+                <th className="border py-3 px-4 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
-              {vaccinationData.map((vaccine, index) => {
-                const nextVaccinationDate = new Date(
-                  vaccine.next_vaccination_date
-                );
-                const vaccinationStatus =
-                  nextVaccinationDate < currentDate ? "Completed" : "Due";
-                return (
-                  <tr
-                    key={index}
-                    className="hover:bg-gray-100 transition duration-200 ease-in-out"
-                  >
-                    <td className="border py-2 px-4">{vaccine.vaccine_name}</td>
-                    <td className="border py-2 px-4">
-                      {vaccine.next_vaccination_date}
-                    </td>
-                    <td className="border py-2 px-4">
-                      {/* <Link to="/vaccinenoti">{vaccinationStatus}</Link> */}
+              {animal?.vaccines?.map((vaccine) => (
+                <tr key={vaccine.name} className="hover:bg-gray-100 transition duration-200 ease-in-out">
+                  <td className="border py-2 px-4">{vaccine.name}</td>
+                  <td className="border py-2 px-4">
+                    <button
+                      onClick={() => handleAcceptVaccine(vaccine.name)}
+                      className="bg-green-500 text-white px-3 py-1 rounded mr-2"
+                    >
+                      Accept
+                    </button>
+                    <button
+                      onClick={() => handleRejectVaccine(vaccine.name)}
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                      Reject
+                    </button>
+                  </td>
+                </tr>
+              ))}
+
+              {recommendedVaccines.length > 0 && (
+                <>
+                  <tr>
+                    <td colSpan="2" className="text-center font-semibold text-lg py-2">
+                      Recommended Vaccines
                     </td>
                   </tr>
-                );
-              })}
+                  {recommendedVaccines.map((vaccine) => (
+                    <tr key={vaccine.vaccine_name} className="hover:bg-gray-100 transition duration-200 ease-in-out">
+                      <td className="border py-2 px-4">{vaccine.vaccine_name}</td>
+                      <td className="border py-2 px-4">
+                        <button
+                          onClick={() => handleAcceptVaccine(vaccine._id)}
+                          className="bg-green-500 text-white px-3 py-1 rounded mr-2"
+                        >
+                          Accept
+                        </button>
+                        <button
+                          onClick={() => handleRejectVaccine(vaccine._id)}
+                          className="bg-red-500 text-white px-3 py-1 rounded"
+                        >
+                          Reject
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              )}
             </tbody>
           </table>
         </div>
+      </div>
 
-        {/* <div className="mt-4 p-4 bg-blue-400 rounded-lg shadow-lg">
-          <h3 className="text-2xl font-semibold mb-4 text-white text-center">
-            Summary Report
-          </h3>
-          <div className="flex flex-col items-start">
-            <p className="text-lg mb-2 text-white">Total Number of Vaccinations: <span className="font-bold">{totalVaccines}</span></p>
-            <p className="text-lg mb-2 text-white">
-              Weight Status:{" "}
-              <span className="font-bold">2 animals with stable weight</span>.
-            </p>
-            <p className="text-lg mb-2 text-white">
-              Temperature Status:{" "}
-              <span className="font-bold">
-                1 animal with a slight raise in temperature
-              </span>
-              .
-            </p>
-            <p className="text-lg mb-4 text-white">
-              Production Status:{" "}
-              <span className="font-bold">
-                2 animals with normal milk production
-              </span>
-              .
-            </p>
-          </div>
-        </div>
-
-        Conclusion Section
-        <div className="mt-6 p-2 bg-blue-500 rounded-lg shadow-lg text-center text-white">
-          <p className="text-lg font-semibold">
-            Conclusion: Your animal is healthy and well-maintained. Continue to
-            monitor their health and ensure timely vaccinations.
-          </p>
-        </div> */}
+      {/* Manage Vaccine Section */}
+      <h1 className="pt-7 text-2xl font-semibold text-center text-gray-800">Manage Vaccines</h1>
+      <div className="overflow-x-auto w-5/6 pt-6">
+        <table className="w-full border-collapse text-sm sm:text-base bg-white rounded-lg shadow-md">
+          <thead className="bg-blue-500 text-white">
+            <tr>
+              <th className="border py-3 px-4 text-left">Accepted Vaccines</th>
+              <th className="border py-3 px-4 text-left">Rejected Vaccines</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="hover:bg-gray-100 transition duration-200 ease-in-out">
+              <td className="border py-2 px-4">
+                {acceptedVaccines.length > 0 ? (
+                  acceptedVaccines.map((vaccine) => (
+                    <p key={vaccine.vaccine_name}>{vaccine.vaccine_name}</p>
+                  ))
+                ) : (
+                  <p>No accepted vaccines</p>
+                )}
+              </td>
+              <td className="border py-2 px-4">
+                {rejectedVaccines.length > 0 ? (
+                  rejectedVaccines.map((vaccine) => (
+                    <p key={vaccine.vaccine_name}>{vaccine.vaccine_name}</p>
+                  ))
+                ) : (
+                  <p>No rejected vaccines</p>
+                )}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
 };
 
 export default VaccinationReport;
+
+// import React, { useEffect, useState } from "react";
+// import { useParams } from "react-router-dom";
+// import { getUserAnimalById } from "../api/Add";  
+// import { acceptVaccine, recommendVaccines, rejectVaccine } from "../api/Vaccine";  
+// import { getAcceptedVaccines, getRejectedVaccines } from "../api/Vaccine";  // Importing the new functions
+
+// const VaccinationReport = () => {
+//   const [animal, setAnimal] = useState(null);
+//   const [recommendedVaccines, setRecommendedVaccines] = useState([]); 
+//   const [acceptedVaccines, setAcceptedVaccines] = useState([]);  // State for accepted vaccines
+//   const [rejectedVaccines, setRejectedVaccines] = useState([]);  // State for rejected vaccines
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   let { id } = useParams();
+
+//   // Fetch Animal Details
+//   const fetchAnimalDetails = async () => {
+//     try {
+//       setLoading(true);
+//       const data = await getUserAnimalById(id);
+//       if (data?.error) {
+//         setError(data.error);
+//       } else {
+//         setAnimal(data);
+//       }
+//     } catch (error) {
+//       setError("Failed to fetch animal details.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   // Fetch Recommended Vaccines
+//   const fetchRecommendedVaccines = async () => {
+//     try {
+//       const vaccines = await recommendVaccines(id);
+//       setRecommendedVaccines(vaccines || []);  
+//     } catch (error) {
+//       setError("Failed to fetch recommended vaccines.");
+//     }
+//   };
+
+//   // Fetch Accepted Vaccines
+//   const fetchAcceptedVaccines = async () => {
+//     try {
+//       const vaccines = await getAcceptedVaccines(id); 
+//       setAcceptedVaccines(vaccines || []);
+//     } catch (error) {
+//       setError("Failed to fetch accepted vaccines.");
+//     }
+//   };
+
+//   // Fetch Rejected Vaccines
+//   const fetchRejectedVaccines = async () => {
+//     try {
+//       const vaccines = await getRejectedVaccines(id); 
+//       setRejectedVaccines(vaccines || []);  
+//     } catch (error) {
+//       setError("Failed to fetch rejected vaccines.");
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchAnimalDetails();
+//     fetchRecommendedVaccines();  
+//     fetchAcceptedVaccines();
+//     fetchRejectedVaccines();
+//   }, [id]);
+
+//   // Accept Vaccine
+//   const handleAcceptVaccine = async (vaccineId) => {
+//     try {
+//       const data = await acceptVaccine(id, vaccineId);
+//       setAnimal(data);
+//     } catch (error) {
+//       setError("Failed to accept vaccine.");
+//     }
+//   };
+
+//   // Reject Vaccine
+//   const handleRejectVaccine = async (vaccineId) => {
+//     try {
+//       const data = await rejectVaccine(id, vaccineId);
+//       setAnimal(data);
+//     } catch (error) {
+//       setError("Failed to reject vaccine.");
+//     }
+//   };
+
+//   if (loading) {
+//     return <p className="text-center text-gray-600">Loading...</p>;
+//   }
+
+//   if (error) {
+//     return <p className="text-center text-red-600">Error: {error}</p>;
+//   }
+
+//   return (
+//     <div className="min-h-[85vh] bg-gray-50 flex flex-col items-center justify-center p-6">
+//       <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-6">
+//         <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">
+//           Vaccination Report
+//         </h2>
+//         <div className="overflow-x-auto">
+//           <table className="w-full border-collapse text-sm sm:text-base bg-white rounded-lg shadow-md">
+//             <thead className="bg-blue-500 text-white">
+//               <tr>
+//                 <th className="border py-3 px-4 text-left">Vaccine</th>
+//                 <th className="border py-3 px-4 text-left">Action</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {animal?.vaccines?.map((vaccine) => (
+//                 <tr key={vaccine.name} className="hover:bg-gray-100 transition duration-200 ease-in-out">
+//                   <td className="border py-2 px-4">{vaccine.name}</td>
+//                   <td className="border py-2 px-4">
+//                     <button
+//                       onClick={() => handleAcceptVaccine(vaccine.name)}
+//                       className="bg-green-500 text-white px-3 py-1 rounded mr-2"
+//                     >
+//                       Accept
+//                     </button>
+//                     <button
+//                       onClick={() => handleRejectVaccine(vaccine.name)}
+//                       className="bg-red-500 text-white px-3 py-1 rounded"
+//                     >
+//                       Reject
+//                     </button>
+//                   </td>
+//                 </tr>
+//               ))}
+
+//               {recommendedVaccines.length > 0 && (
+//                 <>
+//                   <tr>
+//                     <td colSpan="2" className="text-center font-semibold text-lg py-2">
+//                       Recommended Vaccines
+//                     </td>
+//                   </tr>
+//                   {recommendedVaccines.map((vaccine) => (
+//                     <tr key={vaccine.vaccine_name} className="hover:bg-gray-100 transition duration-200 ease-in-out">
+//                       <td className="border py-2 px-4">{vaccine.vaccine_name}</td>
+//                       <td className="border py-2 px-4">
+//                         <button
+//                           onClick={() => handleAcceptVaccine(vaccine._id)}
+//                           className="bg-green-500 text-white px-3 py-1 rounded mr-2"
+//                         >
+//                           Accept
+//                         </button>
+//                         <button
+//                           onClick={() => handleRejectVaccine(vaccine._id)}
+//                           className="bg-red-500 text-white px-3 py-1 rounded"
+//                         >
+//                           Reject
+//                         </button>
+//                       </td>
+//                     </tr>
+//                   ))}
+//                 </>
+//               )}
+//             </tbody>
+//           </table>
+//         </div>
+//       </div>
+
+//       {/* Manage Vaccine Section */}
+//       <h1 className="pt-7 text-2xl font-semibold text-center text-gray-800">Manage Vaccines</h1>
+//       <div className="overflow-x-auto w-5/6 pt-6">
+//         <table className="w-full border-collapse text-sm sm:text-base bg-white rounded-lg shadow-md">
+//           <thead className="bg-blue-500 text-white">
+//             <tr>
+//               <th className="border py-3 px-4 text-left">Accepted Vaccines</th>
+//               <th className="border py-3 px-4 text-left">Rejected Vaccines</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr className="hover:bg-gray-100 transition duration-200 ease-in-out">
+//               <td className="border py-2 px-4">
+//                 {acceptedVaccines.length > 0 ? (
+//                   acceptedVaccines.map((vaccine) => (
+//                     <p key={vaccine.vaccine_name}>{vaccine.vaccine_name}</p>
+//                   ))
+//                 ) : (
+//                   <p>No accepted vaccines</p>
+//                 )}
+//               </td>
+//               <td className="border py-2 px-4">
+//                 {rejectedVaccines.length > 0 ? (
+//                   rejectedVaccines.map((vaccine) => (
+//                     <p key={vaccine.vaccine_name}>{vaccine.vaccine_name}</p>
+//                   ))
+//                 ) : (
+//                   <p>No rejected vaccines</p>
+//                 )}
+//               </td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default VaccinationReport;
