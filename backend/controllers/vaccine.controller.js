@@ -474,7 +474,6 @@ export const deleteVaccine = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
 };
-
 // get accepted vaccine
 export const getAcceptedVaccines = async (req,res) => {
   const {userAnimalId} = req.params;

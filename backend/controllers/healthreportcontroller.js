@@ -182,8 +182,8 @@ const generateWeeklyReport = (dailyRecords, benchmarkData) => {
       if (animalType === "Cow") {
         // Check milk production for cows
         if (
-          record.production < benchmarkData.milk_production_per_week?.min ||
-          record.production > benchmarkData.milk_production_per_week?.max
+          record.production < benchmarkData.milk_production_per_day?.min ||
+          record.production > benchmarkData.milk_production_per_day?.max
         ) {
           abnormalCount++;
         }
