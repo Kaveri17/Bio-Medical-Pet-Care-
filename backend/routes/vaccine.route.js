@@ -9,8 +9,6 @@ import {
   recommendVaccines,
   acceptVaccine,
   rejectVaccine,
- 
-
   getAcceptedVaccines,
   getRejectedVaccines
 } from "../controllers/vaccine.controller.js";
