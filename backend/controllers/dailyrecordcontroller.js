@@ -83,6 +83,25 @@ export const createDailyRecord = async (req, res) => {
     if (existingRecord) {
       return res.status(400).json({ error: "You have already entered data for this date." });
     }
+    const previousRecord = await Dailyrecord.findOne({
+      useranimal: id,
+    }).sort({ createdAt: -1 });
+console.log("previous",previousRecord)
+if (previousRecord) {
+      const timeDifferenceInMillis = selectedDate - new Date(previousRecord.createdAt);
+      const daysDifference = Math.floor(timeDifferenceInMillis / (1000 * 60 * 60 * 24));
+
+      const dailyGrowthPercentage = 0.02; // 2% increase per day is acceptable 
+
+      const maxAllowedWeightIncrease = previousRecord.weight * (1 + dailyGrowthPercentage * daysDifference);
+      console.log("weight",maxAllowedWeightIncrease)
+      if (weight > maxAllowedWeightIncrease) {
+        return res.status(400).json({
+          error: `Weight increase is too high compared to the previous record over ${daysDifference} day(s).`,
+        });
+      }
+    }
+ 
     // Validate production field for cow and chicken
     if (
       (animal_type?.animal_type === "Cow" || animal_type?.animal_type === "Chicken") &&
@@ -476,3 +495,55 @@ export const deleteDailyRecord = async (req, res) => {
 //       return res.status(500).json({ message: "Server error." });
 //   }
 // };
+                 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// if (previousRecord) {
+//   const timeDifferenceInMillis = selectedDate - new Date(previousRecord.createdAt);
+//   const daysDifference = Math.floor(timeDifferenceInMillis / (1000 * 60 * 60 * 24));
+
+//   const dailyGrowthPercentage = 0.02; // 2% increase per day is acceptable
+
+//   const maxAllowedWeightIncrease = previousRecord.weight * (1 + dailyGrowthPercentage * daysDifference);
+
+//   if (weight > maxAllowedWeightIncrease) {
+//     return res.status(400).json({
+//       error: `Weight increase is too high compared to the previous record over ${daysDifference} day(s).`,
+//     });
+//   }
+// }
+
+// if (nextRecord) {
+//   const timeDifferenceInMillis = new Date(nextRecord.createdAt) - selectedDate;
+//   const daysDifference = Math.floor(timeDifferenceInMillis / (1000 * 60 * 60 * 24));
+
+//   const dailyGrowthPercentage = 0.02; // 2% increase per day is acceptable
+
+//   const maxAllowedWeightIncrease = nextRecord.weight * (1 + dailyGrowthPercentage * daysDifference);
+
+//   if (weight > maxAllowedWeightIncrease) {
+//     return res.status(400).json({
+//       error: `Weight increase is too high compared to the next record over ${daysDifference} day(s).`,
+//     });
+//   }
+// }
