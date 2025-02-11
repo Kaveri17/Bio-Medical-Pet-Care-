@@ -57,7 +57,7 @@ const AdminSidebar = () => {
             </Link>
 
             <ul className="text-xl pt-5">
-            <Link to="/admin/dashboards">
+            <Link to="/admin/dashboard">
 
               <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
                 <FaHome className="mr-2" />

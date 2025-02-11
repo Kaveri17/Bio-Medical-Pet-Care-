@@ -182,8 +182,8 @@ const generateWeeklyReport = (dailyRecords, benchmarkData) => {
       if (animalType === "Cow") {
         // Check milk production for cows
         if (
-          record.production < benchmarkData.milk_production_per_day?.min ||
-          record.production > benchmarkData.milk_production_per_day?.max
+          record.production < benchmarkData.milk_production_per_week?.min ||
+          record.production > benchmarkData.milk_production_per_week?.max
         ) {
           abnormalCount++;
         }
@@ -229,54 +229,45 @@ const generateWeeklyReport = (dailyRecords, benchmarkData) => {
 
 // Function to generate weekly health reports for the current week
 export const generateWeeklyHealthReport = async (req, res) => {
-  const { animalId } = req.params; // User Animal ID 
+  const { animalId } = req.params;
+  let { startDate, endDate } = req.query;
+
   try {
-    // Calculates the start and end of the current week
-    const { start: startOfWeek, end: endOfWeek } =
-      getStartAndEndOfCurrentWeek();
-    // Fetch records for the current week
+    if (!startDate || !endDate) {
+      return res.status(400).json({ message: "Start date and end date are required." });
+    }
+
+    const startOfWeek = new Date(startDate);
+    const endOfWeek = new Date(endDate);
+    
     const dailyRecords = await Dailyrecord.find({
       useranimal: animalId,
       createdAt: { $gte: startOfWeek, $lte: endOfWeek },
     }).populate({
       path: "useranimal",
       populate: [
-        {
-          path: "animal_type",
-          select: "animal_type",
-        },
-        {
-          path: "breed",
-          select: "breed_name", 
-        },
+        { path: "animal_type", select: "animal_type" },
+        { path: "breed", select: "breed_name" },
       ],
     });
 
     if (dailyRecords.length === 0) {
       return res.status(200).json({
-        message: "No records found for this animal this week.",
+        message: "No records found for this animal in the specified period.",
       });
     }
 
-    /// Extract animal details from the first record
-    // const { useranimal } = dailyRecords[0];
-    const animalType = dailyRecords[0]?.useranimal?.animal_type?.animal_type; // Get the animal type name
+    const animalType = dailyRecords[0]?.useranimal?.animal_type?.animal_type;
     const breedName = dailyRecords[0]?.useranimal?.breed?.breed_name;
     const age = dailyRecords[0]?.useranimal?.age;
-
-    console.log("Animal Type:", animalType);
-    console.log("Breed:", breedName);
-    console.log("Age:", age);
-
+     console.log("animalType",animalType)
     const benchmarkData = getBenchmarkData(animalType, breedName, age);
-
-    console.log("Benchmark Data:", benchmarkData);
-
     if (!benchmarkData) {
       return res.status(200).json({
         message: "No benchmark data found for this animal.",
       });
     }
+
 
     // Generate the report for the week
     const weeklyReport = generateWeeklyReport(dailyRecords, benchmarkData);
