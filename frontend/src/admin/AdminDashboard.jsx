@@ -8,11 +8,9 @@ const AdminDashboard = () => {
     <>
       <div className="flex ">
         <AdminSidebar />
-
         <div className="w-full">
           <Dashboard />
         </div>
-        
       </div>
     </>
   );

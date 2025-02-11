@@ -19,19 +19,19 @@ import SummaryReport from './pages/SummaryReport';
 import Reports from './pages/Reports';
 
 import AdminDashboard from './admin/AdminDashboard';
-import AdminCategory from './admin/AdminCategory';
-import AddCategory from './admin/AddCategory';
-import UpdateCategory from './admin/UpdateCategory';
-import FileUpload from './admin/FileUpload';
-import ExcelUpload from './admin/ExcelUpload';
-import VaccinesList from './admin/VaccinesList';
-import AddVaccine from './admin/AddVaccine';
-import AdminMessage from './admin/AdminMessage';
-import MessageView from './layout/MessageView';
-import UploadForm from './admin/UploadForm';
+// import AdminCategory from '.AdminCategory';
+// import AddCategory from '.AddCategory';
+// import UpdateCategory from '.UpdateCategory';
+// import FileUpload from '.FileUpload';
+// import ExcelUpload from '.ExcelUpload';
+// import VaccinesList from '.VaccinesList';
+// import AddVaccine from '.AddVaccine';
+// import AdminMessage from '.AdminMessage';
+// import MessageView from './layout/MessageView';
+// import UploadForm from '.UploadForm';
 import DatePicker from './pages/CustomDatePicker';
 // import SendVaccineReminder from './pages/SendVaccineReminder';
-// import AdminRoute from './auth/AdminRoute'
+import AdminRoute from './auth/AdminRoute'
 // import AdminSidebar from './layout/AdminSidebar';
 
 
@@ -62,21 +62,25 @@ const MyRoutes = () => {
           <Route path='/reports/:id' element={<Reports/>}/>
           {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
           {/* <Route path='/vaccre' element={<SendVaccineReminder/>}/> */}
-         <Route path="/benchmark" element={<UploadForm/>}/>
+         {/* <Route path="/benchmark" element={<UploadForm/>}/> */}
          <Route path='/date' element={<DatePicker/>}/>
         </Route>
 
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/category" element={<AdminCategory />} />
-        <Route path="/admin/add-category" element={<AddCategory />} />
-        <Route path="/admin/update-category" element={<UpdateCategory />} />
-        <Route path="/admin/add-vaccine" element={<AddVaccine />} />
-        <Route path="/admin/vaccines" element={<VaccinesList />} />
-        <Route path="/admin/fileupload" element={<FileUpload />} />
-        <Route path="/admin/excel" element={<ExcelUpload />} />
-        <Route path="/admin/adminmessage" element={<AdminMessage />} />
-        <Route path="/admin/messageview/:id" element={<MessageView />} />
-        <Route path="/admin/benchmark" element={<UploadForm />} />
+        <Route path='/admin' element={<AdminRoute/>}>
+        <Route path="dashboard" element={<AdminDashboard />} />
+        {/* <Route path="category" element={<AdminCategory />} />
+        <Route path="add-category" element={<AddCategory />} />
+        <Route path="update-category" element={<UpdateCategory />} />
+        <Route path="add-vaccine" element={<AddVaccine />} />
+        <Route path="vaccines" element={<VaccinesList />} />
+        <Route path="fileupload" element={<FileUpload />} />
+        <Route path="excel" element={<ExcelUpload />} />
+        <Route path="adminmessage" element={<AdminMessage />} />
+        <Route path="messageview/:id" element={<MessageView />} />
+        <Route path="benchmark" element={<UploadForm />} /> */}
+        
+        </Route>
+
       </Routes>
     </Router>
   );

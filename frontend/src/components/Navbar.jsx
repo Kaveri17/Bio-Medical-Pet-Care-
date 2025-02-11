@@ -57,10 +57,11 @@ const Navbar = () => {
       await logout();
       logoutState();
       console.log("Toast should show now");
+      setIsDropdownOpen(false)
       toast.success("Successfully Logged Out!"); // Show toast before navigating
       setTimeout(() => {
-        navigate('/'); // Redirect to login page after toast closes
-      }, 3000); // Wait for the toast to finish (3000ms = 3 seconds)
+        navigate('/login'); // Redirect to login page after toast closes
+      }, 2000); // Wait for the toast to finish (3000ms = 3 seconds)
     } catch (error) {
       console.error("Error during logout:", error);
       toast.error("An error occurred during logout.");
@@ -234,7 +235,7 @@ const Navbar = () => {
       </div>
 
       {/* Toast Container */}
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={2000} />
     </nav>
   );
 };

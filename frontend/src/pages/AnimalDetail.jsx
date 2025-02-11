@@ -18,7 +18,7 @@ const AnimalDetailForm = () => {
   const [animalTypes, setAnimalTypes] = useState([]);
   const [breeds, setBreeds] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const navigate = useNavigate()
   // const { isAuthenticated } = useUserStore();
   // const navigate = useNavigate();
   // if (!isAuthenticated) {
@@ -85,7 +85,9 @@ const AnimalDetailForm = () => {
       }
 
       const result = await response.json();
-      toast.success("Animal details added successfully!");
+      toast.success("Animal details added successfully!",{
+        onClose: () => navigate("/animals"), // Redirect after toast closes
+      });
     } catch (error) {
       console.error("Error submitting animal details:", error);
       toast.error(`Error: ${error.message}`);

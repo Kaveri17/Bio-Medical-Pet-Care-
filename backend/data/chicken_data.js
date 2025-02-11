@@ -95,7 +95,7 @@ const chickenData =[
         }
       ]
     },
-    {
+    { 
       "animalType": "Chicken",
       "breed": "Puwankh Ulte",
       "size": "Medium",

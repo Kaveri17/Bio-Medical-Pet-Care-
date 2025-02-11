@@ -84,7 +84,7 @@ const Login = () => {
         </div>
       </div>
       {/* ToastContainer to display toast messages */}
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 };

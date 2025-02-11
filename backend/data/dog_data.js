@@ -153,7 +153,7 @@ const dogData =[
     },
     {
       "animalType": "Dog",
-        "breed": "Gorkha Dog",
+        "breed": "Pahadi Dog",
         "size": "Medium",
         "weight": {
           "average": "15–25 kg"

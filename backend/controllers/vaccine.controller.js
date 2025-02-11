@@ -1,8 +1,10 @@
 // ----------------------------------------------------------------------------------------------------------------------
-import { sendVaccineAcceptanceEmail, sendVaccineRejectionEmail } from "../mailtrap/accept.js";
+import {
+  sendVaccineAcceptanceEmail,
+  sendVaccineRejectionEmail,
+} from "../mailtrap/accept.js";
 import { UserAnimal } from "../models/userAnimal.model.js";
 import { Vaccine } from "../models/vaccine.model.js";
-
 
 // const calculateCosineSimilarity = (vectorA, vectorB) => {
 //     const dotProduct = vectorA.reduce((sum, val, i) => sum + val * vectorB[i], 0);
@@ -163,7 +165,24 @@ export const recommendVaccines = async (req, res) => {
     const vaccineScores = vaccines.map((vaccine) => {
       let ageMatch = 0,
         effectivenessScore = 0;
-      // Convert vaccine attributes into a vector
+
+      // Check if vaccine age range matches user's age
+      let ageRangeMatches = false;
+      vaccine.effectiveness.forEach((effect) => {
+        if (
+          userAgeInMonths >= effect.minAge &&
+          userAgeInMonths <= effect.maxAge
+        ) {
+          ageRangeMatches = true; // Age range matches
+        }
+      });
+
+      // If age doesn't match, skip this vaccine and do not calculate effectiveness
+      if (!ageRangeMatches) {
+        return null; // Skip this vaccine, don't calculate effectiveness
+      }
+
+      // If age range matches, proceed with effectiveness score calculation
       vaccine.effectiveness.forEach((effect) => {
         if (
           userAgeInMonths >= effect.minAge &&
@@ -175,19 +194,33 @@ export const recommendVaccines = async (req, res) => {
           effectivenessScore = effect.effectivenessPercentage / 100;
         }
       });
+      // Convert vaccine attributes into a vector
+      // vaccine.effectiveness.forEach((effect) => {
+      //   if (
+      //     userAgeInMonths >= effect.minAge &&
+      //     userAgeInMonths <= effect.maxAge
+      //   ) {
+      //     const normalizedVaccineAge =
+      //       (effect.minAge + effect.maxAge) / 2 / (15 * 12);
+      //     ageMatch = 1 - Math.abs(normalizedUserAge - normalizedVaccineAge);
+      //     effectivenessScore = effect.effectivenessPercentage / 100;
+      //   }
+      // });
       // If no effectiveness score is found, use a default
-      if (effectivenessScore === 0) {
-        effectivenessScore = 0.2; 
-      }
+      // if (effectivenessScore === 0) {
+      //   effectivenessScore = 0.2;
+      // }
       // Assign weights
-      const ageWeight = 0.5;
-      const effectivenessWeight = 0.5;
+      const ageWeight = 0.85;
+      const effectivenessWeight = 0.15;
       // Create vectors
-      const userVector = [normalizedUserAge * ageWeight,
+      const userVector = [
+        normalizedUserAge * ageWeight,
         1 * effectivenessWeight, // User effectiveness is always 100%
       ];
-      const vaccineVector = [ageMatch * ageWeight,
-        effectivenessScore * effectivenessWeight
+      const vaccineVector = [
+        ageMatch * ageWeight,
+        effectivenessScore * effectivenessWeight,
       ];
       // Compute cosine similarity
       const similarity = calculateCosineSimilarity(userVector, vaccineVector);
@@ -197,17 +230,23 @@ export const recommendVaccines = async (req, res) => {
       console.log(`Cosine Similarity:`, similarity);
       return { vaccine, similarity };
     });
+    // Remove any null values (vaccines that didn't match the age range)
+    const validVaccineScores = vaccineScores.filter((v) => v !== null);
     // Sort vaccines by highest similarity
-    vaccineScores.sort((a, b) => b.similarity - a.similarity);
+    validVaccineScores.sort((a, b) => b.similarity - a.similarity);
+    // // Sort vaccines by highest similarity
+    // vaccineScores.sort((a, b) => b.similarity - a.similarity);
     // Applying threshold filtering to exclude vaccines with low similarity
     const threshold = 0.7;
-    const recommendedVaccines = vaccineScores.filter(
+    const recommendedVaccines = validVaccineScores.filter(
       (v) => v.similarity > threshold
     );
-    res.status(200)
+    res
+      .status(200)
       .json({ recommendedVaccines: recommendedVaccines.map((v) => v.vaccine) });
   } catch (error) {
-    res.status(500)
+    res
+      .status(500)
       .json({ message: "Error recommending vaccines", error: error.message });
   }
 };
@@ -236,7 +275,6 @@ export const recommendVaccines = async (req, res) => {
 //   }
 // };
 
-
 export const acceptVaccine = async (req, res) => {
   try {
     const { id, vaccineId } = req.body;
@@ -252,7 +290,7 @@ export const acceptVaccine = async (req, res) => {
       return res.status(404).json({ message: "User animal not found" });
     }
 
-    console.log("useranimal:",userAnimal)
+    console.log("useranimal:", userAnimal);
 
     // Fetch vaccine details
     const vaccine = await Vaccine.findById(vaccineId);
@@ -261,19 +299,19 @@ export const acceptVaccine = async (req, res) => {
       return res.status(404).json({ message: "Vaccine not found" });
     }
 
-    console.log("vaccine:",vaccine)
+    console.log("vaccine:", vaccine);
 
     const animalName = userAnimal.animal_type.animal_type;
     const vaccineName = vaccine.vaccine_name;
     const userEmail = userAnimal.user.email;
 
-    console.log("animalName:",animalName)
-    console.log("userEmail:",userEmail)
-    console.log("vaccineName:",vaccineName)
+    console.log("animalName:", animalName);
+    console.log("userEmail:", userEmail);
+    console.log("vaccineName:", vaccineName);
 
     // Update user animal record
     const updatedAnimal = await UserAnimal.findByIdAndUpdate(
-     id,
+      id,
       {
         $addToSet: { acceptedVaccines: vaccineId }, // Prevent duplicates
         $pull: { rejectedVaccines: vaccineId, missedVaccines: vaccineId }, // Remove if previously rejected/missed
@@ -295,7 +333,6 @@ export const acceptVaccine = async (req, res) => {
       .json({ message: "Error accepting vaccine", error: error.message });
   }
 };
-
 
 // export const rejectVaccine = async (req, res) => {
 //   try {
@@ -324,26 +361,26 @@ export const rejectVaccine = async (req, res) => {
   try {
     const { id, vaccineId } = req.body;
 
-     // Fetch user animal and populate the animal_type field
-     const userAnimal = await UserAnimal.findById(id)
-     .populate("animal_type")
-     .populate("user");
+    // Fetch user animal and populate the animal_type field
+    const userAnimal = await UserAnimal.findById(id)
+      .populate("animal_type")
+      .populate("user");
 
-   if (!userAnimal) {
-     return res.status(404).json({ message: "User animal not found" });
-   }
+    if (!userAnimal) {
+      return res.status(404).json({ message: "User animal not found" });
+    }
 
-   // Fetch vaccine details
-   const vaccine = await Vaccine.findById(vaccineId);
+    // Fetch vaccine details
+    const vaccine = await Vaccine.findById(vaccineId);
 
-   if (!vaccine) {
-     return res.status(404).json({ message: "Vaccine not found" });
-   }
+    if (!vaccine) {
+      return res.status(404).json({ message: "Vaccine not found" });
+    }
 
-   const animalName = userAnimal.animal_type.animal_type;
-   const vaccineName = vaccine.vaccine_name;
-   const userEmail = userAnimal.user.email;
-   
+    const animalName = userAnimal.animal_type.animal_type;
+    const vaccineName = vaccine.vaccine_name;
+    const userEmail = userAnimal.user.email;
+
     // Update user animal record
     const updatedAnimal = await UserAnimal.findByIdAndUpdate(
       id,
@@ -357,9 +394,13 @@ export const rejectVaccine = async (req, res) => {
     // Send email for vaccine rejection
     await sendVaccineRejectionEmail(userEmail, animalName, vaccineName);
 
-    res.status(200).json({ message: "Vaccine rejected", animal: updatedAnimal });
+    res
+      .status(200)
+      .json({ message: "Vaccine rejected", animal: updatedAnimal });
   } catch (error) {
-    res.status(500).json({ message: "Error rejecting vaccine", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error rejecting vaccine", error: error.message });
   }
 };
 
@@ -373,14 +414,26 @@ export const markMissedVaccine = async (userAnimalId, vaccineId) => {
   }
 };
 
-
-
 export const createVaccine = async (req, res) => {
   try {
     const { vaccine_name, animal_type, breeds, effectiveness } = req.body;
 
     if (!vaccine_name || !animal_type || !breeds || !effectiveness) {
       return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const existingVaccine = await Vaccine.findOne({
+      vaccine_name: vaccine_name.trim(),
+      animal_type,
+    });
+
+    if (existingVaccine) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Vaccine with this name already exists for the given animal type.",
+        });
     }
 
     const newVaccine = new Vaccine({
@@ -476,31 +529,29 @@ export const deleteVaccine = async (req, res) => {
 };
 
 // get accepted vaccine
-export const getAcceptedVaccines = async (req,res) => {
-  const {userAnimalId} = req.params;
-    try {
-      const acceptedVaccines = await UserAnimal.findById(userAnimalId)
-        .populate("acceptedVaccines") // Populate vaccine details
-        .select("acceptedVaccines"); // Select only the acceptedVaccines field
+export const getAcceptedVaccines = async (req, res) => {
+  const { userAnimalId } = req.params;
+  try {
+    const acceptedVaccines = await UserAnimal.findById(userAnimalId)
+      .populate("acceptedVaccines") // Populate vaccine details
+      .select("acceptedVaccines"); // Select only the acceptedVaccines field
 
-      res.status(200).json(acceptedVaccines) 
+    res.status(200).json(acceptedVaccines);
+  } catch (error) {
+    console.error("Error fetching accepted vaccines:", error);
+    throw error;
+  }
+};
 
-    } catch (error) {
-      console.error("Error fetching accepted vaccines:", error);
-      throw error;
-    }
-  };
-
-  // get rejected vaccine
-export const getRejectedVaccines = async (req,res) => {
-  const {userAnimalId} = req.params;
+// get rejected vaccine
+export const getRejectedVaccines = async (req, res) => {
+  const { userAnimalId } = req.params;
   try {
     const rejectedVaccines = await UserAnimal.findById(userAnimalId)
       .populate("rejectedVaccines") // Populate vaccine details
       .select("rejectedVaccines"); // Select only the acceptedVaccines field
 
-    res.status(200).json(rejectedVaccines) 
-
+    res.status(200).json(rejectedVaccines);
   } catch (error) {
     console.error("Error fetching accepted vaccines:", error);
     throw error;
