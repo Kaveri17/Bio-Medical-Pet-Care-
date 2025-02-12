@@ -65,7 +65,7 @@ const UpdateVaccineForm = () => {
       isValid = false;
     }
 
-    let maxBreedAge = 600; // 50 yrs
+    let maxBreedAge = 240; // Default max limit
     if (selectedBreeds.length > 0) {
       const breedDetails = breeds.find((breed) => selectedBreeds.includes(breed._id));
       if (breedDetails?.benchmarkAge) {
@@ -73,17 +73,29 @@ const UpdateVaccineForm = () => {
       }
     }
 
+    // Validate effectiveness fields
     effectiveness.forEach((eff, index) => {
-      if (isNaN(eff.minAge) || eff.minAge < 0) {
-        newErrors[`minAge_${index}`] = "Min age must be a number and >= 0.";
+      if (isNaN(eff.minAge) || eff.minAge < 0 || eff.minAge >= 240 ) {
+        newErrors[`minAge_${index}`] = "Min age must be a number, should be positive and must be under 240 months.";
         isValid = false;
       }
-      if (isNaN(eff.maxAge) || eff.maxAge > maxBreedAge) {
-        newErrors[`maxAge_${index}`] = `Max age must be a number and <= ${maxBreedAge} months.`;
+
+      if (isNaN(eff.maxAge) || eff.maxAge > maxBreedAge || eff.minAge>=eff.maxAge) {
+        newErrors[`maxAge_${index}`] = `Max age must be a number, shouldnot exceed minimum age and <= ${maxBreedAge} months`;
         isValid = false;
       }
-      if (isNaN(eff.effectivenessPercentage) || eff.effectivenessPercentage <= 0) {
+
+      // if (isNaN(eff.minAge) || eff.minAge >= 240) {
+      //   newErrors[`mainAge_${index}`] = `Min age must be under 240 months.`;
+      //   isValid = false;
+      // }
+
+      if (isNaN(eff.effectivenessPercentage) || eff.effectivenessPercentage <= 0 ) {
         newErrors[`effectiveness_${index}`] = "Effectiveness must be a positive number.";
+        isValid = false;
+      }
+      if (isNaN(eff.effectivenessPercentage) || eff.effectivenessPercentage > 100 ) {
+        newErrors[`effectiveness_${index}`] = "Effectiveness must not increase than 100.";
         isValid = false;
       }
     });
