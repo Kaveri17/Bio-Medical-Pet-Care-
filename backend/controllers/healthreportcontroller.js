@@ -262,12 +262,14 @@ export const generateWeeklyHealthReport = async (req, res) => {
     const age = dailyRecords[0]?.useranimal?.age;
      console.log("animalType",animalType)
     const benchmarkData = getBenchmarkData(animalType, breedName, age);
+
     if (!benchmarkData) {
       return res.status(200).json({
         message: "No benchmark data found for this animal.",
       });
     }
 
+    console.log("Benchmark data:",benchmarkData)
 
     // Generate the report for the week
     const weeklyReport = generateWeeklyReport(dailyRecords, benchmarkData);

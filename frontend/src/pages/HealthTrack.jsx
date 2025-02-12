@@ -82,6 +82,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getAllDailyRecord, getDailyRecordById } from "../api/dailyRecord"; // Ensure addDailyRecord is available
 import { getUserAnimalById } from "../api/Add";
+import DatePicker from "react-datepicker";
 
 const HealthTrack = () => {
   const [dailyData, setDailyData] = useState([]);
@@ -129,6 +130,16 @@ const HealthTrack = () => {
       });
   };
 
+    // const handleDateChange = (date) => {
+    //   if (date > new Date()) {
+    //     toast.error("You cannot select a future date.");
+    //     return;
+    //   }
+    //   setNewFrom((prev) => ({
+    //     ...prev,
+    //     date,
+    //   }));
+    // };
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex flex-col justify-center items-center p-4">
       <h2 className="text-3xl font-bold mb-6 text-blue-900 text-center">
@@ -145,6 +156,15 @@ const HealthTrack = () => {
         </p>
       ) : (
         <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl border border-blue-300 mb-6">
+          {/* <div className="mb-4">
+                      <label className="block text-gray-700 font-medium mb-2">Select Date</label>
+                      <DatePicker
+                        selected={newFrom.date}
+                        onChange={handleDateChange}
+                        maxDate={new Date()}
+                        className="border p-2 rounded-lg shadow-md w-full"
+                      />
+                    </div> */}
           <table className="w-full border-collapse text-sm sm:text-base">
             <thead>
               <tr>

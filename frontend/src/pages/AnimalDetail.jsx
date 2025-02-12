@@ -275,16 +275,18 @@ const AnimalDetailForm = () => {
   const fetchBenchmark = async (animalType, breed) => {
     try {
       const response = await axios.get(`${API}/benchmark/getbenchmarkby/${animalType}/${breed}`);
-      if (response.data && response.data.age_data && response.data.age_data.length > 0) {
-        setMaxAge(response.data.age_data[0].age_range.max);
+      console.log("Response benchmark:",response)
+      if (response?.data && response?.data?.lifespan) {
+        setMaxAge(response?.data?.lifespan.max);
       } else {
         setMaxAge(25); // Set default if no benchmark data found
       }
     } catch (error) {
       console.error("Error fetching benchmark data:", error);
-      setMaxAge(25); // Set default if error occurs
+      setMaxAge(20); // Set default if error occurs
     }
   };
+  console.log("Max age:",maxAge)
 
   const handleChange = (e) => {
     const { name, value } = e.target;

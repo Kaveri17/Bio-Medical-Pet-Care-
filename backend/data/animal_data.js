@@ -29,7 +29,7 @@ const benchmarkData = [
         weight_range: { min: 28, max: 30 },
       },
       {
-        age_range: { min: 8, max: 10 },
+        age_range: { min: 8, max: 15 },
         weight_range: { min: 30, max: 30 },
       },
     ],
@@ -64,7 +64,7 @@ const benchmarkData = [
         weight_range: { min: 55, max: 60 },
       },
       {
-        age_range: { min: 8, max: 10 },
+        age_range: { min: 8, max: 12 },
         weight_range: { min: 60, max: 60 },
       },
     ],
@@ -99,7 +99,7 @@ const benchmarkData = [
         weight_range: { min: 34, max: 35 },
       },
       {
-        age_range: { min: 8, max: 10 },
+        age_range: { min: 8, max: 12 },
         weight_range: { min: 35, max: 35 },
       },
     ],
@@ -134,7 +134,7 @@ const benchmarkData = [
         weight_range: { min: 19, max: 20 },
       },
       {
-        age_range: { min: 8, max: 10 },
+        age_range: { min: 8, max: 12},
         weight_range: { min: 20, max: 20 },
       },
     ],
@@ -169,7 +169,7 @@ const benchmarkData = [
         weight_range: { min: 24, max: 25 }
       },
       {
-        age_range: { min: 8, max: 10 },
+        age_range: { min: 8, max: 12 },
         weight_range: { min: 25, max: 25 }
       }
     ]

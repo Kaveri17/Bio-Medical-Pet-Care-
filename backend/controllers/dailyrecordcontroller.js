@@ -85,7 +85,7 @@ export const createDailyRecord = async (req, res) => {
     }
     const previousRecord = await Dailyrecord.findOne({
       useranimal: id,
-      createdAt: { $lt: new Date(selectedDate) }, // Find the latest record before the selected date
+      // createdAt: { $lt: new Date(selectedDate) }, // Find the latest record before the selected date
     }).sort({ createdAt: -1 });
 console.log("previous",previousRecord)
 if (previousRecord) {
