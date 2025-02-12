@@ -18,6 +18,6 @@ router.get("/getallanimal",getAllAnimals);
 router.get("/getanimals/:id", getAnimalById);
 // router.put("/update/:id",verifyToken, updateAnimal);
 router.put("/update/:id", updateAnimal);
-router.delete("/delete/:id",verifyToken, deleteAnimal);
+router.delete("/delete/:id", deleteAnimal);
 
 export default router;

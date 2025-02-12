@@ -115,12 +115,11 @@ const HealthTrack = () => {
       .then((data) => {
         if (data?.error) {
           setError(data.error);
-          console.log(data.error)
+          console.log(data.error);
         } else {
           // setDailyData(data.data.slice(0, 7).reverse());
           setDailyData(data);
-        console.log("data", data);
-          
+          console.log("data", data);
         }
         setLoading(false);
       })
@@ -150,7 +149,7 @@ const HealthTrack = () => {
             <thead>
               <tr>
                 <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">
-                  Day
+                  Date
                 </th>
                 <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">
                   Weight
@@ -158,8 +157,9 @@ const HealthTrack = () => {
                 {(animal?.animal_type?.animal_type === "Cow" ||
                   animal?.animal_type?.animal_type === "Chicken") && (
                   <th className="border border-gray-300 text-left px-4 py-2 bg-blue-500 text-white">
-                {animal?.animal_type?.animal_type === "Cow" ? "Milk Production (litres)" : "Egg Production"}
-
+                    {animal?.animal_type?.animal_type === "Cow"
+                      ? "Milk Production (litres)"
+                      : "Egg Production"}
                   </th>
                 )}
 
@@ -169,10 +169,19 @@ const HealthTrack = () => {
               </tr>
             </thead>
             <tbody>
-              {dailyData.map((data, index) => (
+              {[...dailyData]
+  .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+              .map((data, index) => (
                 <tr key={index}>
                   <td className="border border-gray-300 px-4 py-2 text-gray-700">
-                    {index + 1}
+                    {/* {new Date(data.createdAt).toLocaleString()} */}
+                    {new Date(data.createdAt).toLocaleString("en-GB", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                      
+                      // timeZone: "Asia/Kathmandu",
+                    })}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-blue-800 font-semibold">
                     {data.weight}

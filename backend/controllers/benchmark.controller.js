@@ -140,3 +140,27 @@ export const deleteBenchmark = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getBenchmarkData = async (req, res) => {
+  try {
+    const { animalType, breed } = req.params;
+
+    // Find the benchmark data for the given animal type and breed
+    const benchmarkData = await Benchmark.findOne({
+      animalType,
+      breed,
+    });
+
+    if (!benchmarkData) {
+      return res.status(404).json({
+        message: "Benchmark data not found for the given animal type and breed.",
+      });
+    }
+
+    // Return the benchmark data
+    return res.status(200).json(benchmarkData);
+  } catch (error) {
+    console.error("Error fetching benchmark data:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};

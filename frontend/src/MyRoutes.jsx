@@ -32,6 +32,10 @@ import AdminDashboard from './admin/AdminDashboard';
 import DatePicker from './pages/CustomDatePicker';
 // import SendVaccineReminder from './pages/SendVaccineReminder';
 import AdminRoute from './auth/AdminRoute'
+import AddVaccineForm from './admin/AddVaccineForm';
+import Dashboard from './admin/Dashboard';
+import AdminAnimal from './admin/AdminAnimal';
+import UpdateCategory from './admin/UpdateCategory copy';
 // import AdminSidebar from './layout/AdminSidebar';
 
 
@@ -67,7 +71,11 @@ const MyRoutes = () => {
         </Route>
 
         <Route path='/admin' element={<AdminRoute/>}>
-        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="category" element={<AdminAnimal />} />
+        <Route path="add-vaccine" element={<AddVaccineForm/>} />
+        <Route path="update-category/:id" element={<UpdateCategory/>} />
+
         {/* <Route path="category" element={<AdminCategory />} />
         <Route path="add-category" element={<AddCategory />} />
         <Route path="update-category" element={<UpdateCategory />} />

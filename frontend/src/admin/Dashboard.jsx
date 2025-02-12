@@ -5,7 +5,7 @@ import DashboardCard from "../components/DashboardCard";
 import axios from "axios";
 
 // API URL
-const API = "http://localhost:5001/api";
+const API = "http://localhost:5000/api";
 
 // Function to get all animals (not needed directly for animal type count now)
 const getAllAnimals = () => {

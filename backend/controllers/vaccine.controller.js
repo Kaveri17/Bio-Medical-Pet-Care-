@@ -418,7 +418,13 @@ export const createVaccine = async (req, res) => {
   try {
     const { vaccine_name, animal_type, breeds, effectiveness } = req.body;
 
-    if (!vaccine_name || !animal_type || !breeds || !effectiveness) {
+    console.log("Req vaccine:",req.body);
+    console.log("Vaccine Name:", vaccine_name);
+    console.log("Animal Type:", animal_type);
+    console.log("Breeds:", breeds);
+    console.log("Effectiveness:", effectiveness);
+    
+    if (!vaccine_name || !animal_type || !breeds ||!breeds.length || !effectiveness ||!effectiveness.length) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -435,12 +441,18 @@ export const createVaccine = async (req, res) => {
             "Vaccine with this name already exists for the given animal type.",
         });
     }
+    const effectivenessValue = effectiveness.map((eff) => ({
+      minAge: Number(eff.minAge),
+      maxAge: Number(eff.maxAge),
+      effectivenessPercentage: Number(eff.effectivenessPercentage),
+    }));
 
+    console.log("Effect",effectivenessValue)
     const newVaccine = new Vaccine({
       vaccine_name,
       animal_type,
       breeds,
-      effectiveness,
+      effectiveness:effectivenessValue,
     });
 
     const savedVaccine = await newVaccine.save();

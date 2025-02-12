@@ -85,23 +85,46 @@ export const createDailyRecord = async (req, res) => {
     }
     const previousRecord = await Dailyrecord.findOne({
       useranimal: id,
+      createdAt: { $lt: new Date(selectedDate) }, // Find the latest record before the selected date
     }).sort({ createdAt: -1 });
 console.log("previous",previousRecord)
 if (previousRecord) {
       const timeDifferenceInMillis = selectedDate - new Date(previousRecord.createdAt);
-      const daysDifference = Math.floor(timeDifferenceInMillis / (1000 * 60 * 60 * 24));
+      const daysDifference = Math.abs(Math.floor(timeDifferenceInMillis / (1000 * 60 * 60 * 24)));
 
       const dailyGrowthPercentage = 0.02; // 2% increase per day is acceptable 
 
+      const minAllowedWeight = previousRecord.weight * (1 - dailyGrowthPercentage * daysDifference);
       const maxAllowedWeightIncrease = previousRecord.weight * (1 + dailyGrowthPercentage * daysDifference);
-      console.log("weight",maxAllowedWeightIncrease)
-      if (weight > maxAllowedWeightIncrease) {
+      console.log("Allowed Weight Range:", minAllowedWeight, "to", maxAllowedWeightIncrease);
+      console.log("Previous Weight:", previousRecord.weight);
+      console.log("Days Difference:", daysDifference);
+      console.log("Min Allowed Weight:", minAllowedWeight);
+      console.log("Max Allowed Weight:", maxAllowedWeightIncrease);
+      console.log("Entered Weight:", weight);
+      // Reject if outside the ±2% range
+      if (weight < minAllowedWeight || weight > maxAllowedWeightIncrease) {
         return res.status(400).json({
-          error: `Weight increase is too high compared to the previous record over ${daysDifference} day(s).`,
+          error: `Weight change is outside the allowed ±2% range over ${daysDifference} day(s).`,
         });
       }
+      
+  //       // Check if production exists before applying the check
+  // if (previousRecord.production !== undefined && previousRecord.production !== null) {
+  //   const minAllowedProduction = previousRecord.production * (1 - dailyGrowthPercentage * daysDifference);
+  //   const maxAllowedProduction = previousRecord.production * (1 + dailyGrowthPercentage * daysDifference);
+
+  //   console.log("Allowed Production Range:", minAllowedProduction, "to", maxAllowedProduction);
+
+  //   if (production < minAllowedProduction || production > maxAllowedProduction) {
+  //     return res.status(400).json({
+  //       error: `Production change is outside the allowed ±2% range over ${daysDifference} day(s).`,
+  //     });
+  //   }
+  // }
+
     }
- 
+
     // Validate production field for cow and chicken
     if (
       (animal_type?.animal_type === "Cow" || animal_type?.animal_type === "Chicken") &&
@@ -205,7 +228,7 @@ export const getDailyRecordsByUserAnimalId = async (req, res) => {
     // Fetch records for the current week (from Sunday to Saturday)
     const dailyRecords = await Dailyrecord.find({
       useranimal: id,
-      // createdAt: { $gte: startOfWeek, $lte: endOfWeek },
+      createdAt: { $gte: startOfWeek, $lte: endOfWeek },
     }).populate("useranimal");
 
     if (dailyRecords.length === 0) {
@@ -213,6 +236,7 @@ export const getDailyRecordsByUserAnimalId = async (req, res) => {
         .status(404)
         .json({ error: "No records found for the current week" });
     }
+    console.log("Daily records: ",dailyRecords)
 
     return res.status(200).json( dailyRecords );
   } catch (error) {
