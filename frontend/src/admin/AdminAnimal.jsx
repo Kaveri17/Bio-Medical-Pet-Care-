@@ -29,13 +29,43 @@ const AdminAnimal = () => {
 
   // Function to add an animal type along with breeds
   const handleAddAnimal = async () => {
-    if (!newAnimalType || !newBreeds) {
-      setError("Animal type and breed(s) are required.");
+    // Validate Animal Type (Only letters and spaces, max length of 20)
+    const animalTypeRegex = /^[a-zA-Z\s]+$/; // Allow only letters and spaces
+    if (!newAnimalType) {
+      setError("Animal type is required.");
+      return;
+    }
+    if (!animalTypeRegex.test(newAnimalType)) {
+      setError("Animal type must only contain letters and spaces.");
+      return;
+    }
+    if (newAnimalType.length > 20) {
+      setError("Animal type name should not exceed 20 characters.");
+      return;
+    }
+
+    // Validate Breeds (Only letters and spaces, separated by commas)
+    if (!newBreeds) {
+      setError("Breed(s) are required.");
       return;
     }
 
     const breedList = newBreeds.split(",").map((breed) => breed.trim());
-
+    // Check if breedList is empty after trimming
+    if (breedList.length === 0) {
+      setError("At least one valid breed is required.");
+      return;
+    }
+     // Validate each breed (must contain only letters and spaces, and be at least 3 characters long)
+  const breedRegex = /^[a-zA-Z\s]+$/; // Allow only letters and spaces
+    // Validate each breed (optional: check for duplicates or invalid names)
+    const invalidBreeds = breedList.filter(
+      (breed) => breed === "" || breed.length < 3 || !breedRegex.test(breed)
+    ); // Example: breed should be at least 3 characters long
+    if (invalidBreeds.length > 0) {
+      setError("Please enter valid breed names(only letters and at least 3 characters).");
+      return;
+    }
     try {
       const response = await axios.post(`${API}/animal/addanimal`, {
         animal_type: newAnimalType,
@@ -43,9 +73,9 @@ const AdminAnimal = () => {
 
       if (response.data.success) {
         const animalTypeId = response.data.data._id;
-        console.log("animalTypeId",animalTypeId)
+        console.log("animalTypeId", animalTypeId);
         for (let breed of breedList) {
-          console.log("Breed of breedlist",breed)
+          console.log("Breed of breedlist", breed);
           await axios.post(`${API}/breed/addbreed`, {
             breed_name: breed,
             animal_type: animalTypeId,
@@ -62,7 +92,10 @@ const AdminAnimal = () => {
       }
     } catch (error) {
       setError(error.response.data.message);
-      console.error("Error adding animal type because", error.response.data.message);
+      console.error(
+        "Error adding animal type because",
+        error.response.data.message
+      );
     }
   };
 
@@ -111,11 +144,14 @@ const AdminAnimal = () => {
                 <td className="px-4 py-2">{index + 1}</td>
                 <td className="px-4 py-2">{animal.animal_type}</td>
                 <td className="px-4 py-2">
-                  {animal.breeds && animal.breeds.map((breed) => breed.breed_name).join(", ")}
+                  {animal.breeds &&
+                    animal.breeds.map((breed) => breed.breed_name).join(", ")}
                 </td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => navigate(`/admin/update-category/${animal._id}`)}
+                    onClick={() =>
+                      navigate(`/admin/update-category/${animal._id}`)
+                    }
                     className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 mr-2"
                   >
                     Edit
@@ -136,9 +172,16 @@ const AdminAnimal = () => {
         {showAddAnimalModal && (
           <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-              <h3 className="text-xl font-semibold mb-4">Add New Animal Type</h3>
+              <h3 className="text-xl font-semibold mb-4">
+                Add New Animal Type
+              </h3>
               {error && <p className="text-red-500 mb-4">{error}</p>}
-              <form onSubmit={(e) => { e.preventDefault(); handleAddAnimal(); }}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleAddAnimal();
+                }}
+              >
                 <label className="block mb-2">Animal Type Name</label>
                 <input
                   type="text"
@@ -158,8 +201,19 @@ const AdminAnimal = () => {
                   required
                 />
                 <div className="flex justify-between mt-4">
-                  <button type="button" onClick={() => setShowAddAnimalModal(false)} className="bg-gray-500 text-white px-4 py-2 rounded-md">Cancel</button>
-                  <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-md">Add Animal Type</button>
+                  <button
+                    type="button"
+                    onClick={() => setShowAddAnimalModal(false)}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md"
+                  >
+                    Add Animal Type
+                  </button>
                 </div>
               </form>
             </div>

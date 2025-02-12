@@ -191,18 +191,46 @@ const UpdateCategory = () => {
   console.log("breeds",animal.breeds)
 
   const handleUpdate = async () => {
-    if (!animalType || !breeds) {
-      setError("Animal type and breed(s) are required.");
+    setError("");  // Reset error state before validation
+
+    // Animal Type validation
+    const animalTypeRegex = /^[a-zA-Z\s]+$/; // Allow only letters and spaces
+    if (!animalType) {
+      setError("Animal type is required.");
+      return;
+    }
+    if (!animalTypeRegex.test(animalType)) {
+      setError("Animal type must only contain letters and spaces.");
+      return;
+    }
+    if (animalType.length > 20) {
+      setError("Animal type name should not exceed 20 characters.");
       return;
     }
 
- // Converting breeds from a string back to an array of objects
- const breedList = breeds.split(",").map((b) => ({ breed_name: b.trim() }));
+    // Breeds validation
+    if (!breeds) {
+      setError("Breed(s) are required.");
+      return;
+    }
 
+    const breedList = breeds.split(",").map((breed) => breed.trim());
+    const breedRegex = /^[a-zA-Z\s]+$/; // Allow only letters and spaces
+    const invalidBreeds = breedList.filter(
+      (breed) => breed === "" || breed.length < 3 || !breedRegex.test(breed)
+    );
+
+    if (invalidBreeds.length > 0) {
+      setError("Please enter valid breed names (only letters and at least 3 characters).");
+      return;
+    }
+
+    // Converting breeds from a string back to an array of objects
+    const updatedBreeds = breedList.map((b) => ({ breed_name: b }));
     try {
       const response = await axios.put(`${API}/animal/update/${id}`, {
         animal_type: animalType,
-        breeds: breedList, //sending array of objects
+        breeds: updatedBreeds, //sending array of objects
       });
 
       if (response.data.success) {

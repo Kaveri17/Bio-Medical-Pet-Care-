@@ -62,7 +62,7 @@ const Dashboard = () => {
   }, []);
 
   const handleShowMore = () => {
-    navigate("/vaccines");
+    navigate("/admin/adminvaccine");
   };
 
   return (
