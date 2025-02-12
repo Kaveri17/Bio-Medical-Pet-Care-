@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { getAllAnimals } from "../api/Animals";
+import { useNavigate } from "react-router-dom";
 
 const AddVaccineForm = () => {
   const [vaccineName, setVaccineName] = useState("");
@@ -28,6 +29,7 @@ const AddVaccineForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate()
 
   const API = "http://localhost:5000/api";
 
@@ -146,6 +148,8 @@ const AddVaccineForm = () => {
       );
       alert("Vaccine added successfully!");
       console.log(response.data);
+      navigate("/admin/adminvaccine");
+
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Error adding vaccine");
     } finally {

@@ -148,7 +148,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { getAllAnimals } from "../api/Animals";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getBenchmarkById } from "../api/BenchMark";
 
 const API = "http://localhost:5000/api";
@@ -169,6 +169,7 @@ const UpdateBenchmark = () => {
   const [errors, setErrors] = useState("");
   const [benchmark, setBenchmark] = useState(null);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   console.log("Benchmark id:", id);
 
@@ -189,7 +190,14 @@ const UpdateBenchmark = () => {
       } else {
         setBenchmark(res);
         // Populate formData with benchmark data after it's fetched
-        const { animalType, breed, weight, lifespan, average_temperature, age_data } = res;
+        const {
+          animalType,
+          breed,
+          weight,
+          lifespan,
+          average_temperature,
+          age_data,
+        } = res;
         setFormData({
           animalType: animalType._id,
           breed: breed._id,
@@ -206,72 +214,127 @@ const UpdateBenchmark = () => {
 
   useEffect(() => {
     if (!formData.animalType) return;
-    const selectedAnimal = animals.find((animal) => animal._id === formData.animalType);
+    const selectedAnimal = animals.find(
+      (animal) => animal._id === formData.animalType
+    );
     setBreeds(selectedAnimal ? selectedAnimal.breeds : []);
   }, [formData.animalType, animals]);
 
   const validateForm = () => {
     let newErrors = {};
 
-    const validateNumberField = (field, min, max, label, minLimit, maxLimit) => {
-        if (min === "" || max === "") {
-          newErrors[field] = `${label}: Both min (${min || "empty"}) and max (${max || "empty"}) values are required.`;
-        } else if (min < 0 || max < 0) {
-          newErrors[field] = `${label}: Min (${min}) or max (${max}) cannot be negative.`;
-        } else if (Number(min) > Number(max)) {
-          newErrors[field] = `${label}: Max (${max}) should be greater than min (${min}).`;
-        } else if (minLimit !== undefined && maxLimit !== undefined) {
-          if (min < minLimit || max > maxLimit) {
-            newErrors[field] = `${label}: Min (${min}) and Max (${max}) should be between ${minLimit} and ${maxLimit}.`;
-          }
+    const validateNumberField = (
+      field,
+      min,
+      max,
+      label,
+      minLimit,
+      maxLimit
+    ) => {
+      if (min === "" || max === "") {
+        newErrors[field] = `${label}: Both min (${min || "empty"}) and max (${
+          max || "empty"
+        }) values are required.`;
+      } else if (min < 0 || max < 0) {
+        newErrors[
+          field
+        ] = `${label}: Min (${min}) or max (${max}) cannot be negative.`;
+      } else if (Number(min) > Number(max)) {
+        newErrors[
+          field
+        ] = `${label}: Max (${max}) should be greater than min (${min}).`;
+      } else if (minLimit !== undefined && maxLimit !== undefined) {
+        if (min < minLimit || max > maxLimit) {
+          newErrors[
+            field
+          ] = `${label}: Min (${min}) and Max (${max}) should be between ${minLimit} and ${maxLimit}.`;
         }
-      };
-    validateNumberField("weight", formData.weight.min, formData.weight.max, "Weight Range");
-    validateNumberField("lifespan", formData.lifespan.min, formData.lifespan.max, "Lifespan Range");
+      }
+    };
+    validateNumberField(
+      "weight",
+      formData.weight.min,
+      formData.weight.max,
+      "Weight Range"
+    );
+    validateNumberField(
+      "lifespan",
+      formData.lifespan.min,
+      formData.lifespan.max,
+      "Lifespan Range"
+    );
 
     // if (!formData.animalType) newErrors.animalType = "Please select an animal type.";
     // if (!formData.breed) newErrors.breed = "Please select a breed.";
     // if (!formData.average_temperature) newErrors.average_temperature = "Temperature is required.";
 
+    // Temperature Validation: Must be between 35 - 40
+    if (!formData.average_temperature) {
+      newErrors.average_temperature = "Temperature is required.";
+    } else if (
+      formData.average_temperature < 35 ||
+      formData.average_temperature > 40
+    ) {
+      newErrors.average_temperature = `Temperature (${formData.average_temperature}) must be between 35 and 40.`;
+    }
 
-   // Temperature Validation: Must be between 35 - 40
-  if (!formData.average_temperature) {
-    newErrors.average_temperature = "Temperature is required.";
-  } else if (formData.average_temperature < 35 || formData.average_temperature > 40) {
-    newErrors.average_temperature = `Temperature (${formData.average_temperature}) must be between 35 and 40.`;
-  }
+    ageData.forEach((data, index) => {
+      validateNumberField(
+        `age_data_${index}_age`,
+        data.age_range.min,
+        data.age_range.max,
+        `Age Data ${index + 1} - Age Range`
+      );
+      validateNumberField(
+        `age_data_${index}_weight`,
+        data.weight_range.min,
+        data.weight_range.max,
+        `Age Data ${index + 1} - Weight Range`
+      );
 
-  ageData.forEach((data, index) => {
-    validateNumberField(`age_data_${index}_age`, data.age_range.min, data.age_range.max, `Age Data ${index + 1} - Age Range`);
-    validateNumberField(`age_data_${index}_weight`, data.weight_range.min, data.weight_range.max, `Age Data ${index + 1} - Weight Range`);
-
-    // Age should not exceed the lifespan range
-    if (formData.lifespan.min && formData.lifespan.max) {
-        if (data.age_range.min < formData.lifespan.min || data.age_range.max > formData.lifespan.max) {
-          newErrors[`age_data_${index}_age`] = `Age Data ${index + 1}: Min age (${data.age_range.min}) and Max age (${data.age_range.max}) must be within the lifespan range (${formData.lifespan.min}-${formData.lifespan.max}).`;
+      // Age should not exceed the lifespan range
+      if (formData.lifespan.min && formData.lifespan.max) {
+        if (
+          data.age_range.min < formData.lifespan.min ||
+          data.age_range.max > formData.lifespan.max
+        ) {
+          newErrors[`age_data_${index}_age`] = `Age Data ${
+            index + 1
+          }: Min age (${data.age_range.min}) and Max age (${
+            data.age_range.max
+          }) must be within the lifespan range (${formData.lifespan.min}-${
+            formData.lifespan.max
+          }).`;
         }
       }
-  
+
       //  Weight should not exceed the general weight range
       if (formData.weight.min && formData.weight.max) {
-        if (data.weight_range.min < formData.weight.min || data.weight_range.max > formData.weight.max) {
-          newErrors[`age_data_${index}_weight`] = `Age Data ${index + 1}: Min weight (${data.weight_range.min}) and Max weight (${data.weight_range.max}) must be within the weight range (${formData.weight.min}-${formData.weight.max}).`;
+        if (
+          data.weight_range.min < formData.weight.min ||
+          data.weight_range.max > formData.weight.max
+        ) {
+          newErrors[`age_data_${index}_weight`] = `Age Data ${
+            index + 1
+          }: Min weight (${data.weight_range.min}) and Max weight (${
+            data.weight_range.max
+          }) must be within the weight range (${formData.weight.min}-${
+            formData.weight.max
+          }).`;
         }
       }
-  });
+    });
 
     setErrors(newErrors);
-      // Show the first error in priority order
-  const firstErrorKey = Object.keys(newErrors)[0]; // Get the first error key
-  if (firstErrorKey) {
-    toast.error(newErrors[firstErrorKey]); // Show only the first error
-    return false;
-  }
+    // Show the first error in priority order
+    const firstErrorKey = Object.keys(newErrors)[0]; // Get the first error key
+    if (firstErrorKey) {
+      toast.error(newErrors[firstErrorKey]); // Show only the first error
+      return false;
+    }
 
-    
-      return true;// no error
+    return true; // no error
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -289,7 +352,9 @@ const UpdateBenchmark = () => {
   const handleAgeDataChange = (index, field, subField, value) => {
     setAgeData((prevAgeData) =>
       prevAgeData.map((data, i) =>
-        i === index ? { ...data, [field]: { ...data[field], [subField]: value } } : data
+        i === index
+          ? { ...data, [field]: { ...data[field], [subField]: value } }
+          : data
       )
     );
   };
@@ -309,39 +374,45 @@ const UpdateBenchmark = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
-        toast.error("Please fix validation errors.");
-        return;
-      }
+      toast.error("Please fix validation errors.");
+      return;
+    }
     try {
-      const response = await axios.put(`${API}/benchmark/updatebenchmark/${id}`, {
-        ...formData,
-        breed: selectedBreed,
-        age_data: ageData,
-      });
+      const response = await axios.put(
+        `${API}/benchmark/updatebenchmark/${id}`,
+        {
+          ...formData,
+          breed: selectedBreed,
+          age_data: ageData,
+        }
+      );
       toast.success(response.data.message);
+      navigate("/admin/adminbenchmark");
     } catch (error) {
       toast.error(error.response?.data?.message || "Error updating benchmark");
     }
   };
 
-   // console.log("animaltype:",animalType)
-   const handleProductionChange = (index, field, value) => {
-    setAgeData((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      )
-    );
-  };
+  // console.log("animaltype:",animalType)
+  // const handleProductionChange = (index, field, value) => {
+  //   setAgeData((prev) =>
+  //     prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
+  //   );
+  // };
 
   return (
     <div className="container mx-auto p-6 max-w-2xl bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-4 text-center text-blue-600">Update Benchmark</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-center text-blue-600">
+        Update Benchmark
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label className="block mb-2 font-medium">Select Animal Type</label>
           <select
             value={formData.animalType}
-            onChange={(e) => setFormData({ ...formData, animalType: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, animalType: e.target.value })
+            }
             className="border p-2 rounded w-full"
           >
             <option value="">Select Animal Type</option>
@@ -444,7 +515,12 @@ const UpdateBenchmark = () => {
                     placeholder="Min Age"
                     value={data.age_range.min}
                     onChange={(e) =>
-                      handleAgeDataChange(index, "age_range", "min", Number(e.target.value))
+                      handleAgeDataChange(
+                        index,
+                        "age_range",
+                        "min",
+                        Number(e.target.value)
+                      )
                     }
                     className="border p-2 rounded w-full"
                   />
@@ -456,7 +532,12 @@ const UpdateBenchmark = () => {
                     placeholder="Max Age"
                     value={data.age_range.max}
                     onChange={(e) =>
-                      handleAgeDataChange(index, "age_range", "max", Number(e.target.value))
+                      handleAgeDataChange(
+                        index,
+                        "age_range",
+                        "max",
+                        Number(e.target.value)
+                      )
                     }
                     className="border p-2 rounded w-full"
                   />
@@ -471,7 +552,12 @@ const UpdateBenchmark = () => {
                     placeholder="Min Weight"
                     value={data.weight_range.min}
                     onChange={(e) =>
-                      handleAgeDataChange(index, "weight_range", "min", Number(e.target.value))
+                      handleAgeDataChange(
+                        index,
+                        "weight_range",
+                        "min",
+                        Number(e.target.value)
+                      )
                     }
                     className="border p-2 rounded w-full"
                   />
@@ -483,13 +569,18 @@ const UpdateBenchmark = () => {
                     placeholder="Max Weight"
                     value={data.weight_range.max}
                     onChange={(e) =>
-                      handleAgeDataChange(index, "weight_range", "max", Number(e.target.value))
+                      handleAgeDataChange(
+                        index,
+                        "weight_range",
+                        "max",
+                        Number(e.target.value)
+                      )
                     }
                     className="border p-2 rounded w-full"
                   />
                 </div>
-                              {/* Show Milk Production for Cows */}
-    {/* {animalType.toString() === "67499d1a319afecc1dece5cd" && (
+                {/* Show Milk Production for Cows */}
+                {/* {animalType.toString() === "67499d1a319afecc1dece5cd" && (
       <>
         <input type="number" placeholder="Min Milk Per Day" value={data.milk_per_day.min} onChange={(e) => handleProductionChange(index, "milk_per_day", { ...data.milk_per_day, min: e.target.value })} />
         <input type="number" placeholder="Max Milk Per Day" value={data.milk_per_day.max} onChange={(e) => handleProductionChange(index, "milk_per_day", { ...data.milk_per_day, max: e.target.value })} />
@@ -497,7 +588,7 @@ const UpdateBenchmark = () => {
     )}
 
     {/*  Show Egg Production for Chickens */}
-    {animalType.toString() === "67499c6080d21450c9500ab9" && (
+                {/* {animalType.toString() === "67499c6080d21450c9500ab9" && (
       <>
         <input type="number" placeholder="Min Eggs Per Week" value={data.egg_per_week.min} onChange={(e) => handleProductionChange(index, "egg_per_week", { ...data.egg_per_week, min: e.target.value })} />
         <input type="number" placeholder="Max Eggs Per Week" value={data.egg_per_week.max} onChange={(e) => handleProductionChange(index, "egg_per_week", { ...data.egg_per_week, max: e.target.value })} />
@@ -523,7 +614,10 @@ const UpdateBenchmark = () => {
           </button>
         </div>
 
-        <button type="submit" className="bg-blue-500 text-white p-3 rounded mt-6 w-full">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white p-3 rounded mt-6 w-full"
+        >
           Update Benchmark
         </button>
       </form>
@@ -532,4 +626,3 @@ const UpdateBenchmark = () => {
 };
 
 export default UpdateBenchmark;
-

@@ -287,6 +287,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { getAllAnimals } from "../api/Animals";
+import { useNavigate } from "react-router-dom";
 
 const API = "http://localhost:5000/api";
 
@@ -312,7 +313,7 @@ const AddBenchmark = () => {
   const [breeds, setBreeds] = useState("");
   const [selectedBreed, setSelectedBreed] = useState([]);
   const [errors, setErrors] = useState("");
-
+const navigate = useNavigate()
   useEffect(() => {
     getAllAnimals().then((res) => {
       if (res.error) {
@@ -508,6 +509,8 @@ const AddBenchmark = () => {
         age_data: ageData,
       });
       toast.success(response.data.message);
+      navigate("/admin/adminbenchmark");
+
     } catch (error) {
       toast.error(error.response?.data?.message || "Error adding benchmark");
     }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Grid, Box, Paper, Typography, ListItemText, Checkbox } from "@mui/material";
 import { getAllAnimals } from "../api/Animals";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getVaccineById } from "../api/Vaccine";
 
 const UpdateVaccineForm = () => {
@@ -15,6 +15,7 @@ const UpdateVaccineForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate()
 
   const {id} = useParams()
   console.log("Vaccine ID:",id)
@@ -133,6 +134,8 @@ const UpdateVaccineForm = () => {
     try {
       await axios.put(`${API}/vaccine/update/${id}`, vaccineData);
       alert("Vaccine updated successfully!");
+      navigate("/admin/adminvaccine");
+
     } catch (error) {
       setErrorMessage(error.response?.data?.message || "Error updating vaccine");
     } finally {
