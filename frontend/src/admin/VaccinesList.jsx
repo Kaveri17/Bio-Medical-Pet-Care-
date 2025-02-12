@@ -4,7 +4,7 @@ import { FaSyringe } from "react-icons/fa";
 import AdminSidebar from "../layout/AdminSidebar";  // Import your Sidebar component
 import { Navigate } from "react-router-dom";
 
-const API = "http://localhost:5001/api";
+const API = "http://localhost:5000/api";
 
 const VaccinePage = () => {
   const [vaccines, setVaccines] = useState([]);
@@ -26,7 +26,7 @@ const VaccinePage = () => {
     fetchVaccines();
   }, []);
   const handleBack = () => {
-    Navigate("/admin/dashboards");
+    Navigate("/admin/dashboard");
   };
 
   return (

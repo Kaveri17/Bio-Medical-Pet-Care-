@@ -214,7 +214,7 @@ export const getVaccineById = async (vaccineId) => {
     }
 
     const data = await response.json();
-    return data.vaccine;  
+    return data 
   } catch (error) {
     console.error("Error fetching vaccine details:", error);
     throw error;
@@ -266,4 +266,21 @@ export const getRejectedVaccines = async (userAnimalId) => {
     console.error("Error fetching rejected vaccines:", error);
     throw error;
   }
+};
+
+// Delete an vaccine by ID
+export const deleteVaccine = (id) => {
+  return fetch(`${API}/vaccine/delete/${id}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Error during deletevaccine request:", error);
+      return { error: "An error occurred while deleting the vaccine." };
+    });
 };

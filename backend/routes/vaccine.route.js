@@ -32,7 +32,7 @@ router.get('/recommend/:userAnimalId',verifyToken, recommendVaccines);
 router.post("/addvaccine", createVaccine); // Create a new vaccine
 router.get("/getallvaccine",getAllVaccines); // Get all vaccines
 router.get("/getbyid/:id",verifyToken, getVaccineById); // Get a specific vaccine by ID
-router.put("/update/:id",verifyToken, updateVaccine); // Update a vaccine by ID
+router.put("/update/:id", updateVaccine); // Update a vaccine by ID
 router.delete("/delete/:id", deleteVaccine); // Delete a vaccine by ID
 
 // vaccine accept

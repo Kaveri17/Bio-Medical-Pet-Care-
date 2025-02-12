@@ -15,7 +15,7 @@ const AdminMessage = () => {
     });
   }, []);
   return (
-    <div className="w-1/2">
+    <div className="w-1/2 ps-60">
       <h1 className="font-bold text-5xl ps-11 py-12 ">Messages</h1>
       {message.map((mess) => {
         return (
