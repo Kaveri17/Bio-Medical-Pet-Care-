@@ -59,7 +59,15 @@ import { Benchmark } from "../models/benchmark.model.js";
 // Create a new benchmark (with validation)
 export const createBenchmark = async (req, res) => {
   try {
-    const { animalType, breed } = req.body;
+    const { animalType, breed,weight,lifespan,average_temperature,age_data } = req.body;
+    console.log("request",req.body)
+    if(!animalType || !breed || !weight ||!lifespan ||!average_temperature ||!age_data){
+      return res
+        .status(400)
+        .json({
+          message: "All the fields are required.",
+        });
+    }
 
     // Check if the benchmark already exists
     const existingBenchmark = await Benchmark.findOne({ animalType, breed });
@@ -84,7 +92,7 @@ export const createBenchmark = async (req, res) => {
 // Get all benchmarks
 export const getAllBenchmarks = async (req, res) => {
   try {
-    const benchmarks = await Benchmark.find();
+    const benchmarks = await Benchmark.find().populate("animalType").populate("breed");
     res.status(200).json(benchmarks);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -95,7 +103,7 @@ export const getAllBenchmarks = async (req, res) => {
 export const getBenchmarkById = async (req, res) => {
   try {
     const { id } = req.params;
-    const benchmark = await Benchmark.findById(id);
+    const benchmark = await Benchmark.findById(id).populate("animalType").populate("breed");
     if (!benchmark) {
       return res.status(404).json({ message: "Benchmark not found" });
     }

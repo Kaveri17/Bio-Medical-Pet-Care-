@@ -1,7 +1,7 @@
 const benchmarkData = [
   {
-    animalType: "Dog",
-    breed: "Nepali Sheepdog",
+    animalType: "67499c5380d21450c9500ab6",//"Dog"
+    breed: "6749a05b0e7291df866a9a1e",//Nepali Sheepdog",
     weight: {
       min: 18,
       max: 30,
@@ -35,8 +35,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Dog",
-    breed: "Rottweiler",
+    animalType: "67499c5380d21450c9500ab6",
+    breed: "6749a06a0e7291df866a9a23",//Rottweiler",
     weight: {
       min: 35,
       max: 60,
@@ -70,8 +70,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Dog",
-    breed: "Labrador Retriever",
+    animalType: "67499c5380d21450c9500ab6",
+    breed: "6749a0760e7291df866a9a28", //Labrador Retriever",
     weight: {
       min: 25,
       max: 35,
@@ -105,8 +105,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Dog",
-    breed: "Pahadi Dog",
+    animalType: "67499c5380d21450c9500ab6",
+    breed: "6749a0810e7291df866a9a2d",// Pahadi Dog
     weight: {
       min: 12,
       max: 20,
@@ -140,8 +140,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Dog",
-    breed: "Gorkha Dog",
+    animalType: "67499c5380d21450c9500ab6",
+    breed: "6749a08b0e7291df866a9a32", //	Gorkha Dog
     weight: {
       min: 15,
       max: 25,
@@ -176,8 +176,8 @@ const benchmarkData = [
   },
 
   {
-    animalType: "Cow",
-    breed: "Lulu",
+    animalType: "67499d1a319afecc1dece5cd", //cow
+    breed: "6749a0cd0e7291df866a9a39",//Lulu",
     weight: {
       min: 125,
       max: 150,
@@ -221,8 +221,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Cow",
-    breed: "Achhami",
+    animalType: "67499d1a319afecc1dece5cd",
+    breed: "67499fcb0e7291df866a9a08",//Achhami",
     weight: {
       min: 40,
       max: 55,
@@ -266,8 +266,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Cow",
-    breed: "Siri",
+    animalType: "67499d1a319afecc1dece5cd",
+    breed: "67499faf0e7291df866a99f9",//Siri",
     weight: {
       min: 150,
       max: 286.5,
@@ -310,10 +310,9 @@ const benchmarkData = [
       },
     ],
   },
-
   {
-    animalType: "Cow",
-    breed: "Khaila",
+    animalType: "67499d1a319afecc1dece5cd",
+    breed: "67499fba0e7291df866a99fe",//Khaila",
     weight: {
       min: 150,
       max: 298,
@@ -357,8 +356,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Cow",
-    breed: "Terai",
+    animalType: "67499d1a319afecc1dece5cd",
+    breed: "67499fc30e7291df866a9a03",//Terai",
     weight: {
       min: 150,
       max: 210,
@@ -402,8 +401,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Cow",
-    breed: "Pahadi",
+    animalType: "67499d1a319afecc1dece5cd",
+    breed: "67499f8b0e7291df866a99f2",//Pahadi",
     weight: {
       min: 125,
       max: 150,
@@ -448,8 +447,8 @@ const benchmarkData = [
   },
 
   {
-    animalType: "Chicken",
-    breed: "Sakini",
+    animalType: "67499c6080d21450c9500ab9",//Chicken",
+    breed: "67499fe90e7291df866a9a0d",//Sakini",
     weight: {
       min: 1.5,
       max: 2.4,
@@ -498,8 +497,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Chicken",
-    breed: "Ghanti Khuile",
+    animalType: "67499c6080d21450c9500ab9",
+    breed: "6749a0030e7291df866a9a12",//Ghanti Khuile",
     weight: {
       min: 1.5,
       max: 2.2,
@@ -548,8 +547,8 @@ const benchmarkData = [
     ],
   },
   {
-    animalType: "Chicken",
-    breed: "Puwankh Ulte",
+    animalType: "67499c6080d21450c9500ab9",
+    breed: "6749a0170e7291df866a9a17",//Puwankh Ulte",
     weight: {
       min: 1.4,
       max: 2.2,

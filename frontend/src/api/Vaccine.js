@@ -214,7 +214,8 @@ export const getVaccineById = async (vaccineId) => {
     }
 
     const data = await response.json();
-    return data.vaccine;  
+    console.log("data",data)
+    return data;  
   } catch (error) {
     console.error("Error fetching vaccine details:", error);
     throw error;

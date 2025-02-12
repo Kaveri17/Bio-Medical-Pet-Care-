@@ -3,8 +3,16 @@ const { ObjectId } = mongoose.Schema;
 
 const benchmarkSchema = new mongoose.Schema(
   {
-    animalType: { type: String, required: true },
-    breed: { type: String, required: true },
+    animalType: {
+      type: ObjectId,
+      ref: "AnimalCategory",
+      required: true,
+    },
+    breed: {
+      type: ObjectId,
+      ref: "Breed",
+      required: true,
+    },
     // size: { type: String,  },
     weight: {
       min: { type: Number, required: true },
@@ -28,17 +36,17 @@ const benchmarkSchema = new mongoose.Schema(
         },
         milk_per_day: {
           min: { type: Number },
-          max: { type: Number},
+          max: { type: Number },
         },
-        egg_per_week:{
-            min: { type: Number },
-            max: { type: Number},
-        }
+        egg_per_week: {
+          min: { type: Number },
+          max: { type: Number },
+        },
       },
     ],
   },
   {
     timestamps: true,
   }
-)
+);
 export const Benchmark = mongoose.model("Benchmark", benchmarkSchema);

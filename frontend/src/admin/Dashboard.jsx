@@ -8,23 +8,23 @@ import axios from "axios";
 const API = "http://localhost:5000/api";
 
 // Function to get all animals (not needed directly for animal type count now)
-const getAllAnimals = () => {
-  return fetch(`${API}/animal/getallanimal`)
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-      return res.json();
-    })
-    .catch((error) => {
-      console.error("Error during getAllAnimals request:", error);
-      return { error: "An error occurred while retrieving animals." };
-    });
-};
+// const getAllAnimals = () => {
+//   return fetch(`${API}/animal/getallanimal`)
+//     .then((res) => {
+//       if (!res.ok) {
+//         throw new Error(`HTTP error! Status: ${res.status}`);
+//       }
+//       return res.json();
+//     })
+//     .catch((error) => {
+//       console.error("Error during getAllAnimals request:", error);
+//       return { error: "An error occurred while retrieving animals." };
+//     });
+// };
 
 const Dashboard = () => {
   const [vaccines, setVaccines] = useState([]);
-  const [animalTypesCount, setAnimalTypesCount] = useState({}); // State to store animal type counts for vaccines
+  // const [animalTypesCount, setAnimalTypesCount] = useState({}); // State to store animal type counts for vaccines
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -33,24 +33,25 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchVaccines = async () => {
       try {
-        const response = await axios.get(`${API}/vaccine/getallvaccines`);
+        const response = await axios.get(`${API}/vaccine/getallvaccine`);
+        console.log("Vaccine res:",response.data)
         setVaccines(response.data);
         setLoading(false);
 
-        // Count animal types per vaccine
-        const vaccineAnimalTypeCounts = response.data.reduce((acc, vaccine) => {
-          const animalType = vaccine.animal_type;
+        // // Count animal types per vaccine
+        // const vaccineAnimalTypeCounts = response.data.reduce((acc, vaccine) => {
+        //   const animalType = vaccine.animal_type;
           
-          // Increment count for the vaccine's animal_type
-          if (acc[animalType]) {
-            acc[animalType]++;
-          } else {
-            acc[animalType] = 1;
-          }
-          return acc;
-        }, {});
+        //   // Increment count for the vaccine's animal_type
+        //   if (acc[animalType]) {
+        //     acc[animalType]++;
+        //   } else {
+        //     acc[animalType] = 1;
+        //   }
+        //   return acc;
+        // }, {});
 
-        setAnimalTypesCount(vaccineAnimalTypeCounts); // Set the animal type count for vaccines
+        // setAnimalTypesCount(vaccineAnimalTypeCounts); // Set the animal type count for vaccines
       } catch (err) {
         setError("Failed to load vaccines");
         setLoading(false);
@@ -138,12 +139,12 @@ const Dashboard = () => {
                             <FaSyringe className="text-orange-600 text-xl" />
                           </div>
                           <span className="font-semibold text-gray-800">
-                            {vaccine.vaccine_name}
+                            {vaccine?.vaccine_name}
                           </span>
                         </div>
                       </td>
                       <td className="py-3 px-6 text-gray-700">
-                        {vaccine.animal_type}
+                        {vaccine?.animal_type?.animal_type}
                       </td>
                     </tr>
                   ))}
