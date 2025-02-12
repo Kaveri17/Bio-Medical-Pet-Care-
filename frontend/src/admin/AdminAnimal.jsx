@@ -99,7 +99,7 @@ const AdminAnimal = () => {
         <table className="w-full border-collapse border border-gray-200">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border px-4 py-2">#</th>
+              <th className="border px-4 py-2">S.No</th>
               <th className="border px-4 py-2">Animal Type</th>
               <th className="border px-4 py-2">Breeds</th>
               <th className="border px-4 py-2">Actions</th>

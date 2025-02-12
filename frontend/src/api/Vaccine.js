@@ -268,3 +268,20 @@ export const getRejectedVaccines = async (userAnimalId) => {
     throw error;
   }
 };
+
+// Delete an vaccine by ID
+export const deleteVaccine = (id) => {
+  return fetch(`${API}/vaccine/delete/${id}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.error("Error during deletevaccine request:", error);
+      return { error: "An error occurred while deleting the vaccine." };
+    });
+};

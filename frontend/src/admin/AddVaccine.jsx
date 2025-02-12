@@ -16,6 +16,7 @@ const AddVaccine = () => {
     ageRangeMax: "", 
   });
 
+
   // State for success message
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -89,8 +90,9 @@ const AddVaccine = () => {
       ageRangeMin: "",
       ageRangeMax: ""
     });
+    navigate('/admin/adminvaccine');
   };
-
+ 
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}

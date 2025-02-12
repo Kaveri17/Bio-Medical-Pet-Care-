@@ -78,12 +78,22 @@ const AdminSidebar = () => {
                   <span>Category</span>
                 </li>
               </Link>
-              <Link to="/admin/vaccines">
+              <Link to="/admin/adminvaccine">
                 <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
                   <i className="fa-solid fa-syringe mr-2"></i>
                   <span>Vaccine</span>
                 </li>
               </Link>
+
+            
+              <Link to="/admin/adminbenchmark">
+                <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
+                <i class="fa-sharp fa-solid fa-chart-simple mr-2"></i>
+                  <span>Admin Benchmark</span>
+                </li>
+              </Link>
+
+
               <Link to="/admin/adminmessage">
                 <li className="mb-6 flex items-center hover:bg-gray-700 p-2 rounded">
                   <FaInbox className="mr-2" />

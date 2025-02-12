@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Grid } from "@mui/material";
+import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Grid, Box, Paper, Typography, ListItemText, Checkbox } from "@mui/material";
 import { getAllAnimals } from "../api/Animals";
 import { useParams } from "react-router-dom";
 import { getVaccineById } from "../api/Vaccine";
@@ -38,8 +38,8 @@ const UpdateVaccineForm = () => {
           const { vaccine_name, animal_type, breeds, effectiveness } = res;
           console.log("res",res)
           setVaccineName(vaccine_name);
-          setAnimalType(animal_type);
-          setSelectedBreeds(breeds);
+          setAnimalType(animal_type._id);
+          setSelectedBreeds(breeds.map((breed) => breed._id));
           setEffectiveness(effectiveness);
         })
         .catch((err) => setErrorMessage(err.message || "Error fetching vaccine details."));
@@ -92,6 +92,13 @@ const UpdateVaccineForm = () => {
     return isValid;
   };
 
+  const handleAddEffectiveness = () => {
+    setEffectiveness([
+      ...effectiveness,
+      { minAge: "", maxAge: "", effectivenessPercentage: "" },
+    ]);
+  };
+
   const handleEffectivenessChange = (index, field, value) => {
     const updatedEffectiveness = [...effectiveness];
     updatedEffectiveness[index][field] = value;
@@ -122,12 +129,14 @@ const UpdateVaccineForm = () => {
   };
 
   return (
-    <div>
-      <h1>Update Vaccine Data</h1>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-
+    <Box sx={{ padding: 4, display: 'flex', justifyContent: 'center', backgroundColor: '#f5f5f5' }}>
+    <Paper sx={{ padding: 3, maxWidth: 900, width: '100%', boxShadow: 3, backgroundColor: '#ffffff' }}>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', color: '#1976d2' }}>
+        Update Vaccine Data
+      </Typography>
+      {errorMessage && <Typography color="error" align="center">{errorMessage}</Typography>}
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           {/* Vaccine Name */}
           <Grid item xs={12}>
             <TextField
@@ -136,6 +145,7 @@ const UpdateVaccineForm = () => {
               onChange={(e) => setVaccineName(e.target.value)}
               fullWidth
               required
+              sx={{ backgroundColor: '#f0f0f0', borderRadius: 1 }}
               error={!!errors.vaccineName}
               helperText={errors.vaccineName}
             />
@@ -143,9 +153,9 @@ const UpdateVaccineForm = () => {
 
           {/* Animal Type */}
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
+            <FormControl fullWidth required>
               <InputLabel>Animal Type</InputLabel>
-              <Select value={animalType} onChange={(e) => setAnimalType(e.target.value)} required>
+              <Select value={animalType} onChange={(e) => setAnimalType(e.target.value)} required sx={{ backgroundColor: '#f0f0f0', borderRadius: 1 }}>
                 {animalTypes.map((animal) => (
                   <MenuItem key={animal._id} value={animal._id}>
                     {animal.animal_type}
@@ -164,10 +174,13 @@ const UpdateVaccineForm = () => {
                 value={selectedBreeds}
                 onChange={(e) => setSelectedBreeds(e.target.value)}
                 required
+                renderValue={(selected) => selected.map(id => breeds.find(breed => breed._id === id)?.breed_name).join(', ')}
+                  sx={{ backgroundColor: '#f0f0f0', borderRadius: 1 }}
               >
                 {breeds.map((breed) => (
                   <MenuItem key={breed._id} value={breed._id}>
-                    {breed.breed_name}
+                    <Checkbox checked={selectedBreeds.indexOf(breed._id) > -1} />
+                    <ListItemText primary={breed.breed_name} />
                   </MenuItem>
                 ))}
               </Select>
@@ -176,7 +189,7 @@ const UpdateVaccineForm = () => {
 
           {/* Effectiveness Fields */}
           {effectiveness.map((eff, index) => (
-            <Grid container spacing={3} key={index} sx={{ marginBottom: 3 }}>
+            <Grid container spacing={3} key={index}  marginTop={1} marginLeft={0.5}>
               <Grid item xs={12} sm={4}>
                 <TextField
                   label="Min Age"
@@ -185,6 +198,7 @@ const UpdateVaccineForm = () => {
                   onChange={(e) => handleEffectivenessChange(index, 'minAge', e.target.value)}
                   fullWidth
                   required
+                  sx={{ backgroundColor: '#f0f0f0', borderRadius: 1 }}
                   error={!!errors[`minAge_${index}`]}
                   helperText={errors[`minAge_${index}`]}
                 />
@@ -197,6 +211,7 @@ const UpdateVaccineForm = () => {
                   onChange={(e) => handleEffectivenessChange(index, 'maxAge', e.target.value)}
                   fullWidth
                   required
+                  sx={{ backgroundColor: '#f0f0f0', borderRadius: 1 }}
                   error={!!errors[`maxAge_${index}`]}
                   helperText={errors[`maxAge_${index}`]}
                 />
@@ -209,26 +224,37 @@ const UpdateVaccineForm = () => {
                   onChange={(e) => handleEffectivenessChange(index, 'effectivenessPercentage', e.target.value)}
                   fullWidth
                   required
+                  sx={{ backgroundColor: '#f0f0f0', borderRadius: 1 }}
                   error={!!errors[`effectiveness_${index}`]}
                   helperText={errors[`effectiveness_${index}`]}
                 />
               </Grid>
             </Grid>
           ))}
+          <Grid item xs={12}>
+              <Button
+                onClick={handleAddEffectiveness}
+                variant="outlined"
+                sx={{ marginTop: 2, marginBottom: 2, backgroundColor: '#1976d2', color: '#fff' }}
+              >
+                Add Effectiveness
+              </Button>
+            </Grid>
 
           {/* Submit Button */}
           <Grid item xs={12}>
             {loading ? (
-              <p>Loading...</p>
+               <Typography align="center">Loading...</Typography>
             ) : (
-              <Button type="submit" variant="contained" color="primary" fullWidth>
+              <Button type="submit" variant="contained" color="primary" fullWidth sx={{ padding: 1.5, fontSize: '1.1rem', backgroundColor: '#1976d2' }}>
                 Update Vaccine
               </Button>
             )}
           </Grid>
         </Grid>
       </form>
-    </div>
+      </Paper>
+      </Box>
   );
 };
 

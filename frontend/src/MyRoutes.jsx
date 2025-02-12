@@ -35,10 +35,15 @@ import AdminRoute from './auth/AdminRoute'
 import AddVaccineForm from './admin/AddVaccineForm';
 import Dashboard from './admin/Dashboard';
 import AdminAnimal from './admin/AdminAnimal';
+
 import UpdateCategory from './admin/UpdateCategory';
 import UpdateVaccineForm from './admin/UpdateVaccineForm';
 import AddBenchmark from './admin/AddBenchmark';
 import UpdateBenchmark from './admin/UpdateBenchmark';
+
+import AdminMessage from './admin/AdminMessage';
+import AdminVaccine from './admin/AdminVaccine';
+import AdminBenchmark from './admin/AdminBenchmark';
 // import AdminSidebar from './layout/AdminSidebar';
 
 
@@ -77,10 +82,17 @@ const MyRoutes = () => {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="category" element={<AdminAnimal />} />
         <Route path="update-category/:id" element={<UpdateCategory/>} />
+
         <Route path="add-vaccine" element={<AddVaccineForm/>} />
         <Route path="update-vaccine/:id" element={<UpdateVaccineForm/>} />
         <Route path="add-benchmark" element={<AddBenchmark/>} />
         <Route path="update-benchmark/:id" element={<UpdateBenchmark/>} />
+
+        <Route path="adminmessage" element={<AdminMessage />} />
+        <Route path='adminvaccine' element={<AdminVaccine/>}/>
+        <Route path='adminbenchmark' element={<AdminBenchmark/>}/>
+        {/* <Route path = 'updatevaccineform/:id' element={<UpdateVaccineForm/>}/> */}
+
 
         {/* <Route path="category" element={<AdminCategory />} />
         <Route path="add-category" element={<AddCategory />} />
